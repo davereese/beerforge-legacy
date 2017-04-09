@@ -1,0 +1,19 @@
+<div class="dashboard">
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-half">
+          <user-overview
+            [user]="currentUser">
+          </user-overview>
+        </div>
+        <div class="col-half">
+          <a href="/new-brew" class="new-brew-button tile"><h2>New Brew</h2> <span>+</span></a>
+          <brew-log-overview
+            [user]="currentUser">
+          </brew-log-overview>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

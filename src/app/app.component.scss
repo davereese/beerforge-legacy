@@ -1,0 +1,29 @@
+@import '../styles/variables.scss';
+
+header {
+  width: 100vw;
+  height: 55px;
+  padding: 0 30px;
+  background: $bf_gray;
+  overflow: auto;
+  box-sizing: border-box;
+
+  .logo {
+    width: 240px;
+    height: 23px;
+    margin: 17px 0;
+    background-image: url('../assets/images/beerforge_logo.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+footer {
+  margin-top: -40px;
+  padding: 10px 30px;
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  background: $black;
+  color: rgba($white, 0.6);
+}

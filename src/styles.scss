@@ -1,0 +1,41 @@
+@import './styles/variables.scss';
+@import './styles/type.scss';
+@import './styles/grid.scss';
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+main {
+  padding: 50px 0;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid $bf_yellow;
+  box-shadow: 0 4px 20px $bf_gray;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.tile {
+  margin-bottom: 10px;
+}

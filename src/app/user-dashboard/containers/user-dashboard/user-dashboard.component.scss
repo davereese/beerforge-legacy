@@ -1,0 +1,76 @@
+@import '../../../../styles/variables.scss';
+@import '../../../../styles/type.scss';
+
+.dashboard {
+  padding-bottom: 40px;
+  min-height: calc(100% - 55px);
+  background-image: linear-gradient(140deg, $dark_orange 0%, $bf_gray 85%);
+
+  .new-brew-button {
+    position: relative;
+    display: block;
+    z-index: 1;
+    margin-top: 7px;
+    padding: 16px 20px;
+    background-color: $bf_gray;
+    color: $bf_yellow;
+    @extend %new-brew;
+    transition: color 0.5s;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    &::before {
+      opacity: 0;
+      background-color: rgba($bf_yellow, 0.9);
+      transition: background-color 0.5s, width 0.5s, height 0.5s, top 0.5s, left 0.5s;
+    }
+
+    &::after {
+      background-color: rgba($bf_orange, 0.5);
+      transition: background-color 0.5s;
+    }
+
+    span {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-style: normal;
+      font-size: 51px;
+      font-weight: 100;
+      line-height: 0.8;
+      transition: transform 0.5s;
+    }
+
+    &:hover,
+    &:focus {
+      color: $white;
+
+      span {
+        transform: rotate(180deg) translateY(-2px);
+      }
+
+      &::before {
+        opacity: 1;
+        background-color: rgba($bf_yellow, 0);
+        width: calc(100% + 30px);
+        height: calc(100% + 30px);
+        top: -15px;
+        left: -15px;
+      }
+
+      &::after {
+        background-color: rgba($bf_orange, 0.7);
+      }
+    }
+  }
+}

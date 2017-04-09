@@ -1,0 +1,24 @@
+@import '../../../../styles/variables.scss';
+
+.user-overview {
+  &__title {
+    display: inline-block;
+    margin-top: 10px;
+    color: $white;
+  }
+
+  &__stats {
+    color: $bf_yellow;
+
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin-right: 15px;
+  }
+}

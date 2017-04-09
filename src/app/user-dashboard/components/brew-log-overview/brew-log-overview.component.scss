@@ -1,0 +1,45 @@
+@import '../../../../styles/variables.scss';
+
+.brew-log-overview {
+  position: relative;
+  z-index: 1;
+  background-color: $bf_gray;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba($bf_orange, 0.3);
+  }
+
+  h3 {
+    padding: 16px 20px;
+    color: $bf_orange;
+  }
+  
+  &__brew {
+    display: block;
+    padding: 16px 5px;
+    border-top: 1px solid rgba($bf_gray, 0.5);
+    color: $white;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+      background-color: rgba($bf_gray, 0.4);
+    }
+  }
+
+  &__brew-stats {
+    color: $bf_yellow;
+
+    span {
+      font-size: 12px;
+    }
+  }
+}

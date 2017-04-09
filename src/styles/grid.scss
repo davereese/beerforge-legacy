@@ -1,0 +1,35 @@
+.container,
+.row {
+  position: relative;
+  margin: 0 auto;
+
+  &:before,
+  &::after {
+    display: table;
+    content: " ";
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1170px;
+
+  .row {
+    > div {
+      position: relative;
+      float: left;
+    }
+  }
+}
+
+.col-half {
+  width: 50%;
+  padding-right: 15px;
+  padding-left: 15px;
+  height: auto;
+}

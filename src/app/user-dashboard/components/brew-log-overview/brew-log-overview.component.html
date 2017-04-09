@@ -1,0 +1,12 @@
+<div class="brew-log-overview tile">
+  <h3>Brew Log</h3>
+  <a *ngFor="let brew of user?.Brews.edges" class="row brew-log-overview__brew" href="#nogo">
+    <div class="col-half row brew-log-overview__brew-name">
+      {{ brew.node.name }}
+    </div>
+    <div class="col-half right-align row brew-log-overview__brew-stats">
+      <span><!-- stats --></span>
+      {{ brew.node.createdAt | date:'MM.dd.yy' }}
+    </div>
+  </a>
+</div>
