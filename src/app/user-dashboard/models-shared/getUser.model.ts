@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const currentUser = gql`
+export const currentUserQuery = gql`
   query currentUser($id: ID!) {
     getUser(id: $id) {
       firstName,

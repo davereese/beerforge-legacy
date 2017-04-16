@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { User } from '../../models-shared/user.interface';
 
@@ -10,4 +10,11 @@ import { User } from '../../models-shared/user.interface';
 export class BrewLogOverviewComponent {
   @Input()
   user: User;
+
+  @Output()
+  view: EventEmitter<any> = new EventEmitter<any>();
+
+  viewBrew(id) {
+    this.view.emit(id);
+  }
 }

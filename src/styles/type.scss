@@ -6,6 +6,11 @@ body {
 
 a {
   text-decoration: none;
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+  }
 }
 
 p {

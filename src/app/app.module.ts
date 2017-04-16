@@ -4,26 +4,18 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+// containers
+import { AppComponent } from './app.component';
 import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 
-// import { ApolloClient, createNetworkInterface } from 'apollo-client';
-// import { ApolloModule } from 'apollo-angular';
-// import { scaphold } from '../../scaphold/scaphold';
+// components
 
-import { AppComponent } from './app.component';
-
-// const client = new ApolloClient({
-//   networkInterface: createNetworkInterface({
-//     uri: scaphold,
-//   }),
-// });
-
-// export function provideClient(): ApolloClient {
-//   return client;
-// }
+// services
+import { UserService } from './user.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'brew/:id', loadChildren: 'app/brew/brew.module#brewModule' }
 ];
 
 @NgModule({
@@ -35,10 +27,11 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    //ApolloModule.forRoot(provideClient),
     UserDashboardModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

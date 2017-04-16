@@ -7,11 +7,9 @@ import { ApolloModule } from 'apollo-angular';
 import { scaphold } from '../../../scaphold/scaphold';
 
 // containers
-import { UserDashboardComponent } from './containers/user-dashboard/user-dashboard.component';
+import { viewBrewComponent } from './containers/view-brew/view-brew.component';
 
 // components
-import { UserOverviewComponent } from './components/user-overview/user-overview.component';
-import { BrewLogOverviewComponent } from './components/brew-log-overview/brew-log-overview.component';
 
 // services
 import { UserService } from '../user.service';
@@ -27,14 +25,12 @@ export function provideClient(): ApolloClient {
 }
 
 const routes: Routes = [
-  { path: 'dashboard', component: UserDashboardComponent, pathMatch: 'full' },
+  { path: '', component: viewBrewComponent }
 ];
 
 @NgModule({
   declarations: [
-    UserDashboardComponent,
-    UserOverviewComponent,
-    BrewLogOverviewComponent
+    viewBrewComponent
   ],
   imports: [
     CommonModule,
@@ -45,4 +41,4 @@ const routes: Routes = [
     UserService
   ]
 })
-export class UserDashboardModule { }
+export class brewModule { }

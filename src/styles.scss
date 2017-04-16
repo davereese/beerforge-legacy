@@ -9,7 +9,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
 }
 
 div {
@@ -17,7 +17,7 @@ div {
 }
 
 main {
-  padding: 50px 0;
+  padding: 50px 0 100px;
 }
 
 .right-align {
@@ -27,8 +27,8 @@ main {
 .profile-pic {
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid $bf_yellow;
-  box-shadow: 0 4px 20px $bf_gray;
+  border: 3px solid $bf-yellow;
+  box-shadow: 0 4px 20px $bf-gray;
 
   img {
     max-width: 100%;
@@ -38,4 +38,23 @@ main {
 
 .tile {
   margin-bottom: 10px;
+}
+
+.button {
+  display: inline-block;
+  padding: 7px 15px;
+  color: $white;
+  font-weight: 200;
+
+  &--ghost {
+    border-radius: 4px;
+    border: 1px solid $bf-orange;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+      background-color: $bf-orange;
+    }
+  }
 }

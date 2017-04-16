@@ -4,11 +4,13 @@ header {
   width: 100vw;
   height: 55px;
   padding: 0 30px;
-  background: $bf_gray;
-  overflow: auto;
+  background: $bf-gray;
+  overflow: hidden;
   box-sizing: border-box;
 
   .logo {
+    display: block;
+    float: left;
     width: 240px;
     height: 23px;
     margin: 17px 0;
@@ -16,14 +18,55 @@ header {
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  .profile-pic {
+    float: right;
+    margin: 9px 0 0;
+    width: 35px;
+    height: 35px;
+    border-width: 2px;
+  }
+
+  .log-out {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.background {
+  position: relative;
+  z-index: 4;
+  background-repeat: no-repeat;
+  background: linear-gradient(140deg, $dark-orange 0%, $bf-gray 85%);
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -4;
+    background: linear-gradient(140deg, $yellow 0%, $bluegreen 85%);
+    transition: opacity 0.5s;
+  }
+
+  &.view {
+    &::before {
+      opacity: 1;
+    }
+  }
 }
 
 footer {
+  position: relative;
   margin-top: -40px;
   padding: 10px 30px;
+  z-index: 5;
   height: 40px;
   width: 100%;
   box-sizing: border-box;
   background: $black;
-  color: rgba($white, 0.6);
+  color: rgba($white, 0.5);
 }

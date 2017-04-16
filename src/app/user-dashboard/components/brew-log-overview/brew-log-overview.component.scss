@@ -3,7 +3,7 @@
 .brew-log-overview {
   position: relative;
   z-index: 1;
-  background-color: $bf_gray;
+  background-color: $bf-gray;
 
   &::after {
     content: '';
@@ -14,7 +14,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    background-color: rgba($bf_orange, 0.3);
+    background-color: rgba($bf-orange, 0.3);
   }
 
   h3 {
@@ -25,18 +25,18 @@
   &__brew {
     display: block;
     padding: 16px 5px;
-    border-top: 1px solid rgba($bf_gray, 0.5);
+    border-top: 1px solid rgba($bf-gray, 0.5);
     color: $white;
     transition: background-color 0.3s;
 
     &:hover,
     &:focus {
-      background-color: rgba($bf_gray, 0.4);
+      background-color: rgba($bf-gray, 0.4);
     }
   }
 
   &__brew-stats {
-    color: $bf_yellow;
+    color: $bf-yellow;
 
     span {
       font-size: 12px;

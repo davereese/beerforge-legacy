@@ -1,10 +1,14 @@
 @import '../../../../styles/variables.scss';
 @import '../../../../styles/type.scss';
 
+header {
+  .profile-pic {
+    display: none;
+  }
+}
+
 .dashboard {
-  padding-bottom: 40px;
-  min-height: calc(100% - 55px);
-  background-image: linear-gradient(140deg, $dark_orange 0%, $bf_gray 85%);
+  min-height: calc(100vh - 55px);
 
   .new-brew-button {
     position: relative;
@@ -12,7 +16,7 @@
     z-index: 1;
     margin-top: 7px;
     padding: 16px 20px;
-    background-color: $bf_gray;
+    background-color: $bf-gray;
     color: $bf_yellow;
     @extend %new-brew;
     transition: color 0.5s;
@@ -31,12 +35,12 @@
 
     &::before {
       opacity: 0;
-      background-color: rgba($bf_yellow, 0.9);
+      background-color: rgba($bf-yellow, 0.9);
       transition: background-color 0.5s, width 0.5s, height 0.5s, top 0.5s, left 0.5s;
     }
 
     &::after {
-      background-color: rgba($bf_orange, 0.5);
+      background-color: rgba($bf-orange, 0.5);
       transition: background-color 0.5s;
     }
 
@@ -61,7 +65,7 @@
 
       &::before {
         opacity: 1;
-        background-color: rgba($bf_yellow, 0);
+        background-color: rgba($bf-yellow, 0);
         width: calc(100% + 30px);
         height: calc(100% + 30px);
         top: -15px;
@@ -69,7 +73,7 @@
       }
 
       &::after {
-        background-color: rgba($bf_orange, 0.7);
+        background-color: rgba($bf-orange, 0.7);
       }
     }
   }

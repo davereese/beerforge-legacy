@@ -1,7 +1,18 @@
 <header>
-  <div class="logo"></div>
+  <a href="/" class="logo"></a>
+
+  <div class="profile-pic" *ngIf="!dashboard">
+    <a (click)="viewDashboard()">
+      <img [attr.src]="currentUser?.profilePic.blobUrl ? currentUser?.profilePic.blobUrl : currentUser?.profilePic.defaultPicNumber ? '../assets/images/plaid_' + currentUser?.profilePic.defaultPicNumber + '.svg' : null" alt="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
+    </a>
+  </div>
+  <div class="log-out" *ngIf="dashboard">
+    <a class="button button--ghost">Log Out</a>
+  </div>
 </header>
-<router-outlet></router-outlet>
+<div [class]="bodyClass">
+  <router-outlet></router-outlet>
+</div>
 <footer>
   &copy; Copyright {{ year }} - BeerForge
 </footer>
