@@ -1,8 +1,141 @@
 <div class="view-brew">
   <main>
-    <div class="container">
+    <div class="container" *ngIf="currentBrew">
       <div class="row">
-        <h1>{{ currentBrew?.name }}</h1>
+        <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
+        <span class="float-right brew__meta">
+          <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> #{{ currentBrew?.batchNum }}
+        </span>
+      </div>
+      <div class="row brew__details tile">
+        <div class="col-third header header--title">{{ currentBrew?.batchType | parseMash }}</div>
+        <div class="col-third header header--title">Batch Size: {{ currentBrew?.batchSize }} gal</div>
+        <div class="col-third header header--title right-align">System Effifiency: {{ currentBrew?.batchEfficiency }}%</div>
+        <div class="row title">
+          <div class="col-quarter header header--no-color">
+            {{ abv }}% ABV
+          </div>
+          <div class="col-quarter header header--no-color">
+            {{ totalIBUs }} IBU
+          </div>
+          <div class="col-quarter header header--no-color">
+            {{ totalSRM }} SRM
+          </div>
+          <div class="col-quarter header header--no-color right-align">
+            {{ attenuation }}% Attenuation
+          </div>
+        </div>
+      </div>
+      <div class="row brew__ingredients tile">
+        <h2 class="ingredient-title float-left">Fermentables</h2>
+        <span class="float-right align-right header">
+          {{ totalMalt | round }} lbs.
+        </span>
+        <fermentables
+          *ngFor="let malt of currentBrew?.maltChoice.edges"
+          [detail]="malt"
+          class="row">
+        </fermentables>
+      </div>
+      <div class="row brew__ingredients tile">
+        <h2 class="ingredient-title float-left">Hops</h2>
+        <span class="float-right align-right header">
+          {{ totalHop | round }} oz.
+        </span>
+        <hops
+          *ngFor="let hop of currentBrew?.hopChoice.edges; let i = index;"
+          [detail]="hop"
+          [index]="i"
+          [hopIBUs]="hopIBUs"
+          class="row">
+        </hops>
+      </div>
+      <div class="row brew__ingredients tile">
+        <h2 class="ingredient-title">Yeast</h2>
+        <yeast
+          *ngFor="let yeast of currentBrew?.yeastChoice.edges"
+          [detail]="yeast"
+          class="row">
+        </yeast>
+      </div>
+      <div class="row brew__details tile">
+        <div class="col-quarter header header--title">
+          MASH
+        </div>
+        <div class="col-three-quarters header header--title right-align">
+          Batch/Fly 
+        </div>
+        <div class="row">
+          <div class="col-quarter">
+            Struck with {{ currentBrew?.mashWaterVol }} gal. at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
+          </div>
+          <div class="col-quarter">
+            Mash Length: {{ currentBrew?.mashTime }} min.
+          </div>
+          <div class="col-quarter">
+            Mash Temp: {{ currentBrew?.mashTemp }}&deg;&nbsp;F
+          </div>
+          <div class="col-quarter">
+            Sparged with {{ currentBrew?.spargeWaterVol }} gal. at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            BOIL
+          </div>
+          <div class="col-three-quarters header right-align">
+            Gravity: {{ currentBrew?.preBoilGravity }} &rarr; {{ currentBrew?.originalGravity }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-quarter">
+            Boil Time: {{ currentBrew?.boilTime }} min.
+          </div>
+          <div class="col-quarter">
+            Boil Size: {{ currentBrew?.boilWaterVol }} gal.
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            FERMENTATION
+          </div>
+          <div class="col-three-quarters header right-align">
+            Gravity: {{ currentBrew?.originalGravity }} &rarr; {{ currentBrew?.finalGravity }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-quarter">
+            Length: {{ currentBrew?.fermentTime }} days
+          </div>
+          <div class="col-quarter">
+            Temp: {{ currentBrew?.fermentTemp }}&deg;&nbsp;F
+          </div>
+          <div class="col-quarter" *ngIf="currentBrew?.fermentSecTime">
+            2nd Length: {{ currentBrew?.fermentSecTime }} days
+          </div>
+          <div class="col-quarter" *ngIf="currentBrew?.fermentSecTemp">
+            2nd Temp: {{ currentBrew?.fermentSecTemp }}&deg;&nbsp;F
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            PACKAGING
+          </div>
+          <div class="col-three-quarters header right-align capitalize">
+            {{ currentBrew?.packaging }}/{{ currentBrew?.carbonateType }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-quarter">
+            CO2 Vol: {{ currentBrew?.carbonateCo2Vol }}
+          </div>
+          <div class="col-quarter">
+            Temperature: {{ currentBrew?.carbonateTemp }}&deg;&nbsp;F
+          </div>
+          <div class="col-quarter">
+            Pressure: {{ co2 }} psi
+          </div>
+        </div>
       </div>
     </div>
   </main>

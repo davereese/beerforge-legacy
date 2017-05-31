@@ -15,7 +15,7 @@ import { UserService } from './user.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'brew/:id', loadChildren: 'app/brew/brew.module#brewModule' }
+  { path: 'brew', loadChildren: 'app/brew/brew.module#brewModule' }
 ];
 
 @NgModule({
@@ -27,7 +27,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    UserDashboardModule
+    UserDashboardModule,
   ],
   providers: [
     UserService

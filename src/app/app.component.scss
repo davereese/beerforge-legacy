@@ -17,6 +17,11 @@ header {
     background-image: url('../assets/images/beerforge_logo.svg');
     background-repeat: no-repeat;
     background-size: contain;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
   }
 
   .profile-pic {

@@ -1,3 +1,97 @@
+@import '../../../../styles/variables.scss';
+@import '../../../../styles/type.scss';
+
 .view-brew {
   min-height: calc(100vh - 55px);
+
+  .container {
+    max-width: 800px;
+  }
+
+  .brew {
+    &__title {
+      margin-bottom: 20px;
+    }
+
+    &__meta {
+      margin-top: 10px;
+      @extend %subhead;
+
+      span {
+        margin-right: 25px;
+      }
+    }
+
+    &__details,
+    &__ingredients {
+      .row {
+        padding: 15px 5px 15px;
+        border-top: 1px solid rgba($bf-gray, 0.5);
+        transition: background-color 0.3s;
+      }
+
+      .header {
+        @extend %subhead;
+        font-weight: 200;
+
+        &--no-color {
+          color: $white;
+        }
+
+        &--title {
+          padding: 0 20px 20px;
+        }
+      }
+    }
+
+    &__details {
+      padding: 20px 0 0;
+      background-color: $dark-green;
+      color: $white;
+
+      .row.title {
+        padding: 20px 5px;
+      }
+
+      .header {
+        color: $bf-yellow;
+      }
+
+      .row:not(.title) {
+        &:hover,
+        &:focus {
+          background-color: darken($dark-green, 4%);
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__details--single {
+      padding: 20px 5px;
+    }
+
+    &__ingredients {
+      padding: 20px 0 0;
+      background-color: $bf-green;
+      color: $white;
+
+      .ingredient-title {
+        padding: 0 20px 20px;
+        color: $bf-logo_yellow;
+      }
+
+      .header {
+        padding: 10px 20px 0;
+        color: $bf-logo_yellow;
+      }
+
+      .row {
+        &:hover,
+        &:focus {
+          background-color: darken($bf-green, 5%);
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }

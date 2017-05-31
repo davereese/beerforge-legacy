@@ -41,6 +41,10 @@ export class UserDashboardComponent {
     });
   }
 
+  handleBrew(event: any) {
+    this.router.navigate(['/brew']);
+  }
+
   handleView(event: any) {
     this.router.navigate(['/brew/', event]);
   }

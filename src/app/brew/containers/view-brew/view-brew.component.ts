@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import 'rxjs/add/operator/switchMap';
-
 import { Brew } from '../../models-shared/brew.interface';
-import { currentBrewQuery } from '../../models-shared/getBrew.model';
 import { UserService } from '../../../user.service';
+import { BrewService } from '../../brew.service';
+import { currentBrewQuery } from '../../models-shared/getBrew.model';
 
 @Component({
   selector: 'view-brew',
@@ -18,9 +17,18 @@ export class viewBrewComponent {
   userId: string;
   brewId: string;
   currentBrew: Brew;
+  totalMalt: number = 0;
+  totalHop: number = 0;
+  hopIBUs: any = [];
+  totalIBUs: number = 0;
+  totalSRM: number = 0;
+  co2: number = 0;
+  abv: number = 0;
+  attenuation: number = 0;
 
   constructor(
     private userService: UserService,
+    private brewService: BrewService,
     private router: Router,
     private route: ActivatedRoute,
     private apollo: Apollo
@@ -46,7 +54,33 @@ export class viewBrewComponent {
       }
     }).subscribe(({data, loading}) => {
       this.loading = loading;
-      this.currentBrew = data['viewer']['allBrews']['edges'][0]['node'];
+      this.currentBrew = data['viewer']['allBrews']['edges'][0].node;
+
+      // calculate total malt
+      for (let index = 0; index < this.currentBrew.maltChoice.edges.length; index++) {
+        this.totalMalt += this.currentBrew.maltChoice.edges[index].node.amount;
+      }
+
+      // calculate SRM
+      this.totalSRM = this.brewService.calculateSRM(this.currentBrew.maltChoice.edges, this.currentBrew.batchSize);
+
+      for (let index = 0; index < this.currentBrew.hopChoice.edges.length; index++) {
+        // calculate individual and total IBUs
+        // TODO: Figure out if batchSize is larger than boil volume (use whichever is larger)
+        this.hopIBUs[index] = this.brewService.calculateIBUs( this.currentBrew.hopChoice.edges[index].node, this.currentBrew.boilTime, this.currentBrew.batchSize, this.currentBrew.preBoilGravity );
+
+        this.totalIBUs += this.hopIBUs[index];
+        this.totalHop += this.currentBrew.hopChoice.edges[index].node.amount;
+      }
+
+      // calculate CO2
+      // TODO: calculate CO2 if carbonateType is something other than forced
+      this.co2 = this.brewService.calculateCO2(this.currentBrew.carbonateTemp, this.currentBrew.carbonateCo2Vol, this.currentBrew.carbonateType);
+
+      this.attenuation = this.brewService.calculateAttenuation(this.currentBrew.originalGravity, this.currentBrew.finalGravity);
+
+      // calculate ABV
+      this.abv = this.brewService.calculateABV(this.currentBrew.originalGravity, this.currentBrew.finalGravity);
     });
   }
 }

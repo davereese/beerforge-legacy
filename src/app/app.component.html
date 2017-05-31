@@ -1,5 +1,5 @@
 <header>
-  <a href="/" class="logo"></a>
+  <div class="logo" (click)="viewDashboard()"></div>
 
   <div class="profile-pic" *ngIf="!dashboard">
     <a (click)="viewDashboard()">

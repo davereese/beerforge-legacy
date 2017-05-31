@@ -6,13 +6,20 @@ import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { scaphold } from '../../../scaphold/scaphold';
 
+import { parseMash, round } from './models-shared/brew-filter.pipe';
+
 // containers
 import { viewBrewComponent } from './containers/view-brew/view-brew.component';
+import { newBrewComponent } from './containers/new-brew/new-brew.component';
 
 // components
+import { fermentablesComponent } from './components/fermentables/fermentables.component';
+import { hopsComponent } from './components/hops/hops.component';
+import { yeastComponent } from './components/yeast/yeast.component';
 
 // services
 import { UserService } from '../user.service';
+import { BrewService } from './brew.service';
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
@@ -25,20 +32,28 @@ export function provideClient(): ApolloClient {
 }
 
 const routes: Routes = [
-  { path: '', component: viewBrewComponent }
+  { path: '', component: newBrewComponent, pathMatch: 'full' },
+  { path: ':id', component: viewBrewComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [
-    viewBrewComponent
+    viewBrewComponent,
+    newBrewComponent,
+    fermentablesComponent,
+    hopsComponent,
+    yeastComponent,
+    parseMash,
+    round
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ApolloModule.forRoot(provideClient),
+    ApolloModule.forRoot(provideClient)
   ],
   providers: [
-    UserService
+    UserService,
+    BrewService
   ]
 })
 export class brewModule { }

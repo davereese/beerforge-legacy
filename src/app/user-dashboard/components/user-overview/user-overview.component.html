@@ -1,14 +1,14 @@
 <div class="user-overview">
   <div class="profile-pic">
-    <img [attr.src]="user?.profilePic.blobUrl ? user?.profilePic.blobUrl : user?.profilePic.defaultPicNumber ? '../assets/images/plaid_' + user?.profilePic.defaultPicNumber + '.svg' : null" alt="{{ user?.firstName }} {{ user?.lastName }}">
+    <img [attr.src]="user.profilePic.blobUrl ? user.profilePic.blobUrl : user.profilePic.defaultPicNumber ? '../assets/images/plaid_' + user.profilePic.defaultPicNumber + '.svg' : null" alt="{{ user.firstName }} {{ user.lastName }}">
   </div>
   <h1 class="user-overview__title">
-    <span *ngIf="user?.username">
-      {{ user?.username }}
+    <span *ngIf="user.userName">
+      {{ user.userName }}
     </span>
     <span *ngIf="!user?.username">
-      {{ user?.firstName }} {{ user?.lastName }}
+      {{ user.firstName }} {{ user.lastName }}
     </span>
   </h1>
-  <p class="user-overview__stats"><span>Beers Brewed: {{ user?.Brews.edges.length }}</span> <span>Badges Earned: {{ user?.Badges.edges.length }}</span></p>
+  <p class="user-overview__stats"><span>Beers Brewed: {{ user.Brews.edges.length }}</span> <span>Badges Earned: {{ user.Badges.edges.length }}</span></p>
 </div>

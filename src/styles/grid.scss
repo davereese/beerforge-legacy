@@ -1,5 +1,6 @@
 .container,
 .row {
+  display: block;
   position: relative;
   margin: 0 auto;
 
@@ -20,16 +21,44 @@
   max-width: 1170px;
 
   .row {
-    > div {
+    width: 100%;
+    box-sizing: border-box;
+
+    div[class^='col-'] {
       position: relative;
       float: left;
+      padding-right: 15px;
+      padding-left: 15px;
+      height: auto;
+    }
+
+    .row {
+      position: relative;
+      clear: both;
     }
   }
 }
 
+.col-three-quarters {
+  width: 75%;
+}
+
+.col-two-thirds {
+  width: 66.6%;
+}
+
 .col-half {
   width: 50%;
-  padding-right: 15px;
-  padding-left: 15px;
-  height: auto;
+}
+
+.col-third {
+  width: 33.3%;
+}
+
+.col-quarter {
+  width: 25%;
+}
+
+.col-eighth {
+  width: 12.5%;
 }

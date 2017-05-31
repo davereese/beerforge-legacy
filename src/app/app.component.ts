@@ -11,8 +11,8 @@ import gql from 'graphql-tag';
 })
 export class AppComponent {
   loading: any;
-  dashboard: boolean = true;
-  bodyClass: string;
+  dashboard: boolean = true; // used in header bar display
+  bodyClass: string; // used to change site background colors
   today = new Date();
   year = this.today.getFullYear();
   userId: string;
@@ -37,12 +37,13 @@ export class AppComponent {
       }
     });
 
+    // get userID from user service
     this.userService
       .getUser()
       .subscribe((data: string) => {
         this.userId = data
       });
-
+    // use it in the scaphold query
     this.apollo.watchQuery({
       query: gql`query currentUser($id: ID!) {
         getUser(id: $id) {
