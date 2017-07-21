@@ -1,6 +1,6 @@
 <div class="dashboard">
   <main>
-    <div class="container" *ngIf="currentUser">
+    <div class="container" *ngIf="currentUser; else loaderIcon">
       <div class="row">
         <div class="col-half">
           <user-overview
@@ -8,7 +8,7 @@
           </user-overview>
         </div>
         <div class="col-half">
-          <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span>+</span></a>
+          <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span class="plus">+</span></a>
           <brew-log-overview
             [user]="currentUser"
             (view)="handleView($event)">
@@ -16,5 +16,9 @@
         </div>
       </div>
     </div>
+
+    <ng-template #loaderIcon>
+      <loader-icon></loader-icon>
+    </ng-template>
   </main>
 </div>

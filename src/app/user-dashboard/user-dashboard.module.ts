@@ -6,6 +6,8 @@ import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { scaphold } from '../../../scaphold/scaphold';
 
+import { loaderModule } from '../loader/loader.module';
+
 // containers
 import { UserDashboardComponent } from './containers/user-dashboard/user-dashboard.component';
 
@@ -34,12 +36,13 @@ const routes: Routes = [
   declarations: [
     UserDashboardComponent,
     UserOverviewComponent,
-    BrewLogOverviewComponent
+    BrewLogOverviewComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     ApolloModule.forRoot(provideClient),
+    loaderModule,
   ],
   providers: [
     UserService

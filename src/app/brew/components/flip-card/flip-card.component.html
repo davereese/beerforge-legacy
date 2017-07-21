@@ -1,0 +1,62 @@
+<div class="flip-card">
+  <div class="card" [ngClass]="editingType">
+    <div class="row header">
+      <h3>{{ cardTitle }}</h3>
+    </div>
+    <div class="row header">
+      <new-settings-form *ngIf="'settings' === detail" [parent]="parent"></new-settings-form>
+      <new-fermentables-form *ngIf="'fermentables' === detail || 'editFermentable' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-fermentables-form>
+      <new-hops-form *ngIf="'hops' === detail || 'editHop' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-hops-form>
+      <new-adjuncts-form *ngIf="'adjuncts' === detail || 'editAdjunct' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-adjuncts-form>
+      <new-yeasts-form *ngIf="'yeasts' === detail || 'editYeast' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-yeasts-form>
+      <new-mash-form *ngIf="'mash' === detail" [parent]="parent"></new-mash-form>
+      <new-boil-form *ngIf="'boil' === detail" [parent]="parent"></new-boil-form>
+      <new-fermentation-form *ngIf="'fermentation' === detail" [parent]="parent"></new-fermentation-form>
+      <new-packaging-form *ngIf="'packaging' === detail" [parent]="parent"></new-packaging-form>
+    </div>
+    <div class="row">
+      <button
+        class="button button--large button--cancel"
+        (click)="handleCancel()">
+        Cancel
+      </button> 
+      <button 
+        *ngIf="'fermentables' !== detail && 'hops' !== detail && 'adjuncts' !== detail && 'yeasts' !== detail && 'editFermentable' !== detail && 'editHop' !== detail && 'editAdjunct' !== detail && 'editYeast' !== detail"
+        class="button button--large"
+        (click)="handleSave()">
+        Save
+      </button>
+      <ng-container *ngIf="'editFermentable' === detail || 'editHop' === detail || 'editAdjunct' === detail || 'editYeast' === detail">
+        <button
+          class="button button--large"
+          (click)="handleEdit()">
+          Edit
+        </button>
+        <button
+          class="button button--large"
+          (click)="handleRemove()">
+          Remove
+        </button>
+      </ng-container>
+      <ng-container *ngIf="'fermentables' === detail || 'hops' === detail || 'adjuncts' === detail || 'yeasts' === detail">
+        <button
+          class="button button--large"
+          (click)="handleAdd()"
+          [disabled]="!addEnabled">
+          + Add
+        </button>
+        <button
+          class="button button--large"
+          (click)="handleSave()">
+          Done
+        </button>
+      </ng-container>
+      <button
+        *ngIf="'packaging' !== detail && 'editFermentable' !== detail && 'editHop' !== detail && 'editAdjunct' !== detail && 'editYeast' !== detail"
+        class="button button--large float-right"
+        (click)="handleNext($event)">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

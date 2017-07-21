@@ -1,0 +1,30 @@
+<div [formGroup]="parent">
+  <div formGroupName="brewFormPackaging">
+    <p><label>Packaging Type<br>
+      <select formControlName="packageType">
+        <option value="">Choose One</option>
+        <option
+          *ngFor="let type of packagingTypes"
+          [value]="type.value">
+          {{ type.name }}
+        </option>
+      </select></label></p>
+    <p><label>Carbonation Method<br>
+      <select formControlName="carbonationMethod">
+        <option value="">Choose One</option>
+        <option
+          *ngFor="let type of carbonationTypes"
+          [value]="type.value">
+          {{ type.name }}
+        </option>
+      </select></label></p>
+    <div class="col-half float-left grid-padding no-left-p">
+      <p><label>CO2 Volume Target<br>
+        <input type="number" step="0.1" formControlName="co2VolTarget" placeholder="2.5"></label></p>
+    </div>
+    <div class="col-half float-left grid-padding no-right-p">
+      <p><label>Beer Temp (°F)<br>
+        <input type="number" formControlName="beerTemp" placeholder="34"></label></p>
+    </div>
+  </div>
+</div>

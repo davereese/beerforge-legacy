@@ -2,10 +2,14 @@
 @import '../../../../styles/type.scss';
 
 .view-brew {
+  position: relative;
   min-height: calc(100vh - 55px);
+  overflow: hidden;
 
   .container {
     max-width: 800px;
+    left: 50%;
+    margin-left: -400px;
   }
 
   .brew {
@@ -14,7 +18,7 @@
     }
 
     &__meta {
-      margin-top: 10px;
+      margin-top: 13px;
       @extend %subhead;
 
       span {

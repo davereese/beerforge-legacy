@@ -2,7 +2,7 @@
   <div class="logo" (click)="viewDashboard()"></div>
 
   <div class="profile-pic" *ngIf="!dashboard">
-    <a (click)="viewDashboard()">
+    <a (click)="viewDashboard()" title="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
       <img [attr.src]="currentUser?.profilePic.blobUrl ? currentUser?.profilePic.blobUrl : currentUser?.profilePic.defaultPicNumber ? '../assets/images/plaid_' + currentUser?.profilePic.defaultPicNumber + '.svg' : null" alt="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
     </a>
   </div>

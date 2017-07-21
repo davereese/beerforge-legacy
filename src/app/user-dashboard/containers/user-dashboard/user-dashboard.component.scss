@@ -21,6 +21,10 @@ header {
     @extend %new-brew;
     transition: color 0.5s;
 
+    span.plus {
+      top: 16px;
+    }
+
     &::before,
     &::after {
       content: '';
@@ -44,23 +48,13 @@ header {
       transition: background-color 0.5s;
     }
 
-    span {
-      position: absolute;
-      top: 12px;
-      right: 20px;
-      font-style: normal;
-      font-size: 51px;
-      font-weight: 100;
-      line-height: 0.8;
-      transition: transform 0.5s;
-    }
-
     &:hover,
     &:focus {
       color: $white;
 
-      span {
+      span.plus {
         transform: rotate(180deg) translateY(-2px);
+        top: 15px;
       }
 
       &::before {

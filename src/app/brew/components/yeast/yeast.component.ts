@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Yeast } from '../../models-shared/brew.interface';
+import { Yeast } from '../../models/brew.interface';
 
 @Component({
   selector: 'yeast',
@@ -9,5 +9,11 @@ import { Yeast } from '../../models-shared/brew.interface';
 })
 export class yeastComponent {
   @Input()
-  detail: Yeast;
+  yeast: Yeast;
+
+  @Input()
+  amount: number;
+
+  @Input()
+  package: string;
 }

@@ -1,0 +1,176 @@
+@import '../../../../styles/variables.scss';
+@import '../../../../styles/mixins.scss';
+@import '../../../../styles/type.scss';
+@import '../view-brew/view-brew.component.scss';
+
+.new-brew {
+  @extend.view-brew;
+
+  @keyframes rotateGear {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  .container {
+    width: 800px;
+    transition: margin 0.5s, left 0.5s, width 0.75s;
+
+    &.make-room {
+      left: 0;
+      margin-left: 30px;
+      width: calc(60% - 60px);
+      transition: margin 0.5s, left 0.5s width 0.45s;
+
+      @media (min-width: 1434px) {
+        left: 58%;
+        margin-left: -800px;
+      }
+    }
+  }
+
+  .brew-settings-btn {
+    position: relative;
+    margin-top: 13px;
+    padding-left: 23px;
+    text-transform: uppercase;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      left: 0;
+      top: 1.5px;
+      background: url('../../../../assets/images/gear.svg') no-repeat;
+      background-size: 18px;
+    }
+
+    &:hover,
+    &:focus {
+      &::before {
+        animation-duration: 2s;
+        animation-name: rotateGear;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+    }
+  }
+
+  .brew {
+    &__title {
+      position: relative;
+      padding: 0 60px 0 0;
+
+      .edit {
+        top: 3px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 0;
+        outline: 0;
+        background: transparent;
+        border: 0;
+        @extend h1;
+      }
+    }
+
+    &__details,
+    &__ingredients {
+      .edit {
+        top: -5px;
+        right: 14px;
+        @include pencil(darken($bf-orange, 15%));
+        background-size: 23px;
+        background-position: 5px 5px;
+        background-color: transparent;
+
+        &:hover,
+        &:focus {
+          background-color: desaturate(adjust-hue(darken($bf-logo_yellow, 5%), -3%), 5%);
+        }
+      }
+
+      .row {
+        border-top: 1px solid rgba($bf-orange, 0.3);
+        
+        .edit {
+          right: 10px;
+        }
+      }
+
+      .plus {
+        top: 21px;
+
+        &:hover,
+        &:focus {
+          background-color: rgba($dark-green, 0.1);
+        }
+      }
+    }
+
+    &__details {
+      background-color: $bf-logo_yellow;
+      color: $dark-green;
+
+      .header {
+        color: darken($bf-orange, 15%);
+      }
+
+      .row:not(.title) {
+        &:hover,
+        &:focus {
+          background-color: desaturate(adjust-hue(darken($bf-logo_yellow, 5%), -3%), 5%);
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__ingredients {
+      background-color: $light-yellow;
+      color: $black;
+
+      .ingredient-title,
+      .header {
+        padding-right: 0;
+        padding-left: 0;
+        color: $bf-green;
+      }
+    }
+  }
+
+  .card-container {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    position: fixed;
+    top: 109px;
+    right: 30px;
+    width: calc(40% - 30px);
+
+    @media (min-width: 1434px) {
+      max-width: 543px;
+      right: 40%;
+      margin-right: -543px;
+    }
+  }
+}
+
+:host /deep/ {
+  .ingredient {
+    padding: 15px 5px 15px;
+    border-top: 1px solid rgba($bf-orange, 0.5);
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      background-color: $bf-logo_yellow;
+    }
+  }
+}

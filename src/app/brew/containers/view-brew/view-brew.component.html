@@ -1,6 +1,6 @@
 <div class="view-brew">
   <main>
-    <div class="container" *ngIf="currentBrew">
+    <div class="container" *ngIf="currentBrew; else loaderIcon">
       <div class="row">
         <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
         <span class="float-right brew__meta">
@@ -8,9 +8,9 @@
         </span>
       </div>
       <div class="row brew__details tile">
-        <div class="col-third header header--title">{{ currentBrew?.batchType | parseMash }}</div>
-        <div class="col-third header header--title">Batch Size: {{ currentBrew?.batchSize }} gal</div>
-        <div class="col-third header header--title right-align">System Effifiency: {{ currentBrew?.batchEfficiency }}%</div>
+        <div class="col-third header--title">{{ currentBrew?.batchType | parseMash }}</div>
+        <div class="col-third header--title">Batch Size: {{ currentBrew?.batchSize }} gal</div>
+        <div class="col-third header--title right-align">System Efficiency: {{ currentBrew?.batchEfficiency }}%</div>
         <div class="row title">
           <div class="col-quarter header header--no-color">
             {{ abv }}% ABV
@@ -31,30 +31,36 @@
         <span class="float-right align-right header">
           {{ totalMalt | round }} lbs.
         </span>
-        <fermentables
+        <fermentable
           *ngFor="let malt of currentBrew?.maltChoice.edges"
-          [detail]="malt"
+          [malt]="malt.node.malt"
+          [amount]="malt.node.amount"
           class="row">
-        </fermentables>
+        </fermentable>
       </div>
       <div class="row brew__ingredients tile">
         <h2 class="ingredient-title float-left">Hops</h2>
         <span class="float-right align-right header">
           {{ totalHop | round }} oz.
         </span>
-        <hops
-          *ngFor="let hop of currentBrew?.hopChoice.edges; let i = index;"
-          [detail]="hop"
+        <hop
+          *ngFor="let hop of currentBrew?.hopChoice.edges; let i = index"
+          [hop]="hop.node.hop"
           [index]="i"
+          [alphaAcid]="hop.node.alphaAcid"
+          [time]="hop.node.time"
+          [amount]="hop.node.amount"
           [hopIBUs]="hopIBUs"
           class="row">
-        </hops>
+        </hop>
       </div>
       <div class="row brew__ingredients tile">
         <h2 class="ingredient-title">Yeast</h2>
         <yeast
           *ngFor="let yeast of currentBrew?.yeastChoice.edges"
-          [detail]="yeast"
+          [yeast]="yeast.node.yeast"
+          [amount]="yeast.node.amount"
+          [package]="yeast.node.package"
           class="row">
         </yeast>
       </div>
@@ -67,16 +73,16 @@
         </div>
         <div class="row">
           <div class="col-quarter">
-            Struck with {{ currentBrew?.mashWaterVol }} gal. at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
+            Struck with {{ currentBrew?.mashWaterVol }} gal at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
           </div>
           <div class="col-quarter">
-            Mash Length: {{ currentBrew?.mashTime }} min.
+            Mash Length: {{ currentBrew?.mashTime }} min
           </div>
           <div class="col-quarter">
             Mash Temp: {{ currentBrew?.mashTemp }}&deg;&nbsp;F
           </div>
           <div class="col-quarter">
-            Sparged with {{ currentBrew?.spargeWaterVol }} gal. at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
+            Sparged with {{ currentBrew?.spargeWaterVol }} gal at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
           </div>
         </div>
         <div class="row title">
@@ -89,10 +95,10 @@
         </div>
         <div class="row">
           <div class="col-quarter">
-            Boil Time: {{ currentBrew?.boilTime }} min.
+            Boil Time: {{ currentBrew?.boilTime }} min
           </div>
           <div class="col-quarter">
-            Boil Size: {{ currentBrew?.boilWaterVol }} gal.
+            Boil Size: {{ currentBrew?.boilWaterVol }} gal
           </div>
         </div>
         <div class="row title">
@@ -138,5 +144,9 @@
         </div>
       </div>
     </div>
+
+    <ng-template #loaderIcon>
+      <loader-icon></loader-icon>
+    </ng-template>
   </main>
 </div>

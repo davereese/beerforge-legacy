@@ -1,15 +1,15 @@
-<div class="col-quarter">
-  {{ detail.node.amount }} oz.
-</div>
-<div class="col-quarter">
-  {{ detail.node.hop.name }}
-</div>
-<div class="col-eighth">
-  {{ detail.node.alphaAcid }}% AA
-</div>
-<div class="col-eighth">
-  {{ detail.node.time }} min.
-</div>
-<div class="col-eighth">
-  {{ hopIBUs[index] }} IBU
+<div class="hops" [formGroup]="parent">
+  <div formArrayName="hops">
+    <hop
+      *ngFor="let item of hops; let i = index"
+      [hop]="getHop(item.value.hop)"
+      [index]="i"
+      [alphaAcid]="item.value.hopAlphaAcid"
+      [time]="item.value.hopTime"
+      [amount]="item.value.hopWeight"
+      [hopIBUs]="hopIBUs"
+      class="row ingredient"
+      (click)="handleEdit($event, getHop(item.value.hop), item.value.hopWeight, item.value.hopAlphaAcid, item.value.hopTime, i)">
+    </hop>
+  </div>
 </div>

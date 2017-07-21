@@ -6,13 +6,13 @@ export interface Brew {
   batchSize: number
   batchEfficiency: number
   maltChoice: {
-    edges: [Malt]
+    edges: [gqlMalt]
   }
   hopChoice: {
-    edges: [Hop]
+    edges: [gqlHop]
   }
   yeastChoice: {
-    edges: [Yeast]
+    edges: [gqlYeast]
   }
   strikeTemp?: number
   mashTemp?: number
@@ -35,7 +35,7 @@ export interface Brew {
   carbonateType: string
 }
 
-export interface Malt {
+export interface gqlMalt {
   node: {
     malt: {
       id: string
@@ -46,7 +46,14 @@ export interface Malt {
   }
 }
 
-export interface Hop {
+export interface Malt {
+  id: string
+  name: string
+  color: number
+  potential: number
+}
+
+export interface gqlHop {
   node: {
     hop: {
       id: string
@@ -58,7 +65,13 @@ export interface Hop {
   }
 }
 
-export interface Yeast {
+export interface Hop {
+  id: string
+  name: string
+  alphaAcid: number
+}
+
+export interface gqlYeast {
   node: {
     yeast: {
       id: string
@@ -68,4 +81,12 @@ export interface Yeast {
     amount: number
     package: string
   }
+}
+
+export interface Yeast {
+  id: string
+  lab: string
+  name: string
+  attenuation: number
+  temp: number
 }

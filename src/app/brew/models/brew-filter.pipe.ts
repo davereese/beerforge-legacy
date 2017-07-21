@@ -5,7 +5,9 @@ export class parseMash implements PipeTransform {
   transform(value: string): string {
     let newStr: string = "";
     if ( 'allGrain' === value ) {
-      newStr = 'All Grain'
+      newStr = 'All Grain';
+    } else if ( 'partial' === value ) {
+      newStr = 'Partial Mash';
     } else {
       newStr = value;
     }

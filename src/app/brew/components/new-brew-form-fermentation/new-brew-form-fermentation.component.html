@@ -1,0 +1,25 @@
+<div [formGroup]="parent">
+  <div formGroupName="brewFormFermentation">
+    <div class="col-half float-left grid-padding no-left-p">
+      <p><label>Primary Time (days)<br>
+        <input type="number" formControlName="fermentTime" placeholder="14"></label></p>
+    </div>
+    <div class="col-half float-left grid-padding no-right-p">
+      <p><label>Primary Temp (°F)<br>
+        <input type="number" formControlName="fermentTemp" placeholder="68"></label></p>
+    </div>
+    <div class="col-full float-left grid-padding no-left-p no-right-p">
+      <p class="checkbox">
+        <input type="checkbox" formControlName="fermentSecCheck" (click)="toggleSec()" id="fermentSecCheck">
+        <label for="fermentSecCheck">Secondary Fermentation</label></p>
+    </div>
+    <div class="col-half float-left grid-padding no-left-p">
+      <p *ngIf="secondary"><label>Secondary Time (days)<br>
+        <input type="number" formControlName="fermentSecTime" placeholder="14"></label></p>
+    </div>
+    <div class="col-half float-left grid-padding no-right-p">
+      <p *ngIf="secondary"><label>Secondary Temp (°F)<br>
+        <input type="number" formControlName="fermentSecTemp" placeholder="68"></label></p>
+    </div>
+  </div>
+</div>

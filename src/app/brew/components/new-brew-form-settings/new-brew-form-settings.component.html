@@ -1,0 +1,17 @@
+<div [formGroup]="parent">
+  <div formGroupName="brewFormSettings">
+    <p><label>Batch Type<br>
+      <select formControlName="batchType">
+        <option value="" disabled>Choose One</option>
+        <option
+          *ngFor="let type of batchTypes"
+          [value]="type.value">
+          {{ type.name }}
+        </option>
+      </select></label></p>
+    <p><label>Batch Size (gal)<br>
+      <input type="number" formControlName="batchSize" placeholder="6"></label></p>
+    <p><label>System Efficiency (%)<br>
+      <input type="number" formControlName="sysEfficiency" placeholder="75"></label></p>
+  </div>
+</div>

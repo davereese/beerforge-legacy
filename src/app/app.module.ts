@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // containers
 import { AppComponent } from './app.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
     UserDashboardModule,
+    BrowserAnimationsModule
   ],
   providers: [
     UserService

@@ -17,7 +17,6 @@
 
 .container {
   position: relative;
-  margin: 0 auto;
   max-width: 1170px;
 
   .row {
@@ -30,6 +29,7 @@
       padding-right: 15px;
       padding-left: 15px;
       height: auto;
+      min-height: 1px;
     }
 
     .row {
@@ -37,6 +37,10 @@
       clear: both;
     }
   }
+}
+
+.col-full {
+  width: 100%;
 }
 
 .col-three-quarters {
@@ -61,4 +65,17 @@
 
 .col-eighth {
   width: 12.5%;
+}
+
+.grid-padding {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.no-left-p {
+  padding-left: 0;
+}
+
+.no-right-p {
+  padding-right: 0;
 }

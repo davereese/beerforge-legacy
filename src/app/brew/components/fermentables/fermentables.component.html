@@ -1,9 +1,12 @@
-<div class="col-quarter">
-  {{ detail.node.amount }} lbs.
-</div>
-<div class="col-quarter">
-  {{ detail.node.malt.name }}
-</div>
-<div class="col-quarter">
-  {{ detail.node.malt.color }} SRM
+<div class="fermentables" [formGroup]="parent">
+  <div formArrayName="fermentables">
+    <fermentable
+      *ngFor="let item of fermentables; let i = index"
+      [formGroupName]="i"
+      [malt]="getFermentable(item.value.fermentable)"
+      [amount]="item.value.fermentableWeight"
+      class="row ingredient"
+      (click)="handleEdit($event, getFermentable(item.value.fermentable), item.value.fermentableWeight, i)">
+    </fermentable>
+  </div>
 </div>

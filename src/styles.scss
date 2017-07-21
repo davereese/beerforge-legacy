@@ -1,6 +1,9 @@
+@import './styles/normalize.scss';
 @import './styles/variables.scss';
+@import './styles/mixins.scss';
 @import './styles/type.scss';
 @import './styles/grid.scss';
+@import './styles/forms.scss';
 
 html {
   height: 100%;
@@ -22,15 +25,29 @@ main {
 }
 
 .float-right {
-  float: right;
+  float: right !important;
+  margin-right: 0 !important;
 }
 
 .float-left {
-  float: left;
+  float: left !important;
 }
 
 .right-align {
   text-align: right;
+}
+
+.center-align {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.no-top-padding {
+  padding-top: 0 !important;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .profile-pic {
@@ -51,14 +68,30 @@ main {
 
 .button {
   display: inline-block;
+  border: 0;
   padding: 7px 15px;
-  color: $white;
+  outline: 0;
+  background-color: $bf-orange;
+  border-radius: 3px;
+  color: $yellow;
   font-weight: 200;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $dark-orange;
+    cursor: pointer;
+  }
+
+  &--cancel {
+    background-color: $bf-orange;
+  }
 
   &--ghost {
     border-radius: 4px;
     border: 1px solid $bf-orange;
+    background-color: transparent;
     text-transform: uppercase;
+    color: $white;
     transition: background-color 0.3s;
 
     &:hover,
@@ -66,8 +99,64 @@ main {
       background-color: $bf-orange;
     }
   }
+
+  &--large {
+    padding: 16px 25px;
+    margin-right: 5px;
+    text-transform: uppercase;
+  }
+
+  &--get-brewing {
+    padding: 15px 30px;
+    background: $bf-gray;
+    border-radius: 3px;
+    text-transform: uppercase;
+    color: $yellow;
+    @extend %h2;
+    font-style: italic;
+    transition: background 0.5s;
+
+    &:hover,
+    &:focus {
+      background: $dark-green;
+    }
+  }
 }
 
-.capitalize {
-  text-transform: capitalize;
+.edit {
+  position: absolute;
+  display: block;
+  right: 17px;
+  top: 0;
+  width: 23px;
+  height: 23px;
+  padding: 5px;
+  border-radius: 3px;
+  @include pencil(darken($bf-gray, 15%));
+  background-size: 23px;
+  background-position: 5px 5px;
+  background-color: transparent;
+  transition: background-color 0.3s;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($dark-orange, 0.1);
+  }
 }
+
+.plus {
+    position: absolute;
+    display: block;
+    top: 7px;
+    right: 15px;
+    padding: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+    background-color: transparent;
+    font-style: normal;
+    font-size: 51px;
+    font-weight: 100;
+    line-height: 0.45;
+    transition: transform 0.5s, background-color 0.3s;
+  }

@@ -13,7 +13,6 @@ import { UserService } from '../../../user.service';
   templateUrl: './user-dashboard.component.html',
 })
 export class UserDashboardComponent {
-  loading: any;
   userId: string;
   currentUser: User;
 
@@ -36,7 +35,6 @@ export class UserDashboardComponent {
         id: this.userId
       }
     }).subscribe(({data, loading}) => {
-      this.loading = loading;
       this.currentUser = data['getUser'];
     });
   }

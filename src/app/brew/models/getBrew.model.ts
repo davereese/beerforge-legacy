@@ -59,6 +59,7 @@ export const currentBrewQuery = gql`
             preBoilGravity
             boilWaterVol
             boilTime
+            evaporationRate
             originalGravity
             fermentTemp
             fermentTime

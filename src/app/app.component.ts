@@ -27,12 +27,21 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
-        if ( '/dashboard' === event.urlAfterRedirects ) {
-          this.dashboard = true;
+        let brewString = event.urlAfterRedirects.split('/');
+        if ( 'dashboard' === brewString[1] ) {
           this.bodyClass = 'background dash';
+        } else if ( 'brew' === brewString[1] ) {
+          if ( brewString[2] ) {
+            this.bodyClass = 'background view';
+          } else {
+            this.bodyClass = 'background brew';
+          }
+        }
+
+        if ( 'dashboard' === brewString[1] ) {
+          this.dashboard = true;
         } else {
           this.dashboard = false;
-          this.bodyClass = 'background view';
         }
       }
     });
