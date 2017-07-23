@@ -4,32 +4,39 @@ export const saveBrewMutation = gql`
   mutation CreateBrew($brew: CreateBrewInput!) {
     createBrew(input: $brew) {
       changedBrew {
-        name
-        batchNum
-        batchType
-        batchSize
-        batchEfficiency
-        strikeTemp
-        mashTemp
-        mashWaterVol
-        mashTime
-        spargeTemp
-        spargeWaterVol
-        preBoilGravity
-        boilWaterVol
-        boilTime
-        evaporationRate
-        originalGravity
-        fermentTemp
-        fermentTime
-        fermentSecTemp
-        fermentSecTime
-        finalGravity
-        packaging
-        carbonateCo2Vol
-        carbonateTemp
-        carbonateType
+        id
       }
     }
   }
 `;
+
+export const saveMaltMutation = gql`
+  mutation CreateMaltChoice($malt: CreateMaltChoiceInput!) {
+    createMaltChoice(input: $malt) {
+      changedMaltChoice {
+        id
+      }
+    }
+  }
+`;
+
+export const saveHopMutation = gql`
+  mutation CreateHopChoice($hop: CreateHopChoiceInput!) {
+    createHopChoice(input: $hop) {
+      changedHopChoice {
+        id
+      }
+    }
+  }
+`;
+
+export const saveYeastMutation = gql`
+  mutation CreateYeastChoice($yeast: CreateYeastChoiceInput!) {
+    createYeastChoice(input: $yeast) {
+      changedYeastChoice {
+        id
+      }
+    }
+  }
+`;
+

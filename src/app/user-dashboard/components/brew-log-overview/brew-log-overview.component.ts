@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { User } from '../../models-shared/user.interface';
+import { User } from '../../models/user.interface';
 
 @Component({
   selector: 'brew-log-overview',

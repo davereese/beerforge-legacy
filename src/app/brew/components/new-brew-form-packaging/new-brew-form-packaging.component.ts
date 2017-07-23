@@ -13,14 +13,14 @@ export class newBrewPackagingFormComponent {
   // Packaging Enum
   packagingTypes: any[] = [
     { name: 'Kegged', value: 'kegged' },
-    { name: 'Bottled', value: 'bottled' },
+    { name: 'Bottled', value: 'bottled' }
   ];
 
   // Carbonation Enum
   carbonationTypes: any[] = [
+    { name: 'Forced', value: 'forced' },
     { name: 'Corn Sugar', value: 'cornSugar' },
     { name: 'Cane Sugar', value: 'caneSugar' },
-    { name: 'DME', value: 'dme' },
-    { name: 'Forced', value: 'forced' },
+    { name: 'DME', value: 'dme' }
   ];
 }

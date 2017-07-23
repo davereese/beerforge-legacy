@@ -188,7 +188,7 @@ export class flipCardComponent implements OnChanges {
       case 'hops':
         this.addIngredient.emit(this.parent.get('brewFormHops').value);
         this.parent.get('brewFormHops').reset({
-          hop: '',
+          hop: 0,
           hopAlphaAcid: '',
           hopTime: '',
           hopWeight: ''
@@ -200,8 +200,8 @@ export class flipCardComponent implements OnChanges {
       case 'yeasts':
         this.addIngredient.emit(this.parent.get('brewFormYeasts').value);
         this.parent.get('brewFormYeasts').reset({
-          yeast: '',
-          yeastPackage: '',
+          yeast: 0,
+          yeastPackage: 0,
           yeastAmount: ''
         });
         break;

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 
-import { User } from '../../models-shared/user.interface';
-import { currentUserQuery } from '../../models-shared/getUser.model';
+import { User } from '../../models/user.interface';
+import { currentUserQuery } from '../../models/getUser.model';
 
 import { UserService } from '../../../user.service';
 

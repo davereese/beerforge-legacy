@@ -17,8 +17,16 @@
         </div>
         <div class="row brew__details tile">
           <div class="col-third header--title capitalize">{{ newBrewForm.value.brewFormSettings.batchType | parseMash }}</div>
-          <div class="col-third header--title">Batch Size: {{ newBrewForm.value.brewFormSettings.batchSize }} <span *ngIf="newBrewForm.value.brewFormSettings.batchSize">gal</span></div>
-          <div class="col-third header--title right-align">System Efficiency: {{ newBrewForm.value.brewFormSettings.sysEfficiency }}<span *ngIf="newBrewForm.value.brewFormSettings.sysEfficiency">%</span></div>
+          <div class="col-third header--title">
+            <ng-container *ngIf="newBrewForm.value.brewFormSettings.batchSize">
+              Batch Size: {{ newBrewForm.value.brewFormSettings.batchSize }} gal
+            </ng-container>
+          </div>
+          <div class="col-third header--title right-align">
+            <ng-container *ngIf="newBrewForm.value.brewFormSettings.sysEfficiency">
+              System Efficiency: {{ newBrewForm.value.brewFormSettings.sysEfficiency }}%
+            </ng-container>
+          </div>
           <div class="row title">
             <div class="col-quarter header header--no-color">
               {{ abv }}% ABV
@@ -241,7 +249,7 @@
           </div>
         </div>
         <div class="center-align">
-          <a class="button button--get-brewing">Save &amp; Get Brewing!</a>
+          <a class="button button--get-brewing" (click)="saveBrew()">Save &amp; Get Brewing!</a>
         </div>
       </div>
 
@@ -259,7 +267,7 @@
           [@flipInOut]>
         </flip-card>
       </div>
-      <!--<pre>{{ newBrewForm.value | json }}</pre>-->
+       <!-- <pre>{{ newBrewForm.value | json }}</pre>  -->
     </form>
   </main>
 </div>
