@@ -7,9 +7,14 @@ import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { scaphold } from '../../../scaphold/scaphold';
 
+// Modules
 import { loaderModule } from '../loader/loader.module';
+import { modalModule } from '../modal/modal.module';
 
+// Directives
 import { FocusDirective } from './directives/focus.directive';
+
+// Pipes
 import { parseMash, round } from './models/brew-filter.pipe';
 
 // containers
@@ -17,6 +22,7 @@ import { viewBrewComponent } from './containers/view-brew/view-brew.component';
 import { newBrewComponent } from './containers/new-brew/new-brew.component';
 
 // components
+import { loaderComponent } from './components/loader/loader.component'; 
 import { fermentableComponent } from './components/fermentable/fermentable.component';
 import { hopComponent } from './components/hop/hop.component';
 import { adjunctComponent } from './components/adjunct/adjunct.component';
@@ -59,6 +65,7 @@ const routes: Routes = [
   declarations: [
     viewBrewComponent,
     newBrewComponent,
+    loaderComponent,
     flipCardComponent,
     fermentableComponent,
     hopComponent,
@@ -87,6 +94,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ApolloModule.forRoot(provideClient),
     loaderModule,
+    modalModule,
     ReactiveFormsModule,
     FormsModule,
   ],

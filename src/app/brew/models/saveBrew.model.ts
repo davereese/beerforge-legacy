@@ -5,6 +5,7 @@ export const saveBrewMutation = gql`
     createBrew(input: $brew) {
       changedBrew {
         id
+        name
       }
     }
   }

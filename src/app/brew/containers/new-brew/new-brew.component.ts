@@ -12,7 +12,7 @@ import { saveMaltMutation } from '../../models/saveBrew.model';
 import { saveHopMutation } from '../../models/saveBrew.model';
 import { saveYeastMutation } from '../../models/saveBrew.model';
 
-import { Brew } from '../../models/brew.interface';
+import { modalData } from '../../../modal/models/modal.model';
 import { UserService } from '../../../user.service';
 import { BrewCalcService } from '../../services/brewCalc.service';
 
@@ -30,11 +30,24 @@ import { BrewCalcService } from '../../services/brewCalc.service';
       transition(':leave', [
         animate('0.35s ease-in', style({transform: 'translateX(128%) rotateY(-90deg) scale(1.3)'}))
       ])
+    ]),
+    trigger('modalPop', [
+      state('in', style({transform: 'translate(-50%, -50%)', opacity: '1'})),
+      transition(':enter', [
+        style({transform: 'translate(-50%, -20%)', opacity: '0'}),
+        animate('0.5s cubic-bezier(.54,0,.03,1)')
+      ]),
+      transition(':leave', [
+        style({transform: 'translate(-50%, -50%)'}),
+        animate('0.3s cubic-bezier(.54,0,.03,1)', style({transform: 'translate(-50%, -80%)', opacity: '0'}))
+      ])
     ])
   ]
 })
 export class newBrewComponent implements OnInit {
   loader: boolean = false;
+  modalData: modalData;
+  showModal: boolean = false;
   userId: string;
   currentUser: User;
   brewName: string = 'New Brew';
@@ -358,6 +371,7 @@ export class newBrewComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.userService
       .getUser()
       .subscribe((data: string) => {
@@ -399,6 +413,7 @@ export class newBrewComponent implements OnInit {
         control = this.newBrewForm;
 
     this.apollo.mutate({
+      // save brew
       mutation: saveBrewMutation,
       variables: {
         brew: {
@@ -455,10 +470,22 @@ export class newBrewComponent implements OnInit {
       });
 
       console.log('got data', data);
-      this.router.navigate(['/brew/', brewId]);
+
+      this.modalData = { 
+        title: data['createBrew'].changedBrew.name+' saved. Have a homebrew!',
+        body: '',
+        buttons: { view: true, viewData: brewId, dashboard: true }
+      };
+      this.showModal = true;
 
     },(error) => {
       console.log('there was an error sending the query', error);
+      this.modalData = { 
+        title: 'Boil Over',
+        body: 'There was a forge error saving this brew. Please try again later.',
+        buttons: { close: true, dashboard: true }
+      };
+      this.showModal = true;
     });
   }
 
@@ -502,5 +529,10 @@ export class newBrewComponent implements OnInit {
         }
       }
     });
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.loader = false;
   }
 }
