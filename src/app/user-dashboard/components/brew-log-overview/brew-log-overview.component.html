@@ -5,8 +5,10 @@
       {{ brew.node.name }}
     </div>
     <div class="col-half right-align brew-log-overview__brew-stats">
-      <span><!-- stats --></span>
       {{ brew.node.createdAt | date:'MM.dd.yy' }}
     </div>
   </a>
+  <div class="brew-log-overview__footer clearfix">
+    <a class="button button--yellow button--large float-right" (click)="goToBrewLog()">All Brews</a>
+  </div>
 </div>

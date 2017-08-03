@@ -3,10 +3,10 @@
     <fermentable
       *ngFor="let item of fermentables; let i = index"
       [formGroupName]="i"
-      [malt]="getFermentable(item.value.fermentable)"
+      [malt]="item.value.fermentable"
       [amount]="item.value.fermentableWeight"
       class="row ingredient"
-      (click)="handleEdit($event, getFermentable(item.value.fermentable), item.value.fermentableWeight, i)">
+      (click)="handleEdit($event, item.value.fermentable, item.value.fermentableWeight, i)">
     </fermentable>
   </div>
 </div>

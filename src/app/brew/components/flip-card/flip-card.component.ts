@@ -104,12 +104,14 @@ export class flipCardComponent implements OnChanges {
       case 'fermentables':
         this.parent.get('brewFormFermentables').reset({
           fermentable: '',
+          fermentableId: 0,
           fermentableWeight: '',
         });
         break;
       case 'hops':
         this.parent.get('brewFormHops').reset({
           hop: '',
+          hopId: 0,
           hopAlphaAcid: '',
           hopTime: '',
           hopWeight: ''
@@ -120,6 +122,7 @@ export class flipCardComponent implements OnChanges {
       case 'yeasts':
        this.parent.get('brewFormYeasts').reset({
           yeast: '',
+          yeastId: 0,
           yeastPackage: '',
           yeastAmount: ''
         });
@@ -181,14 +184,16 @@ export class flipCardComponent implements OnChanges {
       case 'fermentables':
         this.addIngredient.emit(this.parent.get('brewFormFermentables').value);
         this.parent.get('brewFormFermentables').reset({
-          fermentable: 0,
+          fermentable: '',
+          fermentableId: 0,
           fermentableWeight: '',
         });
         break;
       case 'hops':
         this.addIngredient.emit(this.parent.get('brewFormHops').value);
         this.parent.get('brewFormHops').reset({
-          hop: 0,
+          hop: '',
+          hopId: 0,
           hopAlphaAcid: '',
           hopTime: '',
           hopWeight: ''
@@ -200,7 +205,8 @@ export class flipCardComponent implements OnChanges {
       case 'yeasts':
         this.addIngredient.emit(this.parent.get('brewFormYeasts').value);
         this.parent.get('brewFormYeasts').reset({
-          yeast: 0,
+          yeast: '',
+          yeastId: 0,
           yeastPackage: 0,
           yeastAmount: ''
         });

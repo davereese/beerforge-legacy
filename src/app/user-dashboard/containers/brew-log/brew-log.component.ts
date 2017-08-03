@@ -6,18 +6,21 @@ import { User } from '../../models/user.interface';
 import { currentUserQuery } from '../../models/getUser.model';
 
 import { UserService } from '../../../services/user.service';
+import { BrewCalcService } from '../../../services/brewCalc.service';
 
 @Component({
-  selector: 'user-dashboard',
-  styleUrls: ['user-dashboard.component.scss'],
-  templateUrl: './user-dashboard.component.html',
+  selector: 'brew-log',
+  styleUrls: ['brew-log.component.scss'],
+  templateUrl: './brew-log.component.html',
 })
-export class UserDashboardComponent {
+export class BrewLogComponent {
   userId: string;
   currentUser: User;
+  userBrews: any = [];
 
   constructor(
     private userService: UserService,
+    private brewCalcService: BrewCalcService,
     private router: Router,
     private apollo: Apollo
   ) { }
@@ -39,15 +42,11 @@ export class UserDashboardComponent {
     });
   }
 
-  handleBrew(event: any) {
+  newBrew() {
     this.router.navigate(['/brew']);
   }
 
-  handleView(event: any) {
-    this.router.navigate(['/brew/', event]);
-  }
-
-  handleBrewLog() {
-    this.router.navigate(['/brew-log']);
+  viewBrew(id) {
+    this.router.navigate(['/brew/', id]);
   }
 }

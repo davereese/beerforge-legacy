@@ -1,0 +1,33 @@
+<div class="dashboard">
+  <main>
+    <div class="container" *ngIf="currentUser; else loaderIcon">
+      <div class="row">
+        <div class="col-full">
+          <h1 class="float-left">Brew Log</h1>
+          <a class="button button--yellow float-right" (click)=newBrew()>New Brew</a>
+
+          <div class="clearfix"></div>
+          <div class="brews">
+            <a *ngFor="let brew of currentUser.Brews.edges" class="row brews__item" (click)="viewBrew(brew.node.id)">
+              <div class="col-half brew-log__brew-name">
+                {{ brew.node.name }}
+              </div>
+              <div class="brews__item__brew-stats">
+                <div class="col-eighth float-right ">
+                  {{ brew.node.createdAt | date:'MM.dd.yy' }}
+                </div>
+                <div class="float-right">
+                  <span class="stat">{{ brew.node | getABV }}</span> <span class="stat">{{ brew.node | getIBUs }}</span> <span class="stat">{{ brew.node | getSRM }}</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loaderIcon>
+      <loader-icon></loader-icon>
+    </ng-template>
+  </main>
+</div>

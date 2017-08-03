@@ -7,7 +7,7 @@ export class BrewCalcService {
         OG: number;
 
     for ( let i = 0; i < malts.length; i++ ) {
-      totalPoints += Math.round( ((malts[i].potential - 1) * 1000 * malts[i].fermentableWeight) * 100 ) / 100;
+      totalPoints += Math.round( ((malts[i].fermentable.potential - 1) * 1000 * malts[i].fermentableWeight) * 100 ) / 100;
     }
 
     // multiply by efficiency factor
@@ -17,7 +17,7 @@ export class BrewCalcService {
     return (OG / 1000) + 1;
   }
 
-  calculatePreBoilG(OG: number, boilTime: number, vol: number, evap: number): number {
+  calculatePreBoilG(OG: any, boilTime: number, vol: number, evap: number): number {
     let PBVol = this.caclculatePreBoilVol(boilTime, vol, evap);
     // Pre-boil specific gravity points = (Post-boil volume * Post-boil gravity points) / Pre-boil volume
     let PreBoilG = Math.round( ((vol * (OG - 1) * 1000) / PBVol) * 1 ) / 1;
@@ -105,17 +105,19 @@ export class BrewCalcService {
   }
 
   calculateSRM(malts: any, vol: number): number {
-    // MCU = (grain_color * grain_weight_lbs)/volume_gallons    - Malt Color Units
-    // SRM = 1.4922 * [MCU ^ 0.6859]                            - The more accurate Morey equation
+    // MCU = (grain_color * grain_weight_lbs) / volume_gallons    - Malt Color Units
+    // SRM = 1.4922 * [MCU ^ 0.6859]                              - The more accurate Morey equation
     let MCU: number = 0,
         SRM: number;
 
     for ( let i = 0; i < malts.length; i++ ) {
       if ( undefined ===  malts[i].node ) { // coming from new brew
-        MCU += (malts[i].color * malts[i].fermentableWeight)/vol;
+        MCU += (malts[i].fermentable.color * malts[i].fermentableWeight) / vol;
       } else { // coming from view brew
-        MCU += (malts[i].node.malt.color * malts[i].node.amount)/vol;
+        MCU += (malts[i].node.malt.color * malts[i].node.amount) / vol;
       }
+
+      MCU = Infinity === MCU ? 0 : MCU;
     }
 
     SRM = Math.round( (1.4922 * Math.pow(MCU, 0.6859)) * 10 ) / 10;
@@ -123,7 +125,24 @@ export class BrewCalcService {
     return SRM;
   }
 
-  calculateStrikeVol(R: number, gVol: number): number {
+  calculateTotalMalt(value): number {
+    let totalMalt: number = 0;
+    if ( undefined ===  value.maltChoice ) { // coming from new brew
+      for (let index = 0; index < value.fermentables.length; index++) {
+        totalMalt += value.fermentables[index].fermentableWeight;
+      }
+    } else { // coming from view brew
+      for (let index = 0; index < value.maltChoice.edges.length; index++) {
+        totalMalt += value.maltChoice.edges[index].node.amount;
+      }
+    }
+
+    return totalMalt;
+  }
+
+  calculateStrikeVol(form: any): number {
+    let R: number = form.brewFormMash.waterToGrain,
+        gVol: number = this.calculateTotalMalt(form);
     let sVol = Math.round( ((R * gVol) / 4) * 10 ) / 10;
 
     return sVol;

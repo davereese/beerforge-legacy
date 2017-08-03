@@ -1,17 +1,18 @@
 export interface Brew {
+  userId?: string,
   name: string
-  createdAt: Date
-  batchNum: number
-  batchType: string
-  batchSize: number
-  batchEfficiency: number
-  maltChoice: {
+  createdAt?: Date
+  batchNum?: number
+  batchType?: string
+  batchSize?: number
+  batchEfficiency?: number
+  maltChoice?: {
     edges: [gqlMalt]
   }
-  hopChoice: {
+  hopChoice?: {
     edges: [gqlHop]
   }
-  yeastChoice: {
+  yeastChoice?: {
     edges: [gqlYeast]
   }
   strikeTemp?: number
@@ -20,19 +21,20 @@ export interface Brew {
   mashTime?: number
   spargeTemp?: number
   spargeWaterVol?: number
-  preBoilGravity: number
-  boilWaterVol: number
-  boilTime: number
-  originalGravity: number
-  fermentTemp: number
-  fermentTime: number
+  preBoilGravity?: number
+  boilWaterVol?: number
+  boilTime?: number
+  evaporationRate?: number
+  originalGravity?: number
+  fermentTemp?: number
+  fermentTime?: number
   fermentSecTemp?: number
   fermentSecTime?: number
-  finalGravity: number
-  packaging: string
-  carbonateCo2Vol: number
-  carbonateTemp: number
-  carbonateType: string
+  finalGravity?: number
+  packaging?: string
+  carbonateCo2Vol?: number
+  carbonateTemp?: number
+  carbonateType?: string
 }
 
 export interface gqlMalt {

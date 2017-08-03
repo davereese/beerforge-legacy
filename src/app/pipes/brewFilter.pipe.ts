@@ -21,3 +21,10 @@ export class round implements PipeTransform {
     return Math.round(number * 100) / 100;
   }
 }
+
+@Pipe({name: 'gravityUnits'})
+export class gravityUnits implements PipeTransform {
+  transform(gravity:number): string {
+    return (gravity).toFixed(3);
+  }
+}

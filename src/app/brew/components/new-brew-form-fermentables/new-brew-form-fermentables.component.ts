@@ -11,9 +11,10 @@ import { getMaltsQuery } from '../../models/getIngredients.model';
   templateUrl: './new-brew-form-fermentables.component.html'
 })
 export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
-  malts: Malt;
-  selectedMaltId: string;
-  selectedMaltWeight: number;
+  malts: any;
+  selectedFermentable: Malt;
+  selectedFermentableId: string;
+  selectedFermentableWeight: number;
 
   @Input()
   parent: FormGroup;
@@ -42,10 +43,21 @@ export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
 
     this.parent.get('brewFormFermentables')
       .valueChanges.subscribe(value => {
-        if ( 0 < value.fermentable.length && 0 < value.fermentableWeight ) {
+        // all fields need to be filled out in order to add fermentable
+        if ( 0 < value.fermentableId.length && 0 < value.fermentableWeight ) {
           this.enable.emit();
         } else {
           this.disable.emit();
+        }
+
+        // Watch for what malt gets selected and update the fermentable from the object
+        // with the corresponding ID. Only run after this.malts has been defined and
+        // value.fermentableId has been selected (is not 0).
+        if ( undefined !== this.malts && 0 !== value.fermentableId) {
+          let malt = this.malts.filter(function( obj ) {
+            return obj.node.id === value.fermentableId;
+          });
+          this.selectedFermentable = malt[0].node;
         }
       });
   }
@@ -55,7 +67,8 @@ export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
   }
 
   setvalues() {
-    this.selectedMaltId = this.data !== null ? this.data.malt.id : 0;
-    this.selectedMaltWeight = this.data !== null ? this.data.weight : null;
+    // if data is set then we are editing a fermentable
+    this.selectedFermentableId = this.data !== null ? this.data.fermentable.id : 0;
+    this.selectedFermentableWeight = this.data !== null ? this.data.weight : null;
   }
 }

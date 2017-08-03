@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 
+import { Hop } from '../../models/brew.interface';
 import { getHopsQuery } from '../../models/getIngredients.model';
 
 @Component({
@@ -11,6 +12,7 @@ import { getHopsQuery } from '../../models/getIngredients.model';
 })
 export class newBrewHopsFormComponent implements OnInit, OnChanges {
   hops: any = [];
+  selectedHop: Hop;
   selectedHopId: string;
   selectedHopAlpha: number;
   selectedHopTime: number;
@@ -43,10 +45,23 @@ export class newBrewHopsFormComponent implements OnInit, OnChanges {
 
     this.parent.get('brewFormHops')
       .valueChanges.subscribe(value => {
-        if ( 0 < value.hop.length && 0 < value.hopAlphaAcid && 0 < value.hopTime && 0 < value.hopWeight ) {
+        // all fields need to be filled out in order to add hop
+        if ( 0 < value.hopId.length && 0 < value.hopAlphaAcid && 0 < value.hopTime && 0 < value.hopWeight ) {
           this.enable.emit();
         } else {
           this.disable.emit();
+        }
+
+        // Watch for what hop gets selected and update the hop from the object
+        // with the corresponding ID. Only run after this.hops has been defined and
+        // value.hopId has been selected (is not 0).
+        if ( undefined !== this.hops && 0 < this.hops.length && 0 !== value.hopId) {
+          let hop = this.hops.filter(function( obj ) {
+            return obj.node.id === value.hopId;
+          });
+
+          this.selectedHop = hop[0].node;
+          this.selectedHopAlpha = hop[0].node.alphaAcid;
         }
       });
   }
@@ -56,6 +71,7 @@ export class newBrewHopsFormComponent implements OnInit, OnChanges {
   }
 
   setvalues() {
+    // if data is set then we are editing a hop
     this.selectedHopId = this.data !== null ? this.data.hop.id : 0;
     this.selectedHopAlpha = this.data !== null ? this.data.alpha : null;
     this.selectedHopTime = this.data !== null ? this.data.time : null;

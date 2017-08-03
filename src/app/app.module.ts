@@ -12,16 +12,16 @@ import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 // components
 
 // services
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'brew', loadChildren: 'app/brew/brew.module#brewModule' }
+  { path: 'brew', loadChildren: 'app/brew/brew.module#brewModule' },
 ];
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

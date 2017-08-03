@@ -16,6 +16,36 @@ export const currentUserQuery = gql`
             id
             name
             createdAt
+            batchSize
+            maltChoice(orderBy: {field: amount, direction: DESC}) {
+              edges {
+                node {
+                  malt {
+                    id
+                    name
+                    color
+                  }
+                  amount
+                }
+              }
+            }
+            hopChoice(orderBy: {field: time, direction: DESC}) {
+              edges {
+                node {
+                  hop {
+                    id
+                    name
+                  }
+                  amount
+                  time
+                  alphaAcid
+                }
+              }
+            }
+            boilWaterVol
+            preBoilGravity
+            originalGravity
+            finalGravity
           }
         }
       }

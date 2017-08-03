@@ -11,7 +11,8 @@
           <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span class="plus">+</span></a>
           <brew-log-overview
             [user]="currentUser"
-            (view)="handleView($event)">
+            (view)="handleView($event)"
+            (brewLog)="handleBrewLog()">
           </brew-log-overview>
         </div>
       </div>

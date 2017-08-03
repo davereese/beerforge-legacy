@@ -8,28 +8,40 @@
         </span>
       </div>
       <div class="row brew__details tile">
-        <div class="col-third header--title">{{ currentBrew?.batchType | parseMash }}</div>
-        <div class="col-third header--title">Batch Size: {{ currentBrew?.batchSize }} gal</div>
-        <div class="col-third header--title right-align">System Efficiency: {{ currentBrew?.batchEfficiency }}%</div>
+        <div class="col-third header--title">
+          <ng-container *ngIf="currentBrew.batchType">
+            {{ currentBrew?.batchType | parseMash }}
+          </ng-container>
+        </div>
+        <div class="col-third header--title">
+          <ng-container *ngIf="currentBrew.batchSize">
+            Batch Size: {{ currentBrew?.batchSize }} gal
+          </ng-container>
+        </div>
+        <div class="col-third header--title right-align">
+          <ng-container *ngIf="currentBrew.batchEfficiency">
+            System Efficiency: {{ currentBrew?.batchEfficiency }}%
+          </ng-container>
+        </div>
         <div class="row title">
           <div class="col-quarter header header--no-color">
-            {{ abv }}% ABV
+            {{ currentBrew | getABV }}
           </div>
           <div class="col-quarter header header--no-color">
-            {{ totalIBUs | round }} IBU
+            {{ currentBrew | getIBUs: 'total' }}
           </div>
           <div class="col-quarter header header--no-color">
-            {{ totalSRM }} SRM
+            {{ currentBrew | getSRM }}
           </div>
           <div class="col-quarter header header--no-color right-align">
-            {{ attenuation }}% Attenuation
+            {{ currentBrew | getAttenuation }}
           </div>
         </div>
       </div>
       <div class="row brew__ingredients tile">
         <h2 class="ingredient-title float-left">Fermentables</h2>
         <span class="float-right align-right header">
-          {{ totalMalt | round }} lbs.
+          {{ currentBrew | getTotalMalt }}
         </span>
         <fermentable
           *ngFor="let malt of currentBrew?.maltChoice.edges"
@@ -41,7 +53,7 @@
       <div class="row brew__ingredients tile">
         <h2 class="ingredient-title float-left">Hops</h2>
         <span class="float-right align-right header">
-          {{ totalHop | round }} oz.
+          {{ currentBrew | getTotalHop }}
         </span>
         <hop
           *ngFor="let hop of currentBrew?.hopChoice.edges; let i = index"
@@ -50,7 +62,7 @@
           [alphaAcid]="hop.node.alphaAcid"
           [time]="hop.node.time"
           [amount]="hop.node.amount"
-          [hopIBUs]="hopIBUs"
+          [hopIBUs]="currentBrew | getIBUs: 'hop'"
           class="row">
         </hop>
       </div>
@@ -65,40 +77,68 @@
         </yeast>
       </div>
       <div class="row brew__details tile">
-        <div class="col-quarter header header--title">
-          MASH
-        </div>
-        <div class="col-three-quarters header header--title right-align">
-          Batch/Fly 
-        </div>
-        <div class="row">
-          <div class="col-quarter">
-            Struck with {{ currentBrew?.mashWaterVol }} gal at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
+        <ng-container *ngIf="'extract' !== currentBrew.batchType">
+          <div class="col-quarter header header--title">
+            MASH
           </div>
-          <div class="col-quarter">
-            Mash Length: {{ currentBrew?.mashTime }} min
+          <div class="col-three-quarters header header--title right-align">
+            <!-- Batch/Fly  -->
           </div>
-          <div class="col-quarter">
-            Mash Temp: {{ currentBrew?.mashTemp }}&deg;&nbsp;F
+          <div class="row">
+            <div class="col-quarter">
+              <ng-container *ngIf="currentBrew.mashWaterVol">
+                Struck with {{ currentBrew?.mashWaterVol }} gal
+              </ng-container>
+              <ng-container *ngIf="currentBrew.strikeTemp">
+                &nbsp;at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
+              </ng-container>
+            </div>
+            <div class="col-quarter">
+              <ng-container *ngIf="currentBrew.mashTime">
+                Mash Length: {{ currentBrew?.mashTime }} min
+              </ng-container>
+            </div>
+            <div class="col-quarter">
+              <ng-container *ngIf="currentBrew.mashTemp">
+                Mash Temp: {{ currentBrew?.mashTemp }}&deg;&nbsp;F
+              </ng-container>
+            </div>
+            <div class="col-quarter">
+              <ng-container *ngIf="currentBrew.spargeWaterVol">
+                Sparged with {{ currentBrew?.spargeWaterVol }} gal
+              </ng-container>
+              <ng-container *ngIf="currentBrew.spargeTemp">
+                &nbsp;at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
+              </ng-container>
+            </div>
           </div>
-          <div class="col-quarter">
-            Sparged with {{ currentBrew?.spargeWaterVol }} gal at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
-          </div>
-        </div>
+        </ng-container>
         <div class="row title">
           <div class="col-quarter header">
             BOIL
           </div>
           <div class="col-three-quarters header right-align">
-            Gravity: {{ currentBrew?.preBoilGravity }} &rarr; {{ currentBrew?.originalGravity }}
+            <ng-container *ngIf="currentBrew.preBoilGravity">
+              Gravity: {{ currentBrew?.preBoilGravity }}
+            </ng-container>
+            <ng-container *ngIf="currentBrew.preBoilGravity && currentBrew.originalGravity">
+              &nbsp;&rarr;&nbsp;
+            </ng-container>
+            <ng-container *ngIf="currentBrew.originalGravity">
+              {{ currentBrew?.originalGravity }}
+            </ng-container>
           </div>
         </div>
         <div class="row">
           <div class="col-quarter">
-            Boil Time: {{ currentBrew?.boilTime }} min
+            <ng-container *ngIf="currentBrew.boilTime">
+              Boil Time: {{ currentBrew?.boilTime }} min
+            </ng-container>
           </div>
           <div class="col-quarter">
-            Boil Size: {{ currentBrew?.boilWaterVol }} gal
+            <ng-container *ngIf="currentBrew.boilWaterVol">
+              Boil Size: {{ currentBrew?.boilWaterVol }} gal
+            </ng-container>
           </div>
         </div>
         <div class="row title">
@@ -106,21 +146,33 @@
             FERMENTATION
           </div>
           <div class="col-three-quarters header right-align">
-            Gravity: {{ currentBrew?.originalGravity }} &rarr; {{ currentBrew?.finalGravity }}
+            <ng-container *ngIf="currentBrew.originalGravity">
+              Gravity: {{ currentBrew?.originalGravity }}
+            </ng-container>
+            <ng-container *ngIf="currentBrew.originalGravity && currentBrew.finalGravity">
+              &nbsp;&rarr;&nbsp;
+            </ng-container>
+            <ng-container *ngIf="currentBrew.finalGravity">
+              {{ currentBrew?.finalGravity }}
+            </ng-container>
           </div>
         </div>
         <div class="row">
           <div class="col-quarter">
-            Length: {{ currentBrew?.fermentTime }} days
+            <ng-container *ngIf="currentBrew.fermentTime">
+              Length: {{ currentBrew?.fermentTime }} days
+            </ng-container>
           </div>
           <div class="col-quarter">
-            Temp: {{ currentBrew?.fermentTemp }}&deg;&nbsp;F
+            <ng-container *ngIf="currentBrew.fermentTemp">
+              Temp: {{ currentBrew?.fermentTemp }}&deg;&nbsp;F
+            </ng-container>
           </div>
           <div class="col-quarter" *ngIf="currentBrew?.fermentSecTime">
-            2nd Length: {{ currentBrew?.fermentSecTime }} days
+              2nd Length: {{ currentBrew?.fermentSecTime }} days
           </div>
           <div class="col-quarter" *ngIf="currentBrew?.fermentSecTemp">
-            2nd Temp: {{ currentBrew?.fermentSecTemp }}&deg;&nbsp;F
+              2nd Temp: {{ currentBrew?.fermentSecTemp }}&deg;&nbsp;F
           </div>
         </div>
         <div class="row title">
@@ -128,18 +180,32 @@
             PACKAGING
           </div>
           <div class="col-three-quarters header right-align capitalize">
-            {{ currentBrew?.packaging }}/{{ currentBrew?.carbonateType }}
+            <ng-container *ngIf="currentBrew.packaging">
+              {{ currentBrew?.packaging }}
+            </ng-container>
+            <ng-container *ngIf="currentBrew.packaging && currentBrew.carbonateType">
+              /
+            </ng-container>
+            <ng-container *ngIf="currentBrew.carbonateType">
+              {{ currentBrew?.carbonateType }}
+            </ng-container>
           </div>
         </div>
         <div class="row">
           <div class="col-quarter">
-            CO2 Vol: {{ currentBrew?.carbonateCo2Vol }}
+            <ng-container *ngIf="currentBrew.carbonateCo2Vol">
+              CO2 Vol: {{ currentBrew?.carbonateCo2Vol }}
+            </ng-container>
           </div>
           <div class="col-quarter">
-            Temperature: {{ currentBrew?.carbonateTemp }}&deg;&nbsp;F
+            <ng-container *ngIf="currentBrew.carbonateTemp">
+              Temperature: {{ currentBrew?.carbonateTemp }}&deg;&nbsp;F
+            </ng-container>
           </div>
           <div class="col-quarter">
-            Pressure: {{ co2 }} psi
+            <ng-container *ngIf="currentBrew.carbonateTemp">
+              Pressure: {{ currentBrew | getCo2 }}
+            </ng-container>
           </div>
         </div>
       </div>

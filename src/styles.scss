@@ -33,6 +33,15 @@ main {
   float: left !important;
 }
 
+.clearfix {
+  &::after {
+    content: '';
+    position: relative;
+    display: block;
+    clear: both;
+  }
+}
+
 .right-align {
   text-align: right;
 }
@@ -109,6 +118,16 @@ main {
     }
   }
 
+  &--yellow {
+    background-color: $bf-yellow;
+    color: $black;
+
+    &:hover,
+    &:focus {
+      background-color: $bf-orange;
+    }
+  }
+
   &--large {
     padding: 16px 25px;
     margin-right: 5px;
@@ -154,18 +173,18 @@ main {
 }
 
 .plus {
-    position: absolute;
-    display: block;
-    top: 7px;
-    right: 15px;
-    padding: 3px;
-    width: 25px;
-    height: 25px;
-    border-radius: 3px;
-    background-color: transparent;
-    font-style: normal;
-    font-size: 51px;
-    font-weight: 100;
-    line-height: 0.45;
-    transition: transform 0.5s, background-color 0.3s;
-  }
+  position: absolute;
+  display: block;
+  top: 7px;
+  right: 15px;
+  padding: 3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+  background-color: transparent;
+  font-style: normal;
+  font-size: 51px;
+  font-weight: 100;
+  line-height: 0.45;
+  transition: transform 0.5s, background-color 0.3s;
+}

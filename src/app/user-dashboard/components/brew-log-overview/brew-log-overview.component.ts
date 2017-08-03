@@ -14,7 +14,14 @@ export class BrewLogOverviewComponent {
   @Output()
   view: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  brewLog: EventEmitter<any> = new EventEmitter<any>();
+
   viewBrew(id) {
     this.view.emit(id);
+  }
+
+  goToBrewLog() {
+    this.brewLog.emit();
   }
 }

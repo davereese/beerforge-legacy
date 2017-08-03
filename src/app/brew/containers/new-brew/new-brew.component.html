@@ -30,16 +30,16 @@
           </div>
           <div class="row title">
             <div class="col-quarter header header--no-color">
-              {{ abv }}% ABV
+              {{ newBrewForm.value | getABV:gravities }}
             </div>
             <div class="col-quarter header header--no-color">
-              {{ totalIBUs | round }} IBU
+              {{ newBrewForm.value | getIBUs:'total':gravities }}
             </div>
             <div class="col-quarter header header--no-color">
-              {{ totalSRM }} SRM
+              {{ newBrewForm.value | getSRM }}
             </div>
             <div class="col-quarter header header--no-color right-align">
-              {{ attenuation }}% Attenuation
+              {{ newBrewForm.value | getAttenuation:gravities }}
             </div>
           </div>
         </div>
@@ -49,8 +49,8 @@
           </div>
           <div class="col-eighth right-align"></div>
           <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < totalMalt">
-              {{ totalMalt | round }} lbs.
+            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value.fermentables.length">
+              {{ newBrewForm.value | getTotalMalt }}
             </span>
           </div>
           <span class="float-right align-right header">
@@ -58,7 +58,6 @@
           </span>
           <fermentables
             [parent]="newBrewForm"
-            (selectedFermentables)="calculateFermentableStats($event)"
             (edit)="editingSelection($event)">
           </fermentables>
         </div>
@@ -68,8 +67,8 @@
           </div>
           <div class="col-eighth right-align"></div>
           <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < totalHop">
-              {{ totalHop | round }} oz.
+            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value.hops.length">
+              {{ newBrewForm.value | getTotalHop }}
             </span>
           </div>
           <span class="float-right align-right header">
@@ -77,8 +76,7 @@
           </span>
           <hops
             [parent]="newBrewForm"
-            [hopIBUs]="hopIBUs"
-            (selectedHops)="calculateHopStats($event)"
+            [gravities]="gravities"
             (edit)="editingSelection($event)">
           </hops>
         </div>
@@ -104,12 +102,11 @@
           </span>
           <yeasts
             [parent]="newBrewForm"
-            (selectedYeasts)="calculateYeastStats($event)"
             (edit)="editingSelection($event)">
           </yeasts>
         </div>
         <div class="row brew__details tile" [ngClass]="{'no-top-padding' : 'extract' === newBrewForm.value.brewFormSettings.batchType}">
-          <div *ngIf="'extract' !== newBrewForm.value.brewFormSettings.batchType">
+          <ng-container *ngIf="'extract' !== newBrewForm.value.brewFormSettings.batchType">
             <div class="col-quarter header header--title">
               MASH
             </div>
@@ -138,24 +135,24 @@
                 </ng-container>
               </div>
             </div>
-          </div>
+          </ng-container>
           <div class="row title">
             <div class="col-quarter header">
               BOIL
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align header">
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.preBoilGravity || newBrewForm.value.brewFormGravities.originalGravity">
+              <ng-container *ngIf="gravities.preBoilGravity || gravities.originalGravity">
                 Gravity: 
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.preBoilGravity">
-                {{ newBrewForm.value.brewFormGravities.preBoilGravity }}
+              <ng-container *ngIf="gravities.preBoilGravity">
+                 {{ gravities.preBoilGravity | gravityUnits }} 
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.preBoilGravity && newBrewForm.value.brewFormGravities.originalGravity">
+              <ng-container *ngIf="gravities.preBoilGravity && gravities.originalGravity">
                 &rarr;
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.originalGravity">
-                {{ newBrewForm.value.brewFormGravities.originalGravity }}
+              <ng-container *ngIf="gravities.originalGravity">
+                 {{ gravities.originalGravity | gravityUnits }} 
               </ng-container>
             </div>
             <div class="col-eighth header right-align">
@@ -169,8 +166,8 @@
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormBoil.boilSize">
-                Boil Size: {{ newBrewForm.value.brewFormBoil.boilSize }} gal
+              <ng-container *ngIf="boilSize">
+                Boil Size: {{ boilSize }} gal
               </ng-container>
             </div>
           </div>
@@ -180,17 +177,17 @@
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align header">
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.originalGravity || newBrewForm.value.brewFormGravities.finalGravity">
+              <ng-container *ngIf="gravities.originalGravity || gravities.finalGravity">
                 Gravity: 
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.originalGravity">
-                {{ newBrewForm.value.brewFormGravities.originalGravity }}
+              <ng-container *ngIf="gravities.originalGravity">
+                {{ gravities.originalGravity | gravityUnits }}
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.originalGravity && newBrewForm.value.brewFormGravities.finalGravity">
+              <ng-container *ngIf="gravities.originalGravity && gravities.finalGravity">
                 &rarr;
               </ng-container>
-              <ng-container *ngIf="newBrewForm.value.brewFormGravities.finalGravity">
-                {{ newBrewForm.value.brewFormGravities.finalGravity }}
+              <ng-container *ngIf="gravities.finalGravity">
+                {{ gravities.finalGravity | gravityUnits }}
               </ng-container>
             </div>
             <div class="col-eighth header right-align">
@@ -268,7 +265,7 @@
           [@flipInOut]>
         </flip-card>
       </div>
-       <!-- <pre>{{ newBrewForm.value | json }}</pre>  -->
+      <!-- <pre>{{ newBrewForm.value | json }}</pre>  -->
     </form>
   </main>
 </div>

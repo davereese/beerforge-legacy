@@ -1,11 +1,11 @@
 <div class="yeasts" [formGroup]="parent">
   <div formArrayName="yeasts">
     <yeast *ngFor="let item of yeasts; let i = index"
-      [yeast]="getYeast(item.value.yeast)"
+      [yeast]="item.value.yeast"
       [amount]="item.value.yeastAmount"
       [package]="item.value.yeastPackage"
       class="row ingredient"
-      (click)="handleEdit($event, getYeast(item.value.yeast), item.value.yeastPackage, item.value.yeastAmount, i)">
+      (click)="handleEdit($event, item.value.yeast, item.value.yeastPackage, item.value.yeastAmount, i)">
     </yeast>
   </div>
 </div>

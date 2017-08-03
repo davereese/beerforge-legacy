@@ -11,7 +11,8 @@ import { getYeastsQuery } from '../../models/getIngredients.model';
   templateUrl: './new-brew-form-yeasts.component.html'
 })
 export class newBrewYeastsFormComponent implements OnInit, OnChanges {
-  yeasts: Yeast;
+  yeasts: any;
+  selectedYeast: Yeast;
   selectedYeastId: string;
   selectedYeastPackage: string;
   selectedYeastAmount: number;
@@ -50,10 +51,21 @@ export class newBrewYeastsFormComponent implements OnInit, OnChanges {
 
     this.parent.get('brewFormYeasts')
       .valueChanges.subscribe(value => {
-        if ( 0 < value.yeast.length && 0 < value.yeastPackage.length && 0 < value.yeastAmount ) {
+        // all fields need to be filled out in order to add yeast
+        if ( 0 < value.yeastId.length && 0 < value.yeastPackage.length && 0 < value.yeastAmount ) {
           this.enable.emit();
         } else {
           this.disable.emit();
+        }
+
+        // Watch for what yeast gets selected and update the yeast from the object
+        // with the corresponding ID. Only run after this.yeasts has been defined and
+        // value.yeastId has been selected (is not 0).
+        if ( undefined !== this.yeasts && 0 !== value.yeastId) {
+          let yeast = this.yeasts.filter(function( obj ) {
+            return obj.node.id === value.yeastId;
+          });
+          this.selectedYeast = yeast[0].node;
         }
       });
   }
@@ -63,6 +75,7 @@ export class newBrewYeastsFormComponent implements OnInit, OnChanges {
   }
 
   setvalues() {
+    // if data is set then we are editing a yeast
     this.selectedYeastId = this.data !== null ? this.data.yeast.id : 0;
     this.selectedYeastPackage = this.data !== null ? this.data.package : 0;
     this.selectedYeastAmount = this.data !== null ? this.data.amount : null;

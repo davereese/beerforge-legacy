@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PipeModule } from '../pipes.module';
 
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
@@ -13,9 +14,6 @@ import { modalModule } from '../modal/modal.module';
 
 // Directives
 import { FocusDirective } from './directives/focus.directive';
-
-// Pipes
-import { parseMash, round } from './models/brew-filter.pipe';
 
 // containers
 import { viewBrewComponent } from './containers/view-brew/view-brew.component';
@@ -43,8 +41,8 @@ import { newBrewFermentationFormComponent } from './components/new-brew-form-fer
 import { newBrewPackagingFormComponent } from './components/new-brew-form-packaging/new-brew-form-packaging.component';
 
 // services
-import { UserService } from '../user.service';
-import { BrewCalcService } from './services/brewCalc.service';
+import { UserService } from '../services/user.service';
+import { BrewCalcService } from '../services/brewCalc.service';
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
@@ -85,8 +83,6 @@ const routes: Routes = [
     newBrewBoilFormComponent,
     newBrewFermentationFormComponent,
     newBrewPackagingFormComponent,
-    parseMash,
-    round,
     FocusDirective,
   ],
   imports: [
@@ -97,6 +93,7 @@ const routes: Routes = [
     modalModule,
     ReactiveFormsModule,
     FormsModule,
+    PipeModule
   ],
   providers: [
     UserService,

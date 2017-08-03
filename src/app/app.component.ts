@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 import gql from 'graphql-tag';
 
 @Component({
@@ -28,7 +28,7 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if(event instanceof NavigationEnd) {
         let brewString = event.urlAfterRedirects.split('/');
-        if ( 'dashboard' === brewString[1] ) {
+        if ( 'dashboard' === brewString[1] || 'brew-log' === brewString[1] ) {
           this.bodyClass = 'background dash';
         } else if ( 'brew' === brewString[1] ) {
           if ( brewString[2] ) {

@@ -1,7 +1,7 @@
 <div [formGroup]="parent">
   <div formGroupName="brewFormHops">
     <p><label>Hop<br>
-      <select formControlName="hop" [(ngModel)]="selectedHopId">
+      <select formControlName="hopId" [(ngModel)]="selectedHopId">
         <option value="0">Choose Hop</option>
         <option
           *ngFor="let hop of hops"
@@ -21,5 +21,6 @@
     </div>
     <p><label>Weight (oz.)<br>
       <input type="number" step="0.01" formControlName="hopWeight" placeholder="0" [(ngModel)]="selectedHopWeight"></label></p>
+    <input type="hidden" formControlName="hop" [(ngModel)]="selectedHop">
   </div>
 </div>

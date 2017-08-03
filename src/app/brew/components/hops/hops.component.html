@@ -2,14 +2,14 @@
   <div formArrayName="hops">
     <hop
       *ngFor="let item of hops; let i = index"
-      [hop]="getHop(item.value.hop)"
+      [hop]="item.value.hop"
       [index]="i"
       [alphaAcid]="item.value.hopAlphaAcid"
       [time]="item.value.hopTime"
       [amount]="item.value.hopWeight"
-      [hopIBUs]="hopIBUs"
+      [hopIBUs]="parent.value | getIBUs:'hop':gravities"
       class="row ingredient"
-      (click)="handleEdit($event, getHop(item.value.hop), item.value.hopWeight, item.value.hopAlphaAcid, item.value.hopTime, i)">
+      (click)="handleEdit($event, item.value.hop, item.value.hopWeight, item.value.hopAlphaAcid, item.value.hopTime, i)">
     </hop>
   </div>
 </div>
