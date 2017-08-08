@@ -160,14 +160,27 @@ export class BrewCalcService {
     return Math.round( (strikeVol * 1.5) * 10 ) / 10;
   }
 
-  calculateCO2(temp: number, vol: number, type: string): number {
-    let P;
+  calculateCO2(temp: number, vol: number, type: string, beerVol: number): string {
+    let X: string,
+        dissolvedCO2: number = ((-0.9753) * Math.log(temp) + 4.9648);
+        beerVol = null === beerVol ? 5 : '' === beerVol.toString() ? 5 : beerVol;
 
-    if ( 'forced' === type ) {
-      // P = -16.6999 - 0.0101059*T + 0.00116512*T^2 + 0.173354*T*V + 4.24267*V - 0.0684226*V^2
-      P = Math.round( (-16.6999 - (0.0101059 * temp) + (0.00116512 * Math.pow(temp, 2)) + (0.173354 * temp * vol) + (4.24267 * vol) - (0.0684226 * Math.pow(vol, 2))) * 100 ) / 100;
+    switch (type) {
+      case 'forced':
+        // P = -16.6999 - 0.0101059*T + 0.00116512*T^2 + 0.173354*T*V + 4.24267*V - 0.0684226*V^2
+        X = 'Pressure: ' + Math.round( (-16.6999 - (0.0101059 * temp) + (0.00116512 * Math.pow(temp, 2)) + (0.173354 * temp * vol) + (4.24267 * vol) - (0.0684226 * Math.pow(vol, 2))) * 100 ) / 100 + ' psi';
+        break;
+      case 'cornSugar':
+        X = Math.round( ((( (vol - dissolvedCO2) * 4 * (beerVol * 3.8) ) / 28.34952) * 1) * 100 ) / 100 + ' oz';
+        break;
+      case 'caneSugar':
+        X = Math.round( ((( (vol - dissolvedCO2) * 4 * (beerVol * 3.8) ) / 28.34952) * 0.91) * 100 ) / 100 + ' oz';
+        break;
+      case 'dme':
+        X = Math.round( ((( (vol - dissolvedCO2) * 5.33 * (beerVol * 3.8) ) / 28.34952) * 0.91) * 100 ) / 100 + ' oz';
+        break;
     }
 
-    return P;
+    return X;
   }
 }

@@ -149,8 +149,7 @@ export class getCo2 implements PipeTransform {
 
   transform(value: any): string {
     let co2;
-    // TODO: calculate CO2 if carbonateType is something other than forced
-    co2 = this.brewCalcService.calculateCO2(value.carbonateTemp, value.carbonateCo2Vol, value.carbonateType);
-    return co2+' psi';
+    co2 = this.brewCalcService.calculateCO2(value.carbonateTemp, value.carbonateCo2Vol, value.carbonateType, value.batchSize);
+    return co2;
   }
 }

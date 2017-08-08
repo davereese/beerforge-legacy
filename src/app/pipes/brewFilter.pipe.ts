@@ -15,6 +15,23 @@ export class parseMash implements PipeTransform {
   }
 }
 
+@Pipe({name: 'ParseCo2Method'})
+export class ParseCo2Method implements PipeTransform {
+  transform(value: string): string {
+    let newStr: string = "";
+    if ( 'cornSugar' === value ) {
+      newStr = 'Corn Sugar';
+    } else if ( 'caneSugar' === value ) {
+      newStr = 'Cane Sugar';
+    } else if ( 'dme' === value ) {
+      newStr = 'DME';
+    } else if ( 'forced' === value ) {
+      newStr = 'Forced';
+    }
+    return newStr;
+  }
+}
+
 @Pipe({name: 'round'})
 export class round implements PipeTransform {
   transform(number:number): number {

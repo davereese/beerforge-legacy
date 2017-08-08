@@ -23,4 +23,30 @@ export class newBrewPackagingFormComponent {
     { name: 'Cane Sugar', value: 'caneSugar' },
     { name: 'DME', value: 'dme' }
   ];
+
+  ngOnInit() {
+    this.parent.get('brewFormPackaging')
+      .valueChanges.subscribe(value => {
+        if ( 'bottled' === this.parent.get('brewFormPackaging.packageType').value ) {
+          this.carbonationTypes = [
+            { name: 'Corn Sugar', value: 'cornSugar' },
+            { name: 'Cane Sugar', value: 'caneSugar' },
+            { name: 'DME', value: 'dme' }
+          ];
+        } else {
+          this.carbonationTypes = [
+            { name: 'Forced', value: 'forced' },
+            { name: 'Corn Sugar', value: 'cornSugar' },
+            { name: 'Cane Sugar', value: 'caneSugar' },
+            { name: 'DME', value: 'dme' }
+          ];
+        }
+
+        if ( 'bottled' === this.parent.get('brewFormPackaging.packageType').value && 'forced' === this.parent.get('brewFormPackaging.carbonationMethod' ).value) {
+          this.parent.get('brewFormPackaging').patchValue({
+            carbonationMethod: ''
+          });
+        }
+      })
+  }
 }

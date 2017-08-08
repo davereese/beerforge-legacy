@@ -62,7 +62,7 @@ export class newBrewComponent implements OnInit {
   boilSize: number = 0;
   gravities: any = {};
   attenuationPercent: number = 0; // used to record the highest selected yeast attenuation %
-  co2: number = 0;
+  co2: string;
   newBrew: Brew;
 
   constructor(
@@ -372,8 +372,7 @@ export class newBrewComponent implements OnInit {
         // TODO: Need to think about sparge type selection
 
         // Co2
-        // TODO: calculate CO2 if carbonationMethod is something other than forced
-        this.co2 = this.brewCalcService.calculateCO2(this.newBrewForm.get('brewFormPackaging.beerTemp').value, this.newBrewForm.get('brewFormPackaging.co2VolTarget').value, this.newBrewForm.get('brewFormPackaging.carbonationMethod').value);
+        this.co2 = this.brewCalcService.calculateCO2(this.newBrewForm.get('brewFormPackaging.beerTemp').value, this.newBrewForm.get('brewFormPackaging.co2VolTarget').value, this.newBrewForm.get('brewFormPackaging.carbonationMethod').value, this.newBrewForm.get('brewFormSettings.batchSize').value);
       });
   }
 

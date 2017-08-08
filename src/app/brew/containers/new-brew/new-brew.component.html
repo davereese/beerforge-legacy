@@ -222,7 +222,7 @@
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align capitalize">
-              {{ newBrewForm.value.brewFormPackaging.packageType }}<ng-container *ngIf="newBrewForm.value.brewFormPackaging.packageType && newBrewForm.value.brewFormPackaging.carbonationMethod">/</ng-container>{{ newBrewForm.value.brewFormPackaging.carbonationMethod }}
+              {{ newBrewForm.value.brewFormPackaging.packageType }}<ng-container *ngIf="newBrewForm.value.brewFormPackaging.packageType && newBrewForm.value.brewFormPackaging.carbonationMethod">/</ng-container>{{ newBrewForm.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
             </div>
             <div class="col-eighth header right-align">
               <a class="edit" (click)="flipTheCard('packaging')"></a>
@@ -241,7 +241,7 @@
             </div>
             <div class="col-quarter">
               <ng-container *ngIf="newBrewForm.value.brewFormPackaging.co2VolTarget && newBrewForm.value.brewFormPackaging.beerTemp">
-                Pressure: {{ co2 }} psi
+                {{ co2 }}
               </ng-container>
             </div>
           </div>
