@@ -16,6 +16,7 @@ import { BrewLogComponent } from './containers/brew-log/brew-log.component';
 // components
 import { UserOverviewComponent } from './components/user-overview/user-overview.component';
 import { BrewLogOverviewComponent } from './components/brew-log-overview/brew-log-overview.component';
+import { BrewLogPaginationComponent } from './components/brew-log-pagination/brew-log-pagination.component';
 
 // services
 import { UserService } from '../services/user.service';
@@ -41,7 +42,8 @@ const routes: Routes = [
     UserDashboardComponent,
     BrewLogComponent,
     UserOverviewComponent,
-    BrewLogOverviewComponent
+    BrewLogOverviewComponent,
+    BrewLogPaginationComponent
   ],
   imports: [
     CommonModule,

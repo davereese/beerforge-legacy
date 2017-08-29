@@ -45,3 +45,10 @@ export class gravityUnits implements PipeTransform {
     return (gravity).toFixed(3);
   }
 }
+
+@Pipe({name: 'fill'})
+export class FillPipe implements PipeTransform {
+  transform(value) {
+    return (new Array(value)).fill(1);
+  }
+}

@@ -16,7 +16,10 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
 export class BrewLogComponent {
   userId: string;
   currentUser: User;
-  userBrews: any = [];
+
+  // Pagination arguments.
+  results: number = 20;
+  page: number = 1;
 
   constructor(
     private userService: UserService,
@@ -26,6 +29,10 @@ export class BrewLogComponent {
   ) { }
 
   ngOnInit() {
+    this.fetchBrews(this.results);
+  }
+
+  fetchBrews(first = null, after = null, last = null, before = null) {
     this.userService
       .getUser()
       .subscribe((data: string) => {
@@ -35,7 +42,11 @@ export class BrewLogComponent {
     this.apollo.watchQuery({
       query: currentUserQuery,
       variables: {
-        id: this.userId
+        id: this.userId,
+        first: first,
+        after: after,
+        last: last,
+        before: before
       }
     }).subscribe(({data, loading}) => {
       this.currentUser = data['getUser'];
@@ -44,6 +55,16 @@ export class BrewLogComponent {
 
   newBrew() {
     this.router.navigate(['/brew']);
+  }
+
+  handlePrevPage(item) {
+    this.fetchBrews(null, null, this.results, item);
+    this.page -= 1;
+  }
+
+  handleNextPage(item) {
+    this.fetchBrews(this.results, item, null, null);
+    this.page += 1;
   }
 
   viewBrew(id) {

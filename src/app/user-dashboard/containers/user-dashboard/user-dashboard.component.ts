@@ -14,7 +14,14 @@ import { UserService } from '../../../services/user.service';
 })
 export class UserDashboardComponent {
   userId: string;
+  totalBrews: number;
   currentUser: User;
+
+  // Pagination arguments.
+  defaultPageSize: number = 6;
+  first: number = 18;
+  pages: number;
+  currentPage: number = 1;
 
   constructor(
     private userService: UserService,
@@ -32,11 +39,25 @@ export class UserDashboardComponent {
     this.apollo.watchQuery({
       query: currentUserQuery,
       variables: {
-        id: this.userId
+        id: this.userId,
+        first: this.first,
       }
     }).subscribe(({data, loading}) => {
       this.currentUser = data['getUser'];
+      this.pages = Math.ceil(this.currentUser.Brews.edges.length / this.defaultPageSize);
     });
+  }
+
+  handleGetPage(event) {
+    this.currentPage = event;
+  }
+
+  handleNextPage() {
+    this.currentPage = this.currentPage+1;
+  }
+
+  handlePrevPage() {
+    this.currentPage = this.currentPage-1;
   }
 
   handleBrew(event: any) {

@@ -8,20 +8,32 @@ import { User } from '../../models/user.interface';
   templateUrl: './brew-log-overview.component.html'
 })
 export class BrewLogOverviewComponent {
+  pageStyle: any = {};
+
   @Input()
   user: User;
+
+  @Input()
+  page: number;
 
   @Output()
   view: EventEmitter<any> = new EventEmitter<any>();
 
-  @Output()
-  brewLog: EventEmitter<any> = new EventEmitter<any>();
+  ngOnChanges() {
+    switch(this.page) {
+      case 1:
+        this.pageStyle = {};
+        break;
+      case 2:
+        this.pageStyle = {'margin-top': '-306px'};
+        break;
+      case 3:
+        this.pageStyle = {'margin-top': '-612px'};
+        break;
+    }
+  }
 
   viewBrew(id) {
     this.view.emit(id);
-  }
-
-  goToBrewLog() {
-    this.brewLog.emit();
   }
 }

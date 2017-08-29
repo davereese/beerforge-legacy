@@ -9,11 +9,23 @@
         </div>
         <div class="col-half">
           <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span class="plus">+</span></a>
-          <brew-log-overview
-            [user]="currentUser"
-            (view)="handleView($event)"
-            (brewLog)="handleBrewLog()">
-          </brew-log-overview>
+          <div class="brew-log-overview tile">
+            <h3>Brew Log</h3>
+            <brew-log-overview
+              [user]="currentUser"
+              [page]="currentPage"
+              (view)="handleView($event)"
+              (brewLog)="handleBrewLog()">
+            </brew-log-overview>
+            <div class="brew-log-overview__footer clearfix">
+              <brew-log-pagination
+                [pages]="pages"
+                [page]="currentPage"
+                (getPageEvent)="handleGetPage($event)">
+              </brew-log-pagination>
+              <a class="button button--yellow button--large float-right" (click)="handleBrewLog()">All Brews</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

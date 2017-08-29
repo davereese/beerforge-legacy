@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const currentUserQuery = gql`
-  query currentUser($id: ID!) {
+  query currentUser($id: ID!, $first: Int, $after: String, $last: Int, $before: String) {
     getUser(id: $id) {
       firstName,
       lastName,
@@ -10,7 +10,11 @@ export const currentUserQuery = gql`
         defaultPicNumber,
         blobUrl
       },
-      Brews {
+      Brews(first: $first, after: $after, last: $last, before: $before) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+        }
         edges {
           node {
             id

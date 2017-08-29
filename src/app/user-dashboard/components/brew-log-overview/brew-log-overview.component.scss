@@ -1,27 +1,13 @@
 @import '../../../../styles/variables.scss';
 
 .brew-log-overview {
-  position: relative;
-  z-index: 1;
-  background-color: $bf-gray;
+  overflow: hidden;
+  height: 306px;
 
-  &::after {
-    content: '';
-    position: absolute;
-    display: block;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba($bf-orange, 0.3);
+  &__container {
+    transition: margin-top 0.5s;
   }
 
-  h3 {
-    padding: 16px 20px;
-    color: $bf_orange;
-  }
-  
   &__brew {
     display: block;
     padding: 16px 5px;
@@ -41,10 +27,5 @@
     span {
       font-size: 12px;
     }
-  }
-
-  &__footer {
-    padding: 16px 21px;
-    border-top: 1px solid rgba($bf-gray, 0.5);
   }
 }

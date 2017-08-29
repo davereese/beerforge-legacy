@@ -1,0 +1,56 @@
+@import '../../../../styles/variables.scss';
+
+.pagination {
+  margin-top: 15px;
+  padding-top: 2px;
+  display: inline-block;
+  width: 23px;
+  height: 20px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background-color: transparent;
+  text-align: center;
+  color: $bf-yellow;
+  transition: background-color 0.5s, color 0.5s;
+
+  &:hover,
+  &:focus {
+    background-color: $bf-orange;
+    color: $dark-orange;
+  }
+
+  &.current {
+    background-color: $bf-yellow;
+    color: $dark-orange;
+
+    &:hover,
+    &:focus {
+      cursor: default;
+    }
+  }
+}
+
+.prev-next {
+  text-align: center;
+  margin-top: 15px;
+
+  button {
+    margin: 0 10px;
+
+    &[disabled] {
+      opacity: 0.5;
+      color: lighten($dark-orange, 10%);
+
+      &:hover,
+      &:focus {
+        background-color: $bf-yellow;
+        cursor: default;
+      }
+    }
+
+    span {
+      font-size: 20px;
+      line-height: 0.7;
+    }
+  }
+}

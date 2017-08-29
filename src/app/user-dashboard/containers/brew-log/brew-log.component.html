@@ -22,6 +22,13 @@
               </div>
             </a>
           </div>
+          <brew-log-pagination
+            [brews]="currentUser.Brews"
+            [page]="page"
+            [results]="results"
+            (prevPageEvent)="handlePrevPage($event)"
+            (nextPageEvent)="handleNextPage($event)">
+          </brew-log-pagination>
         </div>
       </div>
     </div>

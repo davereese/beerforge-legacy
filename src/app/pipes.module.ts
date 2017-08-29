@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import {CommonModule} from "@angular/common";
 
 // Pipes
-import { parseMash, ParseCo2Method, round, gravityUnits } from './pipes/brewFilter.pipe';
+import { parseMash, ParseCo2Method, FillPipe, round, gravityUnits } from './pipes/brewFilter.pipe';
 import { getTotalMalt, getTotalHop, getABV, getSRM, getIBUs, getOriginalGravity, getAttenuation, getCo2 } from './pipes/brewCal.pipe';
 
 @NgModule({
   declarations: [
     parseMash,
     ParseCo2Method,
+    FillPipe,
     round,
     gravityUnits,
     getTotalMalt,
@@ -25,6 +26,7 @@ import { getTotalMalt, getTotalHop, getABV, getSRM, getIBUs, getOriginalGravity,
   exports: [
     parseMash,
     ParseCo2Method,
+    FillPipe,
     round,
     gravityUnits,
     getTotalMalt,
