@@ -33,7 +33,7 @@
               {{ newBrewForm.value | getABV:gravities }}
             </div>
             <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value | getIBUs:'total':gravities }}
+              {{ newBrewForm.value | getIBUs:'total':newBrew }}
             </div>
             <div class="col-quarter header header--no-color">
               {{ newBrewForm.value | getSRM }}
@@ -76,7 +76,7 @@
           </span>
           <hops
             [parent]="newBrewForm"
-            [gravities]="gravities"
+            [newBrewData]="newBrew"
             (edit)="editingSelection($event)">
           </hops>
         </div>

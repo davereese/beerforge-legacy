@@ -7,7 +7,7 @@
       [alphaAcid]="item.value.hopAlphaAcid"
       [time]="item.value.hopTime"
       [amount]="item.value.hopWeight"
-      [hopIBUs]="parent.value | getIBUs:'hop':gravities"
+      [hopIBUs]="parent.value | getIBUs:'hop':newBrewData"
       class="row ingredient"
       (click)="handleEdit($event, item.value.hop, item.value.hopWeight, item.value.hopAlphaAcid, item.value.hopTime, i)">
     </hop>

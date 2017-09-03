@@ -100,7 +100,6 @@ export class newBrewComponent implements OnInit {
     brewFormBoil: this.fb.group({
       boilTime: (''),
       evaporationRate: (''),
-      boilSize: (''),
     }),
     brewFormFermentation: this.fb.group({
       fermentTime: (''),

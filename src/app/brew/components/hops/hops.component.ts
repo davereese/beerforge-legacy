@@ -15,7 +15,7 @@ export class hopsComponent implements OnInit {
   parent: FormGroup;
 
   @Input()
-  gravities: any;
+  newBrewData: any;
 
   @Output()
   selectedHops: EventEmitter<any> = new EventEmitter<any>();

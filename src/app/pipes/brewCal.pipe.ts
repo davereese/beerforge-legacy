@@ -53,17 +53,19 @@ export class getIBUs implements PipeTransform {
     private brewCalcService: BrewCalcService
   ) {}
 
-  transform(value: any, argument: string, gravities: any = null): any {
+  transform(value: any, argument: string, newBrewObj: any = null): any {
     let IBUs: number = 0,
         hopIBUs: any = [];
-    if ( undefined ===  value.hopChoice ) { // coming from new brew
-      // define defaults
-      let batchSize = '' !== value.brewFormSettings.batchSize && null !== value.brewFormSettings.batchSize ? value.brewFormSettings.batchSize : 6;
-      let preBoilGravity = '' !== gravities.preBoilGravity && undefined !== gravities.preBoilGravity ? gravities.preBoilGravity : 1.056;
-      let volume = batchSize > value.brewFormBoil.boilSize ? batchSize : value.brewFormBoil.boilSize;
-      for (let index = 0; index < value.hops.length; index++) {
-        hopIBUs[index] = this.brewCalcService.calculateIBUs( value.hops[index], volume, preBoilGravity );
-        IBUs += hopIBUs[index];
+    if ( undefined === value.hopChoice ) { // coming from new brew
+      if (null !== newBrewObj) {
+        // define defaults
+        let batchSize = '' !== value.brewFormSettings.batchSize && null !== value.brewFormSettings.batchSize ? value.brewFormSettings.batchSize : 6;
+        let preBoilGravity = null !== newBrewObj ? '' !== newBrewObj.preBoilGravity && undefined !== newBrewObj.preBoilGravity ? newBrewObj.preBoilGravity : 1.056 : 1.056;
+        let volume = null !== newBrewObj ? batchSize > newBrewObj.boilWaterVol ? batchSize : newBrewObj.boilWaterVol : batchSize;
+        for (let index = 0; index < value.hops.length; index++) {
+          hopIBUs[index] = this.brewCalcService.calculateIBUs( value.hops[index], volume, preBoilGravity );
+          IBUs += hopIBUs[index];
+        }
       }
     } else { // coming from view brew
       let volume = value.batchSize > value.boilWaterVol ? value.batchSize : value.boilWaterVol;
