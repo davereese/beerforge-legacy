@@ -1,7 +1,7 @@
 <loader [state]="loader"></loader>
 <div class="new-brew">
   <main>
-    <form [formGroup]="newBrewForm">
+    <form [formGroup]="newBrewForm.value">
       <div class="container" [ngClass]="{'make-room': flipCard}">
         <div class="row">
           <h1 class="brew__title float-left" *ngIf="!editingName">{{ brewName }} <a class="edit" (click)="nameFocus()"></a></h1>
@@ -17,29 +17,29 @@
           </a>
         </div>
         <div class="row brew__details tile">
-          <div class="col-third header--title capitalize">{{ newBrewForm.value.brewFormSettings.batchType | parseMash }}</div>
+          <div class="col-third header--title capitalize">{{ newBrewForm.value?.value.brewFormSettings.batchType | parseMash }}</div>
           <div class="col-third header--title">
-            <ng-container *ngIf="newBrewForm.value.brewFormSettings.batchSize">
-              Batch Size: {{ newBrewForm.value.brewFormSettings.batchSize }} gal
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormSettings.batchSize">
+              Batch Size: {{ newBrewForm.value?.value.brewFormSettings.batchSize }} gal
             </ng-container>
           </div>
           <div class="col-third header--title right-align">
-            <ng-container *ngIf="newBrewForm.value.brewFormSettings.sysEfficiency">
-              System Efficiency: {{ newBrewForm.value.brewFormSettings.sysEfficiency }}%
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormSettings.sysEfficiency">
+              System Efficiency: {{ newBrewForm.value?.value.brewFormSettings.sysEfficiency }}%
             </ng-container>
           </div>
           <div class="row title">
             <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value | getABV:gravities }}
+              {{ newBrewForm.value?.value | getABV }}              
             </div>
             <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value | getIBUs:'total':newBrew }}
+              {{ newBrewForm.value?.value | getIBUs:'total' }}              
             </div>
             <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value | getSRM }}
+              {{ newBrewForm.value?.value | getSRM }}              
             </div>
             <div class="col-quarter header header--no-color right-align">
-              {{ newBrewForm.value | getAttenuation:gravities }}
+              {{ newBrewForm.value?.value | getAttenuation }}              
             </div>
           </div>
         </div>
@@ -49,15 +49,16 @@
           </div>
           <div class="col-eighth right-align"></div>
           <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value.fermentables.length">
-              {{ newBrewForm.value | getTotalMalt }}
+            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.fermentables.length">
+              {{ newBrewForm.value?.value | getTotalMalt }}
             </span>
           </div>
           <span class="float-right align-right header">
             <a class="plus" (click)="flipTheCard('fermentables')">+</a>
           </span>
           <fermentables
-            [parent]="newBrewForm"
+            *ngIf="newBrewForm.value?.value.fermentables.length"
+            [parent]="newBrewForm.value"
             (edit)="editingSelection($event)">
           </fermentables>
         </div>
@@ -67,26 +68,27 @@
           </div>
           <div class="col-eighth right-align"></div>
           <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value.hops.length">
-              {{ newBrewForm.value | getTotalHop }}
+            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.hops.length">
+              {{ newBrewForm.value?.value | getTotalHop }}
             </span>
           </div>
           <span class="float-right align-right header">
             <a class="plus" (click)="flipTheCard('hops')">+</a>
           </span>
           <hops
-            [parent]="newBrewForm"
-            [newBrewData]="newBrew"
+            *ngIf="newBrewForm.value?.value.hops.length"
+            [parent]="newBrewForm.value"
             (edit)="editingSelection($event)">
           </hops>
         </div>
         <!--<div class="row brew__ingredients tile">
           <h2 class="ingredient-title float-left">Adjuncts</h2>
-          <span class="float-right align-right header">
+          <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.adjuncts.length">
             <a class="plus" (click)="flipTheCard('adjuncts')">+</a>
           </span>
           <adjuncts
-            [parent]="newBrewForm">
+            *ngIf="newBrewForm.value"
+            [parent]="newBrewForm.value">
           </adjuncts>
         </div>-->
         <div class="row brew__ingredients tile">
@@ -101,12 +103,13 @@
             <a class="plus" (click)="flipTheCard('yeasts')">+</a>
           </span>
           <yeasts
-            [parent]="newBrewForm"
+            *ngIf="newBrewForm.value?.value.yeasts.length"
+            [parent]="newBrewForm.value"
             (edit)="editingSelection($event)">
           </yeasts>
         </div>
-        <div class="row brew__details tile" [ngClass]="{'no-top-padding' : 'extract' === newBrewForm.value.brewFormSettings.batchType}">
-          <ng-container *ngIf="'extract' !== newBrewForm.value.brewFormSettings.batchType">
+        <div class="row brew__details tile" [ngClass]="{'no-top-padding' : 'extract' === newBrewForm.value?.value.brewFormSettings.batchType}">
+          <ng-container *ngIf="'extract' !== newBrewForm.value?.value.brewFormSettings.batchType">
             <div class="col-quarter header header--title">
               MASH
             </div>
@@ -115,23 +118,23 @@
             </div>
             <div class="row" (click)="flipTheCard('mash')">
               <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value.brewFormMash.waterToGrain">
-                  Strike with {{ strikeVol }} gal at {{ strikeTemp }}&deg;&nbsp;F
+                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.waterToGrain">
+                  Strike with {{ newBrewForm.value?.value.brewFormAuto.mashWaterVol }} gal at {{ newBrewForm.value?.value.brewFormAuto.strikeTemp }}&deg;&nbsp;F
                 </ng-container>
               </div>
               <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value.brewFormMash.mashTime">
-                  Mash for {{ newBrewForm.value.brewFormMash.mashTime }} min
+                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.mashTime">
+                  Mash for {{ newBrewForm.value?.value.brewFormMash.mashTime }} min
                 </ng-container>
               </div>
               <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value.brewFormMash.targetMashTemp">
-                  Mash at {{ newBrewForm.value.brewFormMash.targetMashTemp }}&deg;&nbsp;F
+                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.targetMashTemp">
+                  Mash at {{ newBrewForm.value?.value.brewFormMash.targetMashTemp }}&deg;&nbsp;F
                 </ng-container>
               </div>
               <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value.brewFormMash.spargeTemp">
-                  Sparge with {{ spargeVol }} gal at {{ newBrewForm.value.brewFormMash.spargeTemp }}&deg;&nbsp;F
+                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.spargeTemp">
+                  Sparge with {{ newBrewForm.value?.value.brewFormAuto.spargeWaterVol }} gal at {{ newBrewForm.value?.value.brewFormMash.spargeTemp }}&deg;&nbsp;F
                 </ng-container>
               </div>
             </div>
@@ -142,17 +145,17 @@
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align header">
-              <ng-container *ngIf="gravities.preBoilGravity || gravities.originalGravity">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity || newBrewForm.value?.value.brewFormAuto.originalGravity">
                 Gravity: 
               </ng-container>
-              <ng-container *ngIf="gravities.preBoilGravity">
-                 {{ gravities.preBoilGravity | gravityUnits }} 
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity">
+                 {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity | gravityUnits }} 
               </ng-container>
-              <ng-container *ngIf="gravities.preBoilGravity && gravities.originalGravity">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity && newBrewForm.value?.value.brewFormAuto.originalGravity">
                 &rarr;
               </ng-container>
-              <ng-container *ngIf="gravities.originalGravity">
-                 {{ gravities.originalGravity | gravityUnits }} 
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
+                 {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }} 
               </ng-container>
             </div>
             <div class="col-eighth header right-align">
@@ -161,13 +164,13 @@
           </div>
           <div class="row">
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormBoil.boilTime">
-                Boil Time: {{ newBrewForm.value.brewFormBoil.boilTime }} min
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormBoil.boilTime">
+                Boil Time: {{ newBrewForm.value?.value.brewFormBoil.boilTime }} min
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="boilSize">
-                Boil Size: {{ boilSize }} gal
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.boilWaterVol">
+                Boil Size: {{ newBrewForm.value?.value.brewFormAuto.boilWaterVol }} gal
               </ng-container>
             </div>
           </div>
@@ -177,17 +180,17 @@
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align header">
-              <ng-container *ngIf="gravities.originalGravity || gravities.finalGravity">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity || newBrewForm.value?.value.brewFormAuto.finalGravity">
                 Gravity: 
               </ng-container>
-              <ng-container *ngIf="gravities.originalGravity">
-                {{ gravities.originalGravity | gravityUnits }}
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
+                {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }}
               </ng-container>
-              <ng-container *ngIf="gravities.originalGravity && gravities.finalGravity">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity && newBrewForm.value?.value.brewFormAuto.finalGravity">
                 &rarr;
               </ng-container>
-              <ng-container *ngIf="gravities.finalGravity">
-                {{ gravities.finalGravity | gravityUnits }}
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.finalGravity">
+                {{ newBrewForm.value?.value.brewFormAuto.finalGravity | gravityUnits }}
               </ng-container>
             </div>
             <div class="col-eighth header right-align">
@@ -196,23 +199,23 @@
           </div>
           <div class="row">
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormFermentation.fermentTime">
-                Length: {{ newBrewForm.value.brewFormFermentation.fermentTime }} days
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTime">
+                Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentTime }} days
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormFermentation.fermentTemp">
-                Temp: {{ newBrewForm.value.brewFormFermentation.fermentTemp }}&deg;&nbsp;F
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTemp">
+                Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentTemp }}&deg;&nbsp;F
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormFermentation.fermentSecTime">
-                2nd Length: {{ newBrewForm.value.brewFormFermentation.fermentSecTime }} days
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTime">
+                2nd Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTime }} days
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormFermentation.fermentSecTemp">
-                2nd Temp: {{ newBrewForm.value.brewFormFermentation.fermentSecTemp }}&deg;&nbsp;F
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTemp">
+                2nd Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTemp }}&deg;&nbsp;F
               </ng-container>
             </div>
           </div>
@@ -222,7 +225,7 @@
             </div>
             <div class="col-eighth"></div>
             <div class="col-half right-align capitalize">
-              {{ newBrewForm.value.brewFormPackaging.packageType }}<ng-container *ngIf="newBrewForm.value.brewFormPackaging.packageType && newBrewForm.value.brewFormPackaging.carbonationMethod">/</ng-container>{{ newBrewForm.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
+              {{ newBrewForm.value?.value.brewFormPackaging.packageType }}<ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType && newBrewForm.value?.value.brewFormPackaging.carbonationMethod">/</ng-container>{{ newBrewForm.value?.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
             </div>
             <div class="col-eighth header right-align">
               <a class="edit" (click)="flipTheCard('packaging')"></a>
@@ -230,18 +233,18 @@
           </div>
           <div class="row">
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormPackaging.co2VolTarget">
-                CO2 Vol: {{ newBrewForm.value.brewFormPackaging.co2VolTarget }}
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget">
+                CO2 Vol: {{ newBrewForm.value?.value.brewFormPackaging.co2VolTarget }}
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormPackaging.beerTemp">
-                Temperature: {{ newBrewForm.value.brewFormPackaging.beerTemp }}&deg;&nbsp;F
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.beerTemp">
+                Temperature: {{ newBrewForm.value?.value.brewFormPackaging.beerTemp }}&deg;&nbsp;F
               </ng-container>
             </div>
             <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value.brewFormPackaging.co2VolTarget && newBrewForm.value.brewFormPackaging.beerTemp">
-                {{ co2 }}
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget && newBrewForm.value?.value.brewFormPackaging.beerTemp">
+                {{ newBrewForm.value?.value | getCo2 }}
               </ng-container>
             </div>
           </div>
@@ -256,7 +259,7 @@
           *ngIf="flipCard"
           [detail]="editingSection"
           [data]="editingData"
-          [parent]="newBrewForm"
+          [parent]="newBrewForm.value"
           (addIngredient)="addIngredient($event)"
           (editIngredient)="editIngredient($event)"
           (cancelSave)="closeTheCard()"
@@ -265,7 +268,7 @@
           [@flipInOut]>
         </flip-card>
       </div>
-      <!-- <pre>{{ newBrewForm.value | json }}</pre>  -->
+      <!-- <pre>{{ newBrewForm?.value.value | json }}</pre>  -->
     </form>
   </main>
 </div>

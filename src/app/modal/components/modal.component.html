@@ -1,18 +1,18 @@
 <div class="modal">
   <div class="modal__header">
-    <h2>{{ data.title }}</h2>
+    <h2>{{ data?.title }}</h2>
   </div>
-  <div class="modal__body" *ngIf="data.body">
-    <span [outerHTML]="data.body"></span>
+  <div class="modal__body" *ngIf="data?.body">
+    <span [outerHTML]="data?.body"></span>
   </div>
   <div class="modal__footer">
-    <ng-container *ngIf="data.buttons.view">
+    <ng-container *ngIf="data?.buttons.view">
       <a (click)="viewBrew(data.buttons.viewData)" class="button button--large button--green">View Brew</a>
     </ng-container>
-    <ng-container *ngIf="data.buttons.dashboard">
+    <ng-container *ngIf="data?.buttons.dashboard">
       <a (click)="goToDashboard()" class="button button--large button--green">Dashboard</a>
     </ng-container>
-    <ng-container *ngIf="data.buttons.close">
+    <ng-container *ngIf="data?.buttons.close">
       <a (click)="closeModal()" class="button button--large">Close</a>
     </ng-container>
   </div>

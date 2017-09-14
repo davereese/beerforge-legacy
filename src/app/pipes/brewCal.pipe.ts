@@ -36,12 +36,18 @@ export class getABV implements PipeTransform {
     private brewCalcService: BrewCalcService
   ) {}
 
-  transform(value: any, gravities: any = null): string {
+  transform(value: any): string {
     let ABV: string = '0% ABV',
-        originalGravity = null !== gravities ? gravities.originalGravity : value.originalGravity,
-        finalGravity = null !== gravities ? gravities.finalGravity : value.finalGravity;
-    if (undefined !== originalGravity && undefined !== finalGravity) {
-      ABV = this.brewCalcService.calculateABV(originalGravity, finalGravity)+'% ABV';
+        originalGravity,
+        finalGravity;
+    if (undefined !== value.brewFormAuto) { // coming from new brew
+      let originalGravity = value.brewFormAuto.originalGravity,
+          finalGravity = value.brewFormAuto.finalGravity;
+      if (undefined !== originalGravity && undefined !== finalGravity) {
+        ABV = this.brewCalcService.calculateABV(originalGravity, finalGravity)+'% ABV';
+      }
+    } else { // coming from view brew
+      ABV = this.brewCalcService.calculateABV(value.originalGravity, value.finalGravity)+'% ABV';
     }
     return ABV;
   }
@@ -53,30 +59,30 @@ export class getIBUs implements PipeTransform {
     private brewCalcService: BrewCalcService
   ) {}
 
-  transform(value: any, argument: string, newBrewObj: any = null): any {
+  transform(value: any, argument: string): any {
     let IBUs: number = 0,
         hopIBUs: any = [];
-    if ( undefined === value.hopChoice ) { // coming from new brew
-      if (null !== newBrewObj) {
+    if ( null !== value ) {
+      if ( undefined === value.hopChoice ) { // coming from new brew
         // define defaults
         let batchSize = '' !== value.brewFormSettings.batchSize && null !== value.brewFormSettings.batchSize ? value.brewFormSettings.batchSize : 6;
-        let preBoilGravity = null !== newBrewObj ? '' !== newBrewObj.preBoilGravity && undefined !== newBrewObj.preBoilGravity ? newBrewObj.preBoilGravity : 1.056 : 1.056;
-        let volume = null !== newBrewObj ? batchSize > newBrewObj.boilWaterVol ? batchSize : newBrewObj.boilWaterVol : batchSize;
+        let preBoilGravity = null !== value.brewFormAuto.preBoilGravity ? value.brewFormAuto.preBoilGravity : 1.056;
+        let volume = null !== value.brewFormAuto.boilWaterVol ? batchSize > value.brewFormAuto.boilWaterVol ? batchSize : value.brewFormAuto.boilWaterVol : batchSize;
         for (let index = 0; index < value.hops.length; index++) {
           hopIBUs[index] = this.brewCalcService.calculateIBUs( value.hops[index], volume, preBoilGravity );
           IBUs += hopIBUs[index];
         }
-      }
-    } else { // coming from view brew
-      let volume = value.batchSize > value.boilWaterVol ? value.batchSize : value.boilWaterVol;
-      for (let index = 0; index < value.hopChoice.edges.length; index++) {
-        hopIBUs[index] = this.brewCalcService.calculateIBUs( value.hopChoice.edges[index].node, volume, value.preBoilGravity );
-        IBUs += hopIBUs[index];
+      } else { // coming from view brew
+        let volume = value.batchSize > value.boilWaterVol ? value.batchSize : value.boilWaterVol;
+        for (let index = 0; index < value.hopChoice.edges.length; index++) {
+          hopIBUs[index] = this.brewCalcService.calculateIBUs( value.hopChoice.edges[index].node, volume, value.preBoilGravity );
+          IBUs += hopIBUs[index];
+        }
       }
     }
 
     if ( 'total' === argument ) {
-      return IBUs + ' IBU';
+      return (Math.round(IBUs * 100 ) / 100) + ' IBU';
     } else if ( 'hop' === argument ) {
       return hopIBUs;
     }
@@ -93,14 +99,16 @@ export class getSRM implements PipeTransform {
     let SRM: string = '0',
         malts: any,
         batchSize: number;
-    if ( undefined ===  value.maltChoice ) { // coming from new brew
-      malts = value.fermentables;
-      batchSize = value.brewFormSettings.batchSize ? value.brewFormSettings.batchSize : 6;
-    } else { // coming from view brew
-      malts = value.maltChoice.edges;
-      batchSize = value.batchSize;
+    if ( null !== value ) {
+      if ( undefined ===  value.maltChoice ) { // coming from new brew
+        malts = value.fermentables;
+        batchSize = value.brewFormSettings.batchSize ? value.brewFormSettings.batchSize : 6;
+      } else { // coming from view brew
+        malts = value.maltChoice.edges;
+        batchSize = value.batchSize;
+      }
+      SRM = this.brewCalcService.calculateSRM(malts, batchSize)+' SRM';
     }
-    SRM = this.brewCalcService.calculateSRM(malts, batchSize)+' SRM';
     return SRM;
   }
 }
@@ -117,10 +125,12 @@ export class getOriginalGravity implements PipeTransform {
     let batchEffieiency = value.brewFormSettings.sysEfficiency ? value.brewFormSettings.sysEfficiency : 75;
     var OG: number;
 
-    if ( 0 < value.fermentables.length ) {
-      OG = parseFloat((this.brewCalcService.calculateOG(value.fermentables, batchEffieiency, batchSize)).toFixed(3));
-    } else {
-      OG = null;
+    if ( null !== value ) {
+      if ( 0 < value.fermentables.length ) {
+        OG = parseFloat((this.brewCalcService.calculateOG(value.fermentables, batchEffieiency, batchSize)).toFixed(3));
+      } else {
+        OG = null;
+      }
     }
     return OG;
   }
@@ -132,11 +142,20 @@ export class getAttenuation implements PipeTransform {
     private brewCalcService: BrewCalcService
   ) {}
 
-  transform(value: any, gravities: any = null): string {
+  transform(value: any): string {
     let attenuation: string = '0% Attenuation',
-        originalGravity = null !== gravities ? gravities.originalGravity : value.originalGravity,
-        finalGravity = null !== gravities ? gravities.finalGravity : value.finalGravity;
-    if (undefined !== originalGravity && undefined !== finalGravity) {
+        originalGravity,
+        finalGravity;
+
+    if (undefined !== value.brewFormAuto) { // coming from new brew
+      originalGravity = null !== value.brewFormAuto.originalGravity ? value.brewFormAuto.originalGravity : 0,
+      finalGravity = null !== value.brewFormAuto.finalGravity ? value.brewFormAuto.finalGravity : undefined;
+    } else { // coming from view brew
+      originalGravity = null !== value.originalGravity ? value.originalGravity : 0,
+      finalGravity = null !== value.finalGravity ? value.finalGravity : 0;
+    }
+
+    if (undefined !== originalGravity && undefined !== finalGravity && '' !== finalGravity) {
       attenuation = this.brewCalcService.calculateAttenuation(originalGravity, finalGravity)+'% Attenuation';
     }
     return attenuation;
@@ -151,7 +170,11 @@ export class getCo2 implements PipeTransform {
 
   transform(value: any): string {
     let co2;
-    co2 = this.brewCalcService.calculateCO2(value.carbonateTemp, value.carbonateCo2Vol, value.carbonateType, value.batchSize);
+    if ( undefined ===  value.batchSize ) { // coming from new brew
+      co2 = this.brewCalcService.calculateCO2(value.brewFormPackaging.beerTemp, value.brewFormPackaging.co2VolTarget, value.brewFormPackaging.carbonationMethod, value.brewFormSettings.batchSize);
+    } else { // coming from view brew
+      co2 = this.brewCalcService.calculateCO2(value.carbonateTemp, value.carbonateCo2Vol, value.carbonateType, value.batchSize);
+    }
     return co2;
   }
 }

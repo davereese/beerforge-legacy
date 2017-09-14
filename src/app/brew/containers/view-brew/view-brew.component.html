@@ -90,7 +90,7 @@
                 Struck with {{ currentBrew?.mashWaterVol }} gal
               </ng-container>
               <ng-container *ngIf="currentBrew.strikeTemp">
-                &nbsp;at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
+                at {{ currentBrew?.strikeTemp }}&deg;&nbsp;F
               </ng-container>
             </div>
             <div class="col-quarter">
@@ -108,7 +108,7 @@
                 Sparged with {{ currentBrew?.spargeWaterVol }} gal
               </ng-container>
               <ng-container *ngIf="currentBrew.spargeTemp">
-                &nbsp;at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
+                at {{ currentBrew?.spargeTemp }}&deg;&nbsp;F
               </ng-container>
             </div>
           </div>
@@ -210,6 +210,7 @@
         </div>
       </div>
     </div>
+    <!-- <pre>{{ brewForm?.value | json }}</pre> -->
 
     <ng-template #loaderIcon>
       <loader-icon></loader-icon>

@@ -42,6 +42,7 @@ import { newBrewPackagingFormComponent } from './components/new-brew-form-packag
 
 // services
 import { UserService } from '../services/user.service';
+import { BrewFormService } from '../services/brewForm.service';
 import { BrewCalcService } from '../services/brewCalc.service';
 
 const client = new ApolloClient({
@@ -97,6 +98,7 @@ const routes: Routes = [
   ],
   providers: [
     UserService,
+    BrewFormService,
     BrewCalcService,
   ]
 })

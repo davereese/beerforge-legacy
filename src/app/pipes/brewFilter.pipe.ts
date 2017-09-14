@@ -19,14 +19,16 @@ export class parseMash implements PipeTransform {
 export class ParseCo2Method implements PipeTransform {
   transform(value: string): string {
     let newStr: string = "";
-    if ( 'cornSugar' === value ) {
-      newStr = 'Corn Sugar';
-    } else if ( 'caneSugar' === value ) {
-      newStr = 'Cane Sugar';
-    } else if ( 'dme' === value ) {
-      newStr = 'DME';
-    } else if ( 'forced' === value ) {
-      newStr = 'Forced';
+    if ('' !== value) {
+      if ( 'cornSugar' === value ) {
+        newStr = 'Corn Sugar';
+      } else if ( 'caneSugar' === value ) {
+        newStr = 'Cane Sugar';
+      } else if ( 'dme' === value ) {
+        newStr = 'DME';
+      } else if ( 'forced' === value ) {
+        newStr = 'Forced';
+      }
     }
     return newStr;
   }
@@ -42,7 +44,7 @@ export class round implements PipeTransform {
 @Pipe({name: 'gravityUnits'})
 export class gravityUnits implements PipeTransform {
   transform(gravity:number): string {
-    return (gravity).toFixed(3);
+    return gravity.toFixed(3);
   }
 }
 

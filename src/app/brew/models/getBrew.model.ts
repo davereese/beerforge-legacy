@@ -19,6 +19,7 @@ export const currentBrewQuery = gql`
                     id
                     name
                     color
+                    potential
                   }
                   amount
                 }
@@ -70,6 +71,9 @@ export const currentBrewQuery = gql`
             carbonateCo2Vol
             carbonateTemp
             carbonateType
+            User {
+              id
+            }
           }
         }
       }
