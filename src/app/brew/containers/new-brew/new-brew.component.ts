@@ -3,17 +3,12 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { trigger, state, style, animate, transition } from '@angular/animations';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Brew } from '../../models/brew.interface';
-
 import { User } from '../../../user-dashboard/models/user.interface';
 import { currentUserQuery } from '../../../user-dashboard/models/getUser.model';
-import { saveBrewMutation } from '../../models/saveBrew.model';
-import { saveMaltMutation } from '../../models/saveBrew.model';
-import { saveHopMutation } from '../../models/saveBrew.model';
-import { saveYeastMutation } from '../../models/saveBrew.model';
-
+import { flipInOut } from '../../../animations/flip-in-out';
+import { modalPop } from '../../../animations/modal-pop';
 import { modalData } from '../../../modal/models/modal.model';
 import { UserService } from '../../../services/user.service';
 import { BrewFormService } from '../../../services/brewForm.service';
@@ -24,27 +19,8 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
   styleUrls: ['new-brew.component.scss'],
   templateUrl: './new-brew.component.html',
   animations: [
-    trigger('flipInOut', [
-      state('in', style({transform: 'translateX(0) rotateY(0deg) scale(1)'})),
-      transition(':enter', [
-        style({transform: 'translateX(128%) rotateY(-90deg) scale(1.3)'}),
-        animate('0.49s cubic-bezier(0,0,.12,1)')
-      ]),
-      transition(':leave', [
-        animate('0.35s ease-in', style({transform: 'translateX(128%) rotateY(-90deg) scale(1.3)'}))
-      ])
-    ]),
-    trigger('modalPop', [
-      state('in', style({transform: 'translate(-50%, -50%)', opacity: '1'})),
-      transition(':enter', [
-        style({transform: 'translate(-50%, -20%)', opacity: '0'}),
-        animate('0.5s cubic-bezier(.54,0,.03,1)')
-      ]),
-      transition(':leave', [
-        style({transform: 'translate(-50%, -50%)'}),
-        animate('0.3s cubic-bezier(.54,0,.03,1)', style({transform: 'translate(-50%, -80%)', opacity: '0'}))
-      ])
-    ])
+    flipInOut,
+    modalPop
   ]
 })
 export class newBrewComponent implements OnInit {

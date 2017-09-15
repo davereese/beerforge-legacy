@@ -1,27 +1,29 @@
 <div class="view-brew">
   <main>
-    <div class="container" *ngIf="currentBrew; else loaderIcon">
+    <div class="container" [ngClass]="{'make-room': flipCard}" *ngIf="currentBrew; else loaderIcon">
       <div class="row">
         <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
         <span class="float-right brew__meta">
           <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> <span class="sup">#</span>{{ currentBrew?.batchNum }}
         </span>
       </div>
-      <div class="row brew__details tile">
-        <div class="col-third header--title">
-          <ng-container *ngIf="currentBrew.batchType">
-            {{ currentBrew?.batchType | parseMash }}
-          </ng-container>
-        </div>
-        <div class="col-third header--title">
-          <ng-container *ngIf="currentBrew.batchSize">
-            Batch Size: {{ currentBrew?.batchSize }} gal
-          </ng-container>
-        </div>
-        <div class="col-third header--title right-align">
-          <ng-container *ngIf="currentBrew.batchEfficiency">
-            System Efficiency: {{ currentBrew?.batchEfficiency }}%
-          </ng-container>
+      <div class="row brew__details tile no-padding">
+        <div class="row header--title padding-top" (click)="flipTheCard('settings')">
+          <div class="col-third">
+            <ng-container *ngIf="currentBrew.batchType">
+              {{ currentBrew?.batchType | parseMash }}
+            </ng-container>
+          </div>
+          <div class="col-third">
+            <ng-container *ngIf="currentBrew.batchSize">
+              Batch Size: {{ currentBrew?.batchSize }} gal
+            </ng-container>
+          </div>
+          <div class="col-third right-align">
+            <ng-container *ngIf="currentBrew.batchEfficiency">
+              System Efficiency: {{ currentBrew?.batchEfficiency }}%
+            </ng-container>
+          </div>
         </div>
         <div class="row title">
           <div class="col-quarter header header--no-color">
@@ -44,9 +46,10 @@
           {{ currentBrew | getTotalMalt }}
         </span>
         <fermentable
-          *ngFor="let malt of currentBrew?.maltChoice.edges"
+          *ngFor="let malt of currentBrew?.maltChoice.edges; let i = index"
           [malt]="malt.node.malt"
           [amount]="malt.node.amount"
+          (click)="editingSelection({fermentable: malt.node.malt, index: i, weight: malt.node.amount})"
           class="row">
         </fermentable>
       </div>
@@ -63,16 +66,18 @@
           [time]="hop.node.time"
           [amount]="hop.node.amount"
           [hopIBUs]="currentBrew | getIBUs: 'hop'"
+          (click)="editingSelection({hop: hop.node.hop, index: i, weight: hop.node.amount, time: hop.node.time, alpha: hop.node.alphaAcid})"
           class="row">
         </hop>
       </div>
       <div class="row brew__ingredients tile">
         <h2 class="ingredient-title">Yeast</h2>
         <yeast
-          *ngFor="let yeast of currentBrew?.yeastChoice.edges"
+          *ngFor="let yeast of currentBrew?.yeastChoice.edges; let i = index"
           [yeast]="yeast.node.yeast"
           [amount]="yeast.node.amount"
           [package]="yeast.node.package"
+          (click)="editingSelection({yeast: yeast.node.yeast, index: i, amount: yeast.node.amount, package: yeast.node.package})"
           class="row">
         </yeast>
       </div>
@@ -84,7 +89,7 @@
           <div class="col-three-quarters header header--title right-align">
             <!-- Batch/Fly  -->
           </div>
-          <div class="row">
+          <div class="row" (click)="flipTheCard('mash')">
             <div class="col-quarter">
               <ng-container *ngIf="currentBrew.mashWaterVol">
                 Struck with {{ currentBrew?.mashWaterVol }} gal
@@ -129,7 +134,7 @@
             </ng-container>
           </div>
         </div>
-        <div class="row">
+        <div class="row" (click)="flipTheCard('boil')">
           <div class="col-quarter">
             <ng-container *ngIf="currentBrew.boilTime">
               Boil Time: {{ currentBrew?.boilTime }} min
@@ -157,7 +162,7 @@
             </ng-container>
           </div>
         </div>
-        <div class="row">
+        <div class="row" (click)="flipTheCard('fermentation')">
           <div class="col-quarter">
             <ng-container *ngIf="currentBrew.fermentTime">
               Length: {{ currentBrew?.fermentTime }} days
@@ -191,7 +196,7 @@
             </ng-container>
           </div>
         </div>
-        <div class="row">
+        <div class="row" (click)="flipTheCard('packaging')">
           <div class="col-quarter">
             <ng-container *ngIf="currentBrew.carbonateCo2Vol">
               CO2 Vol: {{ currentBrew?.carbonateCo2Vol }}
@@ -210,6 +215,21 @@
         </div>
       </div>
     </div>
+
+    <div class="card-container">
+      <flip-card
+        *ngIf="flipCard"
+        [detail]="editingSection"
+        [data]="editingData"
+        [parent]="newBrewForm.value"
+        (addIngredient)="addIngredient($event)"
+        (editIngredient)="editIngredient($event)"
+        (cancelSave)="closeTheCard()"
+        (next)="nextCard()"
+        (remove)="removeIngredient($event)"
+        [@flipInOut]>
+      </flip-card>
+    </div>
     <!-- <pre>{{ brewForm?.value | json }}</pre> -->
 
     <ng-template #loaderIcon>
@@ -217,3 +237,9 @@
     </ng-template>
   </main>
 </div>
+
+<modal
+[data]="modalData"
+*ngIf="showModal"
+(close)=closeModal($event)
+[@modalPop]></modal>

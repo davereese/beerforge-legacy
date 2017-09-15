@@ -18,19 +18,6 @@
 
   .container {
     width: 800px;
-    transition: margin 0.5s, left 0.5s, width 0.75s;
-
-    &.make-room {
-      left: 0;
-      margin-left: 30px;
-      width: calc(60% - 60px);
-      transition: margin 0.5s, left 0.5s width 0.45s;
-
-      @media (min-width: 1434px) {
-        left: 58%;
-        margin-left: -800px;
-      }
-    }
   }
 
   .brew-settings-btn {
@@ -146,17 +133,111 @@
   }
 
   .card-container {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    position: fixed;
-    top: 109px;
-    right: 30px;
-    width: calc(40% - 30px);
+    /deep/ .flip-card {
+      .card {
+        input,
+        textarea,
+        select {
+          border-color: rgba($bf-orange, 0.3);
+          color: $black;
 
-    @media (min-width: 1434px) {
-      max-width: 543px;
-      right: 40%;
-      margin-right: -543px;
+          &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: rgba($bf-orange, 0.5);
+          }
+          &::-moz-placeholder { /* Firefox 19+ */
+            color: rgba($bf-orange, 0.5);
+          }
+          &:-ms-input-placeholder { /* IE 10+ */
+            color: rgba($bf-orange, 0.5);
+          }
+          &:-moz-placeholder { /* Firefox 18- */
+            color: rgba($bf-orange, 0.5);
+          }
+        }
+      
+        .checkbox label::after {
+          border-color: rgba($bf-orange, 0.3);
+        }
+
+        &.details {
+          background-color: $bf-logo_yellow;
+
+          input,
+          textarea,
+          select {
+            box-shadow: 0 2px 15px rgba($bf-yellow, 0.4);
+            background-color: lighten($light-yellow, 2%);
+      
+            &:focus {
+              background-color: lighten($light-yellow, 15%);
+              border-color: $bf-orange;
+            }
+          }
+      
+          .checkbox label::after {
+            box-shadow: 0 2px 15px rgba($bf-yellow, 0.5);
+            background-color: lighten($light-yellow, 2%);
+          }
+        }
+    
+        &.ingredients {
+          background-color: $light-yellow;
+
+          input,
+          textarea,
+          select {
+            box-shadow: 0 2px 15px rgba($bf-yellow, 0.5);
+            background-color: lighten($light-yellow, 10%);
+      
+            &:focus {
+              background-color: lighten($light-yellow, 20%);
+              border-color: $bf-orange;
+            }
+          }
+      
+          .checkbox label::after {
+            box-shadow: 0 2px 15px rgba($bf-yellow, 0.6);
+            background-color: rgba(lighten($light-yellow, 10%), 1);
+          }
+        }
+  
+        .button {
+          color: $yellow;
+          background-color: $bf-green;
+          box-shadow: 0 2px 15px rgba($bf-yellow, 0.4);
+  
+          &:hover,
+          &:focus {
+            background-color: $dark-green;
+          }
+
+          &--cancel {
+            background-color: $dark-orange;
+    
+            &:hover,
+            &:focus {
+              background-color: $bf-gray;
+            }
+          }
+
+          &[disabled] {
+            opacity: 0.75;
+    
+            &:hover,
+            &:focus {
+              cursor: auto;
+              background-color: $bf-green;
+            }
+          }
+        }
+
+        .row {
+          &.header {
+            border-bottom: 1px solid rgba($bf-orange, 0.3);
+            color: $dark-green;
+          }
+        }
+      }
     }
   }
 }
