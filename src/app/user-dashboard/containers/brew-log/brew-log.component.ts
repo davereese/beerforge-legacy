@@ -62,6 +62,11 @@ export class BrewLogComponent {
     this.page -= 1;
   }
 
+  handleFirstPage() {
+    this.fetchBrews(this.results);
+    this.page = 1;
+  }
+
   handleNextPage(item) {
     this.fetchBrews(this.results, item, null, null);
     this.page += 1;

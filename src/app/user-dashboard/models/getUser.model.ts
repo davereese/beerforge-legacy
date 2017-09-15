@@ -18,6 +18,7 @@ export const currentUserQuery = gql`
         edges {
           node {
             id
+            batchNum
             name
             createdAt
             batchSize

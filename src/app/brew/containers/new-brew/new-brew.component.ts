@@ -146,7 +146,8 @@ export class newBrewComponent implements OnInit {
     this.apollo.watchQuery({
       query: currentUserQuery,
       variables: {
-        id: this.userId
+        id: this.userId,
+        first: 1
       }
     }).subscribe(({data, loading}) => {
       this.currentUser = data['getUser'];

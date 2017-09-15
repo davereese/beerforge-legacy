@@ -5,6 +5,6 @@
 <ng-template #nextPrev>
   <div class="prev-next">
     <button (click)="prevPage(brews.edges[0].node.id)" class="button button--yellow" [disabled]="page === 1"><span>&laquo;</span> Prev</button>
-    <button (click)="nextPage(brews.edges[brews.edges.length-1].node.id)" class="button button--yellow" [disabled]="!brews.pageInfo.hasNextPage && !brews.pageInfo.hasPreviousPage && page !== 1 || page === 1 && !brews.pageInfo.hasNextPage">Next <span>&raquo;</span></button>
+    <button (click)="nextPage(brews.edges[brews.edges.length-1].node.id)" class="button button--yellow" [disabled]="!brews.pageInfo.hasNextPage && !brews.pageInfo.hasPreviousPage">Next <span>&raquo;</span></button>
   </div>
 </ng-template>

@@ -4,7 +4,7 @@
       <div class="row">
         <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
         <span class="float-right brew__meta">
-          <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> #{{ currentBrew?.batchNum }}
+          <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> <span class="sup">#</span>{{ currentBrew?.batchNum }}
         </span>
       </div>
       <div class="row brew__details tile">

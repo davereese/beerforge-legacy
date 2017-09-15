@@ -10,4 +10,12 @@ import { User } from '../../models/user.interface';
 export class UserOverviewComponent {
   @Input()
   user: User;
+
+  batchNum: number;
+
+  ngOnInit() {
+    if (this.user) {
+      this.batchNum = this.user.Brews.edges[0].node.batchNum;
+    }
+  }
 }

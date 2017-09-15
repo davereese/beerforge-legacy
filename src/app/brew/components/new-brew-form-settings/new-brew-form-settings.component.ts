@@ -7,6 +7,8 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './new-brew-form-settings.component.html'
 })
 export class newBrewSettingsFormComponent {
+  batchType: string;
+
   @Input()
   parent: FormGroup;
 
@@ -16,4 +18,8 @@ export class newBrewSettingsFormComponent {
     { name: 'Partial Mash', value: 'partial' },
     { name: 'Extract', value: 'extract' },
   ];
+
+  ngOnInit() {
+    this.batchType = null !== this.parent.get('brewFormSettings.batchType').value ? this.parent.get('brewFormSettings.batchType').value : '';
+  }
 }

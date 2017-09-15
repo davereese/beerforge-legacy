@@ -27,7 +27,10 @@ export class BrewLogPaginationComponent {
   nextPageEvent: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
-   prevPageEvent: EventEmitter<any> = new EventEmitter<any>();
+  prevPageEvent: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  firstPageEvent: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnChanges() {
     this.currentPage = this.page;
@@ -42,7 +45,11 @@ export class BrewLogPaginationComponent {
   }
 
   prevPage(item) {
-    this.prevPageEvent.emit(item);  
+    if (2 === this.currentPage) {
+      this.firstPageEvent.emit();
+    } else {
+      this.prevPageEvent.emit(item);  
+    }
   }
 
   nextPage(item) {

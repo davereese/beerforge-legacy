@@ -1,7 +1,7 @@
 <div [formGroup]="parent">
   <div formGroupName="brewFormSettings">
     <p><label>Batch Type<br>
-      <select formControlName="batchType">
+      <select formControlName="batchType" [(ngModel)]="batchType">
         <option value="" disabled>Choose One</option>
         <option
           *ngFor="let type of batchTypes"

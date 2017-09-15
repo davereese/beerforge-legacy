@@ -69,8 +69,8 @@ export class BrewFormService {
         fermentSecTemp: (null !== brewData ? brewData.fermentSecTemp : null),
       }),
       brewFormPackaging: this.fb.group({
-        packageType: (null !== brewData ? brewData.packaging : null),
-        carbonationMethod: (null !== brewData ? brewData.carbonateType : null),
+        packageType: (null !== brewData ? brewData.packaging : ''),
+        carbonationMethod: (null !== brewData ? brewData.carbonateType : ''),
         co2VolTarget: (null !== brewData ? brewData.carbonateCo2Vol : null),
         beerTemp: (null !== brewData ? brewData.carbonateTemp : null),
       }),
@@ -164,7 +164,7 @@ export class BrewFormService {
   addUserInfo(userId: string, currentUser) {
     this.newBrewForm.value.get('brewFormAuto').patchValue({
       userId: (null !== userId ? userId : null),
-      batchNum: (null !== currentUser ? (currentUser.Brews.edges.length)+1 : null)
+      batchNum: (null !== currentUser ? (currentUser.Brews.edges[0].node.batchNum)+1 : null)
     });
   }
 
@@ -322,10 +322,10 @@ export class BrewFormService {
           fermentTemp: control.get('brewFormFermentation.fermentTemp').value,
           fermentTime: control.get('brewFormFermentation.fermentTime').value,
           fermentSecTemp: control.get('brewFormFermentation.fermentSecTime').value,
-          packaging: control.get('brewFormPackaging.packageType').value,
+          packaging: '' === control.get('brewFormPackaging.packageType').value ? null : control.get('brewFormPackaging.packageType').value,
           carbonateCo2Vol: control.get('brewFormPackaging.co2VolTarget').value,
           carbonateTemp: control.get('brewFormPackaging.beerTemp').value,
-          carbonateType: control.get('brewFormPackaging.carbonationMethod').value
+          carbonateType: '' === control.get('brewFormPackaging.carbonationMethod').value ? null : control.get('brewFormPackaging.carbonationMethod').value
         }
       }
     }).subscribe(({ data }) => {

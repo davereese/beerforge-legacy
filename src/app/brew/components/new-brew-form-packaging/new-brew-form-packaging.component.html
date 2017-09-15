@@ -1,8 +1,8 @@
 <div [formGroup]="parent">
   <div formGroupName="brewFormPackaging">
     <p><label>Packaging Type<br>
-      <select formControlName="packageType">
-        <option value="">Choose One</option>
+      <select formControlName="packageType" [(ngModel)]="packageType">
+        <option value="" disabled>Choose One</option>
         <option
           *ngFor="let type of packagingTypes"
           [value]="type.value">
@@ -10,8 +10,8 @@
         </option>
       </select></label></p>
     <p><label>Carbonation Method<br>
-      <select formControlName="carbonationMethod">
-        <option value="">Choose One</option>
+      <select formControlName="carbonationMethod" [(ngModel)]="carbonationMethod">
+        <option value="" disabled>Choose One</option>
         <option
           *ngFor="let type of carbonationTypes"
           [value]="type.value">

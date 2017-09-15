@@ -7,6 +7,9 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './new-brew-form-packaging.component.html'
 })
 export class newBrewPackagingFormComponent {
+  packageType: string;
+  carbonationMethod: string;
+
   @Input()
   parent: FormGroup;
 
@@ -48,5 +51,12 @@ export class newBrewPackagingFormComponent {
           });
         }
       })
+
+    this.setvalues();
+  }
+
+  setvalues() {
+    this.packageType = null !== this.parent.get('brewFormPackaging.packageType').value ? this.parent.get('brewFormPackaging.packageType').value : '';
+    this.carbonationMethod = null !== this.parent.get('brewFormPackaging.carbonationMethod').value ? this.parent.get('brewFormPackaging.carbonationMethod').value : '';
   }
 }

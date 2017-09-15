@@ -10,14 +10,17 @@
           <div class="brews">
             <a *ngFor="let brew of currentUser.Brews.edges" class="row brews__item" (click)="viewBrew(brew.node.id)">
               <div class="col-half brew-log__brew-name">
+                <span class="brews__item__brew-stats">
+                    <span class="sup">#</span>{{ brew.node.batchNum }}&nbsp;
+                </span>
                 {{ brew.node.name }}
               </div>
               <div class="brews__item__brew-stats">
                 <div class="col-eighth float-right ">
-                  {{ brew.node.createdAt | date:'MM.dd.yy' }}
+                    <span class="stat">{{ brew.node.createdAt | date:'MM.dd.yy' }}</span>
                 </div>
                 <div class="float-right">
-                  <span class="stat">{{ brew.node | getABV }}</span> <span class="stat">{{ brew.node | getIBUs }}</span> <span class="stat">{{ brew.node | getSRM }}</span>
+                  <span class="stat">{{ brew.node | getABV }}</span> <span class="stat">{{ brew.node | getIBUs:'total' }}</span> <span class="stat">{{ brew.node | getSRM }}</span>
                 </div>
               </div>
             </a>
@@ -27,7 +30,8 @@
             [page]="page"
             [results]="results"
             (prevPageEvent)="handlePrevPage($event)"
-            (nextPageEvent)="handleNextPage($event)">
+            (nextPageEvent)="handleNextPage($event)"
+            (firstPageEvent)="handleFirstPage()">
           </brew-log-pagination>
         </div>
       </div>
