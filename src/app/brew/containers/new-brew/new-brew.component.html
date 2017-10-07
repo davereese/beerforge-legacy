@@ -250,7 +250,7 @@
           </div>
         </div>
         <div class="center-align">
-          <a class="button button--get-brewing" (click)="saveBrew()">Save &amp; Get Brewing!</a>
+          <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Save &amp; Get Brewing!</button>
         </div>
       </div>
 
@@ -268,7 +268,7 @@
           [@flipInOut]>
         </flip-card>
       </div>
-      <!-- <pre>{{ newBrewForm?.value.value | json }}</pre>  -->
+      <!-- <pre>{{ newBrewForm?.value.value | json }}</pre> -->
     </form>
   </main>
 </div>

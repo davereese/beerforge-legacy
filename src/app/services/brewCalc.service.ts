@@ -18,9 +18,9 @@ export class BrewCalcService {
   }
 
   calculatePreBoilG(OG: any, boilTime: number, vol: number, evap: number): number {
-    let PBVol = this.caclculatePreBoilVol(boilTime, vol, evap);
+    const PBVol = this.caclculatePreBoilVol(boilTime, vol, evap);
     // Pre-boil specific gravity points = (Post-boil volume * Post-boil gravity points) / Pre-boil volume
-    let PreBoilG = Math.round( ((vol * (OG - 1) * 1000) / PBVol) * 1 ) / 1;
+    const PreBoilG = Math.round( ((vol * (OG - 1) * 1000) / PBVol) * 1 ) / 1;
 
     // convert back to gravity units and return
     return (PreBoilG / 1000) + 1;
@@ -28,15 +28,15 @@ export class BrewCalcService {
 
   caclculatePreBoilVol(boilTime: number, vol: number, evap: number): number {
     // calculate pre-boil volume: PBVol = vol + (1.5 * hours) 1.5 is assumed boiling losses (gal)
-    let hrs = boilTime / 60;
-    let PBVol = vol + (evap * hrs);
+    const hrs = boilTime / 60;
+    const PBVol = vol + (evap * hrs);
 
     return PBVol;
   }
 
   calculateFG(OG: number, attenuation): number {
     // (Gravity-1000)-((Gravity-1000)*Attenuation rate%)+1000
-    let gravity = (OG - 1) * 1000,
+    const gravity = (OG - 1) * 1000,
         aPercentage = attenuation/100;
 
     return Math.round( ((gravity - (gravity * aPercentage) + 1000) / 1000) * 1000 ) / 1000;
@@ -69,13 +69,13 @@ export class BrewCalcService {
 
   convertToPlato(SG: number): number {
     // E = -668.962 + (1262.45 * SG) - (776.43 * SG^2) + (182.94 * SG^3)  - specific gravity to plato
-    let E = -668.962 + (1262.45 * SG) - (776.43 * Math.pow(SG, 2)) + (182.94 * Math.pow(SG, 3));
+    const E = -668.962 + (1262.45 * SG) - (776.43 * Math.pow(SG, 2)) + (182.94 * Math.pow(SG, 3));
     return E;
   }
 
   calculateRealExtract(OE: number, AE: number): number {
     // RE = (0.8114 * AE) + (0.1886 * OE)                - real extract
-    let RE = (0.8114 * AE) + (0.1886 * OE);
+    const RE = (0.8114 * AE) + (0.1886 * OE);
     return RE;
   }
 
@@ -141,9 +141,9 @@ export class BrewCalcService {
   }
 
   calculateStrikeVol(form: any): number {
-    let R: number = form.brewFormMash.waterToGrain,
+    const R: number = form.brewFormMash.waterToGrain,
         gVol: number = this.calculateTotalMalt(form);
-    let sVol = Math.round( ((R * gVol) / 4) * 10 ) / 10;
+    const sVol = Math.round( ((R * gVol) / 4) * 10 ) / 10;
 
     return sVol;
   }
@@ -151,9 +151,12 @@ export class BrewCalcService {
   calculateStrikeTemp(R: number, T1: number, T2: number): number {
     // Strike Water Temperature Tw = (0.2 / R)(T2 - T1) + T2
     // R - ratio of water to grain, T1 - initial temp of grain, T2 - mash temp target
-    let Tw: number = Math.round( ((0.2 / R) * (T2 - T1) + T2) * 1 ) / 1;
-
-    return Tw;
+    if (null !== R && null !== T1 && null !== T2) {
+      const Tw: number = Math.round( ((0.2 / R) * (T2 - T1) + T2) * 1 ) / 1;
+      return Tw;
+    } else {
+      return null;
+    }
   }
 
   calculateSpargevol(strikeVol: number): number {

@@ -13,5 +13,7 @@
       <input type="number" formControlName="batchSize" placeholder="6"></label></p>
     <p><label>System Efficiency (%)<br>
       <input type="number" formControlName="sysEfficiency" placeholder="75"></label></p>
+    <p *ngIf="null !== view">
+      <button class="button button--large button--warning" (click)="delete()">Delete Brew</button></p>
   </div>
 </div>

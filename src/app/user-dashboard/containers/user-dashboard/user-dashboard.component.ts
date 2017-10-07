@@ -16,6 +16,7 @@ export class UserDashboardComponent {
   userId: string;
   totalBrews: number;
   currentUser: User;
+  currentUserSubscription;
 
   // Pagination arguments.
   defaultPageSize: number = 6;

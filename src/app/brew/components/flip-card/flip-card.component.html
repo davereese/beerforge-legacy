@@ -4,7 +4,7 @@
       <h3>{{ cardTitle }}</h3>
     </div>
     <div class="row header">
-      <new-settings-form *ngIf="'settings' === detail" [parent]="parent"></new-settings-form>
+      <new-settings-form *ngIf="'settings' === detail" [parent]="parent" [view]="currentBrew" (deleteEvent)="handleDelete()"></new-settings-form>
       <new-fermentables-form *ngIf="'fermentables' === detail || 'editFermentable' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-fermentables-form>
       <new-hops-form *ngIf="'hops' === detail || 'editHop' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-hops-form>
       <new-adjuncts-form *ngIf="'adjuncts' === detail || 'editAdjunct' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-adjuncts-form>

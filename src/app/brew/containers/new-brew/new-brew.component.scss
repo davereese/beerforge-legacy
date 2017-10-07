@@ -73,8 +73,10 @@
       .edit {
         top: -5px;
         right: 14px;
+        width: 21px;
+        height: 21px;
         @include pencil(darken($bf-orange, 15%));
-        background-size: 23px;
+        background-size: 21px;
         background-position: 5px 5px;
         background-color: transparent;
 
@@ -93,7 +95,7 @@
       }
 
       .plus {
-        top: 21px;
+        top: 22px;
 
         &:hover,
         &:focus {
@@ -122,6 +124,13 @@
     &__ingredients {
       background-color: $light-yellow;
       color: $black;
+
+      &:hover,
+      &:focus {
+        .header {
+          padding-right: 0;
+        }
+      }
 
       .ingredient-title,
       .header {

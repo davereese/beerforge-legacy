@@ -16,7 +16,9 @@ export interface Brew {
     edges: [gqlYeast]
   }
   strikeTemp?: number
+  waterToGrain?: number
   mashTemp?: number
+  initialGrainTemp?: number
   mashWaterVol?: number
   mashTime?: number
   spargeTemp?: number

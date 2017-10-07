@@ -51,6 +51,19 @@
         transition: background-color 0.3s;
       }
 
+      .plus.on-hover {
+        opacity: 0;
+        top: 21px;
+        right: -5px;
+        color: $yellow;
+        transition: opacity 0.3s, right 0.3s, transform 0.5s, background-color 0.3s;
+
+        &:hover,
+        &:focus {
+          background-color: darken($bf-green, 5%);
+        }
+      }
+
       .header {
         @extend %subhead;
         font-weight: 200;
@@ -104,6 +117,18 @@
       background-color: $bf-green;
       color: $white;
 
+      &:hover,
+      &:focus {
+        .header {
+          padding-right: 59px;
+        }
+
+        .plus.on-hover {
+          opacity: 1;
+          right: 15px;
+        }
+      }
+
       .ingredient-title {
         padding: 0 20px 20px;
         color: $bf-logo_yellow;
@@ -112,6 +137,7 @@
       .header {
         padding: 10px 20px 0;
         color: $bf-logo_yellow;
+        transition: padding 0.3s;
       }
 
       .row {
@@ -222,6 +248,16 @@
             &:hover,
             &:focus {
               background-color: darken($bf-yellow, 15%);
+            }
+          }
+
+          &--warning {
+            background-color: $bf-orange;
+
+            &:hover,
+            &:focus {
+              color: $yellow;
+              background-color: $dark-orange;
             }
           }
   

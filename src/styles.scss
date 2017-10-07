@@ -84,7 +84,7 @@ main {
   border-radius: 3px;
   color: $yellow;
   font-weight: 200;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 
   &:hover {
     background-color: $dark-orange;
@@ -92,6 +92,10 @@ main {
   }
 
   &--cancel {
+    background-color: $bf-orange;
+  }
+
+  &--warning {
     background-color: $bf-orange;
   }
 

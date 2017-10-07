@@ -22,6 +22,9 @@ import { currentBrewQuery } from '../../models/getBrew.model';
   ]
 })
 export class viewBrewComponent {
+  loader: boolean = false;
+  modalData: modalData;
+  showModal: boolean = false;
   userId: string;
   brewId: string;
   currentBrew: Brew;
@@ -67,6 +70,18 @@ export class viewBrewComponent {
       this.currentBrew = data['viewer']['allBrews']['edges'][0].node;
 
       this.brewFormService.loadForm(this.currentBrew);
+
+      // watch for changes to the form to calculate certain variables
+      if (undefined !== this.newBrewForm.value) {
+        Object.keys(this.newBrewForm.value.controls).forEach(key => {
+          if ( 'brewFormAuto' !== key ) {
+            const control = this.newBrewForm.value.get(key.toString());
+            control.valueChanges.subscribe(value => {
+              this.brewFormService.updateCalculations(this.currentBrew);
+            });
+          }
+        });
+      }
     });
   }
 
@@ -113,5 +128,63 @@ export class viewBrewComponent {
   removeIngredient(ingredient) {
     this.brewFormService.removeIngredient(ingredient);
     this.closeTheCard();
+  }
+
+  deleteBrew() {
+    this.brewFormService.deleteBrew(this.currentBrew, (data) => {
+      if ( undefined === data.deleteBrew ) {
+        this.modalData = {
+            title: 'Boil Over',
+            body: 'There was a forge error deleting this brew. Please try again later.',
+            buttons: { close: true, dashboard: true }
+          }
+      } else {
+        this.modalData = {
+          title: 'Brew deleted.',
+          body: '',
+          buttons: { dashboard: true, newBrew: true }
+        }
+      }
+      this.showModal = true;
+    });
+  }
+
+  saveBrew() {
+    this.loader = true;
+    this.brewFormService.saveBrew(this.currentBrew, (data) => {
+      if ( undefined === data.updateBrew ) {
+        this.modalData = {
+            title: 'Boil Over',
+            body: 'There was a forge error updating this brew. Please try again later.',
+            buttons: { close: true, dashboard: true }
+          }
+      } else {
+        this.modalData = {
+            title: data.updateBrew.changedBrew.name+' updated. Have a homebrew!',
+            body: '',
+            buttons: { close: true, dashboard: true }
+          }
+      }
+      this.showModal = true;
+    });
+  }
+
+  deleteBrewCheck() {
+    this.loader = true;
+    this.modalData = {
+      title: 'Delete '+this.currentBrew.name+'!',
+      body: 'Are you sure you want to permanently delete this brew?',
+      buttons: { yes: true, close: true, closeData: 'No' }
+    }
+    this.showModal = true;
+  }
+
+  closeModal(event) {
+    this.showModal = false;
+    if ('delete' === event) {
+      this.deleteBrew();
+    } else {
+      this.loader = false;
+    }
   }
 }

@@ -82,3 +82,12 @@ input[type="number"] {
     margin: 0;
   }
 }
+
+button[disabled] {
+  opacity: 0.5;
+
+  &:hover,
+  &:focus {
+    cursor: default;
+  }
+}

@@ -6,6 +6,7 @@ export const currentBrewQuery = gql`
       allBrews(where: {userId: {eq: $user_id}, id: {eq: $brew_id}}) {
         edges {
           node {
+            id
             name
             createdAt
             batchNum
@@ -15,6 +16,7 @@ export const currentBrewQuery = gql`
             maltChoice(orderBy: {field: amount, direction: DESC}) {
               edges {
                 node {
+                  id
                   malt {
                     id
                     name
@@ -28,6 +30,7 @@ export const currentBrewQuery = gql`
             hopChoice(orderBy: {field: time, direction: DESC}) {
               edges {
                 node {
+                  id
                   hop {
                     id
                     name
@@ -41,16 +44,20 @@ export const currentBrewQuery = gql`
             yeastChoice {
               edges {
                 node {
+                  id
                   yeast {
                     id
                     lab
                     name
+                    attenuation
                   }
                   amount
                   package
                 }
               }
             }
+            waterToGrain
+            initialGrainTemp
             strikeTemp
             mashTemp
             mashWaterVol

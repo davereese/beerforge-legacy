@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Brew } from '../../models/brew.interface';
 
 @Component({
   selector: 'flip-card',
@@ -20,8 +21,14 @@ export class flipCardComponent implements OnChanges {
   @Input()
   parent: FormGroup;
 
+  @Input()
+  currentBrew: Brew = null;
+
   @Output()
   cancelSave: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output()
+  delete: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
   next: EventEmitter<any> = new EventEmitter<any>();
@@ -96,9 +103,9 @@ export class flipCardComponent implements OnChanges {
     switch (this.detail) {
       case 'settings':
         this.parent.get('brewFormSettings').reset({
-          batchType: '',
-          batchSize: '',
-          sysEfficiency: '',
+          batchType: null !== this.currentBrew ? this.currentBrew.batchType : '',
+          batchSize: null !== this.currentBrew ? this.currentBrew.batchSize : '',
+          sysEfficiency: null !== this.currentBrew ? this.currentBrew.batchEfficiency : '',
         });
         break;
       case 'fermentables':
@@ -129,32 +136,33 @@ export class flipCardComponent implements OnChanges {
         break;
       case 'mash':
         this.parent.get('brewFormMash').reset({
-          targetMashTemp: '',
-          waterToGrain: '',
-          mashTime: '',
-          spargeTemp: '',
+          targetMashTemp: null !== this.currentBrew ? this.currentBrew.mashTemp : '',
+          waterToGrain: null !== this.currentBrew ? this.currentBrew.waterToGrain : '',
+          initialGrainTemp: null !== this.currentBrew ? this.currentBrew.initialGrainTemp : '',
+          mashTime: null !== this.currentBrew ? this.currentBrew.mashTime : '',
+          spargeTemp: null !== this.currentBrew ? this.currentBrew.spargeTemp : '',
         });
         break;
       case 'boil':
         this.parent.get('brewFormBoil').patchValue({
-          boilTime: '',
+          boilTime: null !== this.currentBrew ? this.currentBrew.boilTime : '',
         });
         break;
       case 'fermentation':
         this.parent.get('brewFormFermentation').reset({
-          fermentTime: '',
-          fermentTemp: '',
+          fermentTime: null !== this.currentBrew ? this.currentBrew.fermentTime : '',
+          fermentTemp: null !== this.currentBrew ? this.currentBrew.fermentTemp : '',
           fermentSecCheck: false,
-          fermentSecTime: '',
-          fermentSecTemp: '',
+          fermentSecTime: null !== this.currentBrew ? this.currentBrew.fermentSecTime : '',
+          fermentSecTemp: null !== this.currentBrew ? this.currentBrew.fermentSecTemp : '',
         });
         break;
       case 'packaging':
         this.parent.get('brewFormPackaging').reset({
-          packageType: '',
-          carbonationMethod: '',
-          co2VolTarget: '',
-          beerTemp: '',
+          packageType: null !== this.currentBrew ? this.currentBrew.packaging : '',
+          carbonationMethod: null !== this.currentBrew ? this.currentBrew.carbonateType : '',
+          co2VolTarget: null !== this.currentBrew ? this.currentBrew.carbonateCo2Vol : '',
+          beerTemp: null !== this.currentBrew ? this.currentBrew.carbonateTemp : '',
         });
         break;
     }
@@ -169,6 +177,10 @@ export class flipCardComponent implements OnChanges {
     this.addEnabled = false;
     this.next.emit();
     event.srcElement.blur();
+  }
+
+  handleDelete() {
+    this.delete.emit();
   }
 
   enableAdd() {

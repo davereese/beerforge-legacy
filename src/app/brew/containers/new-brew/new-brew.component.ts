@@ -130,7 +130,6 @@ export class newBrewComponent implements OnInit {
       this.brewFormService.addUserInfo(this.userId, this.currentUser);
     });
 
-    // this.modalData = this.brewFormService.modalData;
     this.newBrewForm = this.brewFormService.newBrewForm;
     this.brewFormService.loadForm();
 
@@ -149,7 +148,7 @@ export class newBrewComponent implements OnInit {
 
   saveBrew() {
     this.loader = true;
-    this.brewFormService.saveBrew((data) => {
+    this.brewFormService.saveBrew(null, (data) => {
       if ( undefined === data.createBrew ) {
         this.modalData = {
             title: 'Boil Over',

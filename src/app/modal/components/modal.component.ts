@@ -25,7 +25,11 @@ export class ModalComponent {
     this.router.navigate(['/dashboard']);
   }
 
-  closeModal() {
-    this.close.emit();
+  goToNewBrew() {
+    this.router.navigate(['/brew']);
+  }
+
+  closeModal(event = null) {
+    this.close.emit(event);
   }
 }

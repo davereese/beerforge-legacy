@@ -12,8 +12,14 @@
     <ng-container *ngIf="data?.buttons.dashboard">
       <a (click)="goToDashboard()" class="button button--large button--green">Dashboard</a>
     </ng-container>
+    <ng-container *ngIf="data?.buttons.yes">
+        <a (click)="closeModal('delete')" class="button button--large button--green">Yes</a>
+      </ng-container>
     <ng-container *ngIf="data?.buttons.close">
-      <a (click)="closeModal()" class="button button--large">Close</a>
+      <a (click)="closeModal()" class="button button--large">{{data.buttons.closeData || 'Close'}}</a>
     </ng-container>
+    <ng-container *ngIf="data?.buttons.newBrew">
+        <a (click)="goToNewBrew()" class="button button--large button--yellow">New Brew</a>
+      </ng-container>
   </div>
 </div>

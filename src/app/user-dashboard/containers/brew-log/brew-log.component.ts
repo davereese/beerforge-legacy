@@ -29,16 +29,16 @@ export class BrewLogComponent {
   ) { }
 
   ngOnInit() {
+    this.userService
+    .getUser()
+    .subscribe((data: string) => {
+      this.userId = data
+    });
+
     this.fetchBrews(this.results);
   }
 
   fetchBrews(first = null, after = null, last = null, before = null) {
-    this.userService
-      .getUser()
-      .subscribe((data: string) => {
-        this.userId = data
-      });
-
     this.apollo.watchQuery({
       query: currentUserQuery,
       variables: {

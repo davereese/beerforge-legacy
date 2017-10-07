@@ -6,5 +6,8 @@ export interface modalData {
     viewData?: string
     dashboard?: boolean
     close?: boolean
+    closeData?: string
+    yes?: boolean
+    newBrew?: boolean
   }
 }
