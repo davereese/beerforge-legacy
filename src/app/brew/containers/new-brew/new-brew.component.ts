@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -6,7 +6,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Brew } from '../../models/brew.interface';
 import { User } from '../../../user-dashboard/models/user.interface';
-import { currentUserQuery } from '../../../user-dashboard/models/getUser.model';
 import { flipInOut } from '../../../animations/flip-in-out';
 import { modalPop } from '../../../animations/modal-pop';
 import { modalData } from '../../../modal/models/modal.model';
@@ -18,17 +17,18 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
   selector: 'new-brew',
   styleUrls: ['new-brew.component.scss'],
   templateUrl: './new-brew.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     flipInOut,
     modalPop
   ]
 })
-export class newBrewComponent implements OnInit {
+export class newBrewComponent implements OnInit, OnDestroy {
   loader: boolean = false;
   modalData: modalData;
   showModal: boolean = false;
-  userId: string;
-  currentUser: User;
+  first: number = 1;
+  userSubscription: Subscription;
   brewName: string = 'New Brew';
   editingName: boolean = false;
   editingData: any = {};
@@ -42,8 +42,35 @@ export class newBrewComponent implements OnInit {
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
     private apollo: Apollo,
-    private router: Router
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
+
+  ngOnInit() {
+    this.newBrewForm = this.brewFormService.newBrewForm;
+    this.brewFormService.loadForm();
+
+    this.userService.getUserID();
+    this.userService.getCurrentUser(this.first);
+    this.userSubscription = this.userService.currentUser$.subscribe(user => {
+      if (user) {
+        this.brewFormService.addUserInfo(user.id, user);
+      }
+      this.changeDetectorRef.detectChanges();
+    });
+
+    // watch for changes to the form to calculate certain variables
+    if (undefined !== this.newBrewForm.value) {
+      Object.keys(this.newBrewForm.value.controls).forEach(key => {
+        if ( 'brewFormAuto' !== key ) {
+          const control = this.newBrewForm.value.get(key.toString());
+          control.valueChanges.subscribe(value => {
+            this.brewFormService.updateCalculations();
+          });
+        }
+      });
+    }
+  }
 
   nameFocus(e) {
     this.editingName = true;
@@ -110,42 +137,6 @@ export class newBrewComponent implements OnInit {
     this.closeTheCard();
   }
 
-  ngOnInit() {
-    this.userService
-      .getUser()
-      .subscribe((data: string) => {
-        this.userId = data
-      });
-
-    this.userId = this.userId.replace(/\"/g, '');
-
-    this.apollo.watchQuery({
-      query: currentUserQuery,
-      variables: {
-        id: this.userId,
-        first: 1
-      }
-    }).subscribe(({data, loading}) => {
-      this.currentUser = data['getUser'];
-      this.brewFormService.addUserInfo(this.userId, this.currentUser);
-    });
-
-    this.newBrewForm = this.brewFormService.newBrewForm;
-    this.brewFormService.loadForm();
-
-    // watch for changes to the form to calculate certain variables
-    if (undefined !== this.newBrewForm.value) {
-      Object.keys(this.newBrewForm.value.controls).forEach(key => {
-        if ( 'brewFormAuto' !== key ) {
-          const control = this.newBrewForm.value.get(key.toString());
-          control.valueChanges.subscribe(value => {
-            this.brewFormService.updateCalculations();
-          });
-        }
-      });
-    }
-  }
-
   saveBrew() {
     this.loader = true;
     this.brewFormService.saveBrew(null, (data) => {
@@ -163,11 +154,16 @@ export class newBrewComponent implements OnInit {
           }
       }
       this.showModal = true;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
   closeModal() {
     this.showModal = false;
     this.loader = false;
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 }

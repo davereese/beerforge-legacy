@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const currentUserQuery = gql`
   query currentUser($id: ID!, $first: Int, $after: String, $last: Int, $before: String) {
     getUser(id: $id) {
+      id
       firstName,
       lastName,
       username,

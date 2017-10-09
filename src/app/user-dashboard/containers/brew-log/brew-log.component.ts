@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { User } from '../../models/user.interface';
 import { currentUserQuery } from '../../models/getUser.model';
@@ -12,10 +13,11 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
   selector: 'brew-log',
   styleUrls: ['brew-log.component.scss'],
   templateUrl: './brew-log.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BrewLogComponent {
-  userId: string;
+export class BrewLogComponent implements OnInit, OnDestroy {
   currentUser: User;
+  userSubscription: Subscription;
 
   // Pagination arguments.
   results: number = 20;
@@ -25,31 +27,15 @@ export class BrewLogComponent {
     private userService: UserService,
     private brewCalcService: BrewCalcService,
     private router: Router,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.userService
-    .getUser()
-    .subscribe((data: string) => {
-      this.userId = data
-    });
-
-    this.fetchBrews(this.results);
-  }
-
-  fetchBrews(first = null, after = null, last = null, before = null) {
-    this.apollo.watchQuery({
-      query: currentUserQuery,
-      variables: {
-        id: this.userId,
-        first: first,
-        after: after,
-        last: last,
-        before: before
-      }
-    }).subscribe(({data, loading}) => {
-      this.currentUser = data['getUser'];
+    this.userService.getCurrentUser(this.results);
+    this.userSubscription = this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -58,21 +44,25 @@ export class BrewLogComponent {
   }
 
   handlePrevPage(item) {
-    this.fetchBrews(null, null, this.results, item);
+    this.userService.getCurrentUser(null, null, this.results, item);
     this.page -= 1;
   }
 
   handleFirstPage() {
-    this.fetchBrews(this.results);
+    this.userService.getCurrentUser(this.results);
     this.page = 1;
   }
 
   handleNextPage(item) {
-    this.fetchBrews(this.results, item, null, null);
+    this.userService.getCurrentUser(this.results, item, null, null);
     this.page += 1;
   }
 
   viewBrew(id) {
     this.router.navigate(['/brew/', id]);
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 }

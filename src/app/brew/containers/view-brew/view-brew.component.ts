@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -21,12 +21,13 @@ import { currentBrewQuery } from '../../models/getBrew.model';
     modalPop
   ]
 })
-export class viewBrewComponent {
+export class viewBrewComponent implements OnInit, OnDestroy {
   loader: boolean = false;
   modalData: modalData;
   showModal: boolean = false;
   userId: string;
   brewId: string;
+  brewSubscription: Subscription;
   currentBrew: Brew;
   brewForm: FormGroup;
   newBrewForm: BehaviorSubject<FormGroup>;
@@ -40,34 +41,23 @@ export class viewBrewComponent {
     private brewCalcService: BrewCalcService,
     private router: Router,
     private route: ActivatedRoute,
-    private apollo: Apollo
-  ) { }
-
-  ngOnInit() {
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
+  ) { 
+    this.userService.getUserID();
+    this.userId = this.userService._currentUserID.value;
     this.route.params
       .subscribe(params => {
         this.brewId = params['id'];
       });
+  }
 
-    this.userService
-      .getUser()
-      .subscribe((data: string) => {
-        this.userId = data;
-      });
-
+  ngOnInit() {
     this.newBrewForm = this.brewFormService.newBrewForm;
-    this.newBrewForm.subscribe((data) => {
-      this.brewForm = data
-    });
 
-    this.apollo.watchQuery({
-      query: currentBrewQuery,
-      variables: {
-        user_id: this.userId,
-        brew_id: this.brewId
-      }
-    }).subscribe(({data, loading}) => {
-      this.currentBrew = data['viewer']['allBrews']['edges'][0].node;
+    this.userService.getCurrentBrew(this.brewId);
+    this.brewSubscription = this.userService.currentBrew$.subscribe(brew => {
+      this.currentBrew = brew;
 
       this.brewFormService.loadForm(this.currentBrew);
 
@@ -82,6 +72,7 @@ export class viewBrewComponent {
           }
         });
       }
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -146,6 +137,7 @@ export class viewBrewComponent {
         }
       }
       this.showModal = true;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -166,6 +158,7 @@ export class viewBrewComponent {
           }
       }
       this.showModal = true;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -186,5 +179,9 @@ export class viewBrewComponent {
     } else {
       this.loader = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.brewSubscription.unsubscribe();
   }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { User } from '../../models/user.interface';
 import { currentUserQuery } from '../../models/getUser.model';
@@ -11,12 +12,11 @@ import { UserService } from '../../../services/user.service';
   selector: 'user-dashboard',
   styleUrls: ['user-dashboard.component.scss'],
   templateUrl: './user-dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserDashboardComponent {
-  userId: string;
-  totalBrews: number;
+export class UserDashboardComponent implements OnInit, OnDestroy {
   currentUser: User;
-  currentUserSubscription;
+  userSubscription: Subscription;
 
   // Pagination arguments.
   defaultPageSize: number = 6;
@@ -27,25 +27,18 @@ export class UserDashboardComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.userService
-      .getUser()
-      .subscribe((data: string) => {
-        this.userId = data
-      });
-
-    this.apollo.watchQuery({
-      query: currentUserQuery,
-      variables: {
-        id: this.userId,
-        first: this.first,
+    this.userService.getCurrentUser(this.first);
+    this.userSubscription = this.userService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      if (user) {
+        this.pages = Math.ceil(user.Brews.edges.length / this.defaultPageSize);
       }
-    }).subscribe(({data, loading}) => {
-      this.currentUser = data['getUser'];
-      this.pages = Math.ceil(this.currentUser.Brews.edges.length / this.defaultPageSize);
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -71,5 +64,9 @@ export class UserDashboardComponent {
 
   handleBrewLog() {
     this.router.navigate(['/brew-log']);
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 }
