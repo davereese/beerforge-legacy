@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -27,7 +26,6 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private router: Router,
-    private apollo: Apollo,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 

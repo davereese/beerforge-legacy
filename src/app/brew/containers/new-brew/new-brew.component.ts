@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -41,7 +40,6 @@ export class newBrewComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
-    private apollo: Apollo,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) {}

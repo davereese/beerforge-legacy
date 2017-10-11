@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { FormGroup } from '@angular/forms';
@@ -41,7 +40,6 @@ export class viewBrewComponent implements OnInit, OnDestroy {
     private brewCalcService: BrewCalcService,
     private router: Router,
     private route: ActivatedRoute,
-    private apollo: Apollo,
     private changeDetectorRef: ChangeDetectorRef
   ) { 
     this.userService.getUserID();

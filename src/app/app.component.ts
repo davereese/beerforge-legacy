@@ -1,6 +1,5 @@
 import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 
 import { User } from './user-dashboard/models/user.interface';
@@ -20,14 +19,13 @@ export class AppComponent {
   bodyClass: string; // used to change site background colors
   today = new Date();
   year = this.today.getFullYear();
-  first: number = 1; // number of brews
+  first: number = 0; // number of brews
   currentUser: User;
   userSubscription: Subscription;
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private apollo: Apollo,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
