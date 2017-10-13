@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-half">
           <user-overview
-            [user]="currentUser">
+            [user]="currentUser"
+            [userBrews]="userBrews">
           </user-overview>
         </div>
         <div class="col-half">
@@ -12,13 +13,13 @@
           <div class="brew-log-overview tile">
             <h3>Brew Log</h3>
             <brew-log-overview
-              [user]="currentUser"
+              [brews]="userBrews"
               [page]="currentPage"
               (view)="handleView($event)"
               (brewLog)="handleBrewLog()">
             </brew-log-overview>
             <div class="brew-log-overview__footer clearfix">
-              <brew-log-pagination
+              <brew-log-pagination *ngIf="pages"
                 [pages]="pages"
                 [page]="currentPage"
                 (getPageEvent)="handleGetPage($event)">

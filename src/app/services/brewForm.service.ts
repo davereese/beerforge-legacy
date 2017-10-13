@@ -174,10 +174,10 @@ export class BrewFormService {
     });
   }
 
-  addUserInfo(userId: string, currentUser) {
+  addUserInfo(userId: string, brews) {
     this.newBrewForm.value.get('brewFormAuto').patchValue({
       userId: (null !== userId ? userId : null),
-      batchNum: (null !== currentUser ? (currentUser.Brews.edges[0].node.batchNum)+1 : null)
+      batchNum: (null !== brews ? (brews[0].batchNum)+1 : null)
     });
   }
 

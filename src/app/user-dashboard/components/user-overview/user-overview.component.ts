@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 
 import { User } from '../../models/user.interface';
+import { Brew } from 'app/brew/models/brew.interface';
+
 
 @Component({
   selector: 'user-overview',
@@ -11,11 +13,6 @@ export class UserOverviewComponent {
   @Input()
   user: User;
 
-  batchNum: number;
-
-  ngOnInit() {
-    if (this.user) {
-      this.batchNum = this.user.Brews.edges[0].node.batchNum;
-    }
-  }
+  @Input()
+  userBrews: any[];
 }

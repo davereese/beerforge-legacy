@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import gql from 'graphql-tag';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Brew } from '../../models/brew.interface';
-import { User } from '../../../user-dashboard/models/user.interface';
 import { flipInOut } from '../../../animations/flip-in-out';
 import { modalPop } from '../../../animations/modal-pop';
 import { modalData } from '../../../modal/models/modal.model';
-import { UserService } from '../../../services/user.service';
+
+import { Brew } from '../../models/brew.interface';
+import { User } from '../../../user-dashboard/models/user.interface';
+
+import { UserBrewsService } from '../../../services/userBrews.service';
 import { BrewFormService } from '../../../services/brewForm.service';
 import { BrewCalcService } from '../../../services/brewCalc.service';
 
@@ -27,17 +29,19 @@ export class newBrewComponent implements OnInit, OnDestroy {
   modalData: modalData;
   showModal: boolean = false;
   first: number = 1;
-  userSubscription: Subscription;
+  userBrews: Array<Brew>;
+  brewsSubscription: Subscription;
   brewName: string = 'New Brew';
   editingName: boolean = false;
   editingData: any = {};
+  userId: string;
   flipCard: boolean = false;
   editingSection: string;
   newBrewForm: BehaviorSubject<FormGroup>; // form inputs
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
+    private userBrewsService: UserBrewsService,
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
     private router: Router,
@@ -48,11 +52,12 @@ export class newBrewComponent implements OnInit, OnDestroy {
     this.newBrewForm = this.brewFormService.newBrewForm;
     this.brewFormService.loadForm();
 
-    this.userService.getUserID();
-    this.userService.getCurrentUser(this.first);
-    this.userSubscription = this.userService.currentUser$.subscribe(user => {
-      if (user) {
-        this.brewFormService.addUserInfo(user.id, user);
+    this.userBrewsService.loadInitialData(this.first);
+    this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
+      this.userBrews = brews['brews'];
+      this.userId = brews['userId'];
+      if (this.userBrews) {
+        this.brewFormService.addUserInfo(this.userId, this.userBrews);
       }
       this.changeDetectorRef.detectChanges();
     });
@@ -162,6 +167,6 @@ export class newBrewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+    this.brewsSubscription.unsubscribe();
   }
 }

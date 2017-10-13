@@ -42,6 +42,7 @@ import { newBrewPackagingFormComponent } from './components/new-brew-form-packag
 
 // services
 import { UserService } from '../services/user.service';
+import { UserBrewsService } from '../services/userBrews.service';
 import { BrewFormService } from '../services/brewForm.service';
 import { BrewCalcService } from '../services/brewCalc.service';
 
@@ -98,6 +99,7 @@ const routes: Routes = [
   ],
   providers: [
     UserService,
+    UserBrewsService,
     BrewFormService,
     BrewCalcService,
   ]

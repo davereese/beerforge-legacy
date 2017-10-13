@@ -1,6 +1,6 @@
 <div class="dashboard">
   <main>
-    <div class="container" *ngIf="currentUser; else loaderIcon">
+    <div class="container" *ngIf="userBrews; else loaderIcon">
       <div class="row">
         <div class="col-full">
           <h1 class="float-left">Brew Log</h1>
@@ -8,25 +8,26 @@
 
           <div class="clearfix"></div>
           <div class="brews">
-            <a *ngFor="let brew of currentUser.Brews.edges" class="row brews__item" (click)="viewBrew(brew.node.id)">
+            <a *ngFor="let brew of userBrews" class="row brews__item" (click)="viewBrew(brew.id)">
               <div class="col-half brew-log__brew-name">
                 <span class="brews__item__brew-stats">
-                    <span class="sup">#</span>{{ brew.node.batchNum }}&nbsp;
+                    <span class="sup">#</span>{{ brew.batchNum }}&nbsp;
                 </span>
-                {{ brew.node.name }}
+                {{ brew.name }}
               </div>
               <div class="brews__item__brew-stats">
                 <div class="col-eighth float-right ">
-                    <span class="stat">{{ brew.node.createdAt | date:'MM.dd.yy' }}</span>
+                    <span class="stat">{{ brew.createdAt | date:'MM.dd.yy' }}</span>
                 </div>
                 <div class="float-right">
-                  <span class="stat">{{ brew.node | getABV }}</span> <span class="stat">{{ brew.node | getIBUs:'total' }}</span> <span class="stat">{{ brew.node | getSRM }}</span>
+                  <span class="stat">{{ brew | getABV }}</span> <span class="stat">{{ brew | getIBUs:'total' }}</span> <span class="stat">{{ brew | getSRM }}</span>
                 </div>
               </div>
             </a>
           </div>
           <brew-log-pagination
-            [brews]="currentUser.Brews"
+            [brews]="userBrews"
+            [pageInfo]="pageInfo"
             [page]="page"
             [results]="results"
             (prevPageEvent)="handlePrevPage($event)"

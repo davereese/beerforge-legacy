@@ -5,11 +5,14 @@ import { FormGroup } from '@angular/forms';
 import { Brew } from '../../models/brew.interface';
 import { flipInOut } from '../../../animations/flip-in-out';
 import { modalPop } from '../../../animations/modal-pop';
+
 import { modalData } from '../../../modal/models/modal.model';
-import { UserService } from '../../../services/user.service';
+import { currentBrewQuery } from '../../models/getBrew.model';
+
+import { UserBrewsService } from '../../../services/userBrews.service';
 import { BrewFormService } from '../../../services/brewForm.service';
 import { BrewCalcService } from '../../../services/brewCalc.service';
-import { currentBrewQuery } from '../../models/getBrew.model';
+
 
 @Component({
   selector: 'view-brew',
@@ -35,15 +38,13 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   editingSection: string;
 
   constructor(
-    private userService: UserService,
+    private userBrewsService: UserBrewsService,
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
     private router: Router,
     private route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef
   ) { 
-    this.userService.getUserID();
-    this.userId = this.userService._currentUserID.value;
     this.route.params
       .subscribe(params => {
         this.brewId = params['id'];
@@ -53,8 +54,8 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.newBrewForm = this.brewFormService.newBrewForm;
 
-    this.userService.getCurrentBrew(this.brewId);
-    this.brewSubscription = this.userService.currentBrew$.subscribe(brew => {
+    this.userBrewsService.getCurrentBrew(this.brewId);
+    this.brewSubscription = this.userBrewsService.currentBrew$.subscribe(brew => {
       this.currentBrew = brew;
 
       this.brewFormService.loadForm(this.currentBrew);

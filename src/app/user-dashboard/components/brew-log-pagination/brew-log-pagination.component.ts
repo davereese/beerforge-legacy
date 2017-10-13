@@ -9,7 +9,10 @@ export class BrewLogPaginationComponent {
   currentPage: number;
 
   @Input()
-  brews: any;
+  brews: any[];
+
+  @Input()
+  pageInfo: any[];
 
   @Input()
   pages: number;

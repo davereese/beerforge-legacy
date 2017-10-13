@@ -1,11 +1,11 @@
 <div class="brew-log-overview">
   <div class="brew-log-overview__container" [ngStyle]="pageStyle">
-    <a *ngFor="let brew of user.Brews.edges" class="row brew-log-overview__brew" (click)="viewBrew(brew.node.id)">
+    <a *ngFor="let brew of brews" class="row brew-log-overview__brew" (click)="viewBrew(brew.id)">
       <div class="col-half brew-log-overview__brew-name">
-        {{ brew.node.name }}
+        {{ brew.name }}
       </div>
       <div class="col-half right-align brew-log-overview__brew-stats">
-        {{ brew.node.createdAt | date:'MM.dd.yy' }}
+        {{ brew.createdAt | date:'MM.dd.yy' }}
       </div>
     </a>
   </div>

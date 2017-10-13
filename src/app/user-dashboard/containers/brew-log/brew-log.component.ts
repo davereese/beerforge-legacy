@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { User } from '../../models/user.interface';
-import { currentUserQuery } from '../../models/getUser.model';
+import { Brew } from 'app/brew/models/brew.interface';
 
 import { UserService } from '../../../services/user.service';
+import { UserBrewsService } from '../../../services/userBrews.service';
 import { BrewCalcService } from '../../../services/brewCalc.service';
+
 
 @Component({
   selector: 'brew-log',
@@ -15,8 +16,9 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrewLogComponent implements OnInit, OnDestroy {
-  currentUser: User;
-  userSubscription: Subscription;
+  userBrews: Array<Brew>;
+  brewsSubscription: Subscription;
+  pageInfo: any[];
 
   // Pagination arguments.
   results: number = 20;
@@ -24,15 +26,17 @@ export class BrewLogComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
+    private userBrewsService: UserBrewsService,
     private brewCalcService: BrewCalcService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.userService.getCurrentUser(this.results);
-    this.userSubscription = this.userService.currentUser$.subscribe(user => {
-      this.currentUser = user;
+    this.userBrewsService.loadInitialData();
+    this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
+      this.userBrews = brews['brews'];
+      this.pageInfo = brews['pageInfo'];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -42,17 +46,17 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   }
 
   handlePrevPage(item) {
-    this.userService.getCurrentUser(null, null, this.results, item);
+    this.userBrewsService.loadInitialData(null, null, this.results, item);
     this.page -= 1;
   }
 
   handleFirstPage() {
-    this.userService.getCurrentUser(this.results);
+    this.userBrewsService.loadInitialData(this.results);
     this.page = 1;
   }
 
   handleNextPage(item) {
-    this.userService.getCurrentUser(this.results, item, null, null);
+    this.userBrewsService.loadInitialData(this.results, item, null, null);
     this.page += 1;
   }
 
@@ -61,6 +65,6 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+    this.brewsSubscription.unsubscribe();
   }
 }

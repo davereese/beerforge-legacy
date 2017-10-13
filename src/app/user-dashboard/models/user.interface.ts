@@ -7,16 +7,6 @@ export interface User {
     defaultPicNumber: number
     blobUrl?: string
   }
-  Brews?: {
-    edges: [{
-      node: {
-        id: string
-        name: string
-        createdAt: string
-        batchNum: number
-      }
-    }]
-  }
   Badges?: {
     edges: [{
       node: {

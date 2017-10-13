@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 
@@ -8,7 +8,8 @@ import { getMaltsQuery } from '../../models/getIngredients.model';
 @Component({
   selector: 'new-fermentables-form',
   styleUrls: ['new-brew-form-fermentables.component.scss'],
-  templateUrl: './new-brew-form-fermentables.component.html'
+  templateUrl: './new-brew-form-fermentables.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
   malts: any;
@@ -29,7 +30,8 @@ export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
   disable: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -39,6 +41,7 @@ export class newBrewFermentablesFormComponent implements OnInit, OnChanges {
       query: getMaltsQuery
     }).subscribe(({data, loading}) => {
       this.malts = data['viewer']['allMalts']['edges'];
+      this.changeDetectorRef.detectChanges();
     });
 
     this.parent.get('brewFormFermentables')

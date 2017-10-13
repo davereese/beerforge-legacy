@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 
@@ -8,7 +8,8 @@ import { getYeastsQuery } from '../../models/getIngredients.model';
 @Component({
   selector: 'new-yeasts-form',
   styleUrls: ['new-brew-form-yeasts.component.scss'],
-  templateUrl: './new-brew-form-yeasts.component.html'
+  templateUrl: './new-brew-form-yeasts.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class newBrewYeastsFormComponent implements OnInit, OnChanges {
   yeasts: any;
@@ -37,7 +38,8 @@ export class newBrewYeastsFormComponent implements OnInit, OnChanges {
   disable: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,7 @@ export class newBrewYeastsFormComponent implements OnInit, OnChanges {
       query: getYeastsQuery
     }).subscribe(({data, loading}) => {
       this.yeasts = data['viewer']['allYeasts']['edges'];
+      this.changeDetectorRef.detectChanges();
     });
 
     this.parent.get('brewFormYeasts')

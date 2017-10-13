@@ -13,6 +13,7 @@ import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 
 // services
 import { UserService } from './services/user.service';
+import { UserBrewsService } from './services/userBrews.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const routes: Routes = [
     BrowserAnimationsModule
   ],
   providers: [
-    UserService
+    UserService,
+    UserBrewsService
   ],
   bootstrap: [AppComponent]
 })

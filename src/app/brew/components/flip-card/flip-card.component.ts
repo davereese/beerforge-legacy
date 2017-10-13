@@ -224,6 +224,7 @@ export class flipCardComponent implements OnChanges {
         });
         break;
     }
+    this.parent.markAsDirty();
   }
 
   handleEdit() {

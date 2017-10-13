@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { User } from '../../models/user.interface';
+import { Brew } from '../../../brew/models/brew.interface';
 
 @Component({
   selector: 'brew-log-overview',
@@ -11,13 +12,15 @@ export class BrewLogOverviewComponent {
   pageStyle: any = {};
 
   @Input()
-  user: User;
+  brews: Array<Brew>;
 
   @Input()
   page: number;
 
   @Output()
   view: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor() { }
 
   ngOnChanges() {
     switch(this.page) {

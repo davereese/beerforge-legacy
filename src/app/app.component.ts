@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   loading: any;
   dashboard: boolean = true; // used in header bar display
   bodyClass: string; // used to change site background colors
@@ -50,9 +50,6 @@ export class AppComponent {
         }
       }
     });
-
-    this.userService.getUserID();
-    this.userService.getCurrentUser(this.first);
 
     this.userSubscription = this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;

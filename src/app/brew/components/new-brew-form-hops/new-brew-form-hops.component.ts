@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 
@@ -8,7 +8,8 @@ import { getHopsQuery } from '../../models/getIngredients.model';
 @Component({
   selector: 'new-hops-form',
   styleUrls: ['new-brew-form-hops.component.scss'],
-  templateUrl: './new-brew-form-hops.component.html'
+  templateUrl: './new-brew-form-hops.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class newBrewHopsFormComponent implements OnInit, OnChanges {
   hops: any = [];
@@ -31,7 +32,8 @@ export class newBrewHopsFormComponent implements OnInit, OnChanges {
   disable: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class newBrewHopsFormComponent implements OnInit, OnChanges {
       query: getHopsQuery
     }).subscribe(({data, loading}) => {
       this.hops = data['viewer']['allHops']['edges'];
+      this.changeDetectorRef.detectChanges();
     });
 
     this.parent.get('brewFormHops')
