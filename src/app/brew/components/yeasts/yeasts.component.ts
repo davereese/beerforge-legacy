@@ -8,7 +8,7 @@ import { Yeast } from '../../models/brew.interface';
   styleUrls: ['yeasts.component.scss'],
   templateUrl: './yeasts.component.html'
 })
-export class yeastsComponent {
+export class yeastsComponent implements OnInit {
   yeasts: any;
 
   @Input()
@@ -19,6 +19,8 @@ export class yeastsComponent {
 
   @Output()
   edit: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor() { }
 
   ngOnInit() {
     this.yeasts = (this.parent.get('yeasts') as FormArray).controls;

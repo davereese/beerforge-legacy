@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Brew } from '../../models/brew.interface';
 
@@ -7,7 +7,7 @@ import { Brew } from '../../models/brew.interface';
   styleUrls: ['new-brew-form-settings.component.scss'],
   templateUrl: './new-brew-form-settings.component.html'
 })
-export class newBrewSettingsFormComponent {
+export class newBrewSettingsFormComponent implements OnInit {
   batchType: string;
 
   @Input()
@@ -24,6 +24,8 @@ export class newBrewSettingsFormComponent {
     { name: 'Partial Mash', value: 'partial' },
     { name: 'Extract', value: 'extract' },
   ];
+
+  constructor() { }
 
   ngOnInit() {
     this.batchType = null !== this.parent.get('brewFormSettings.batchType').value ? this.parent.get('brewFormSettings.batchType').value : '';

@@ -21,6 +21,8 @@ export class fermentablesComponent implements OnInit {
   @Output()
   edit: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor() { }
+
   ngOnInit() {
     this.fermentables = (this.parent.get('fermentables') as FormArray).controls;
   }

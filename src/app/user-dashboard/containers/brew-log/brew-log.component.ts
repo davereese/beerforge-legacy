@@ -41,10 +41,6 @@ export class BrewLogComponent implements OnInit, OnDestroy {
     });
   }
 
-  newBrew() {
-    this.router.navigate(['/brew']);
-  }
-
   handlePrevPage(item) {
     this.userBrewsService.loadInitialData(null, null, this.results, item);
     this.page -= 1;
@@ -58,6 +54,10 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   handleNextPage(item) {
     this.userBrewsService.loadInitialData(this.results, item, null, null);
     this.page += 1;
+  }
+
+  newBrew() {
+    this.router.navigate(['/brew']);
   }
 
   viewBrew(id) {

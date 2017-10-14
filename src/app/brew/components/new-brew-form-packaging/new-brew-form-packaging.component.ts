@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['new-brew-form-packaging.component.scss'],
   templateUrl: './new-brew-form-packaging.component.html'
 })
-export class newBrewPackagingFormComponent {
+export class newBrewPackagingFormComponent implements OnInit {
   packageType: string;
   carbonationMethod: string;
 
@@ -26,6 +26,8 @@ export class newBrewPackagingFormComponent {
     { name: 'Cane Sugar', value: 'caneSugar' },
     { name: 'DME', value: 'dme' }
   ];
+
+  constructor() { }
 
   ngOnInit() {
     this.parent.get('brewFormPackaging')

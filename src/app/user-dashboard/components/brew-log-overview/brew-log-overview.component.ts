@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 
 import { User } from '../../models/user.interface';
 import { Brew } from '../../../brew/models/brew.interface';
@@ -8,7 +8,7 @@ import { Brew } from '../../../brew/models/brew.interface';
   styleUrls: ['brew-log-overview.component.scss'],
   templateUrl: './brew-log-overview.component.html'
 })
-export class BrewLogOverviewComponent {
+export class BrewLogOverviewComponent implements OnChanges {
   pageStyle: any = {};
 
   @Input()

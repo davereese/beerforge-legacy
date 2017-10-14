@@ -56,14 +56,6 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
     this.currentPage = event;
   }
 
-  handleNextPage() {
-    this.currentPage = this.currentPage+1;
-  }
-
-  handlePrevPage() {
-    this.currentPage = this.currentPage-1;
-  }
-
   handleBrew(event: any) {
     this.router.navigate(['/brew']);
   }

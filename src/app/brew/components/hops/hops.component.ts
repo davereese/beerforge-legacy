@@ -23,6 +23,8 @@ export class hopsComponent implements OnInit {
   @Output()
   edit: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor() { }
+
   ngOnInit() {
     this.hops = (this.parent.get('hops') as FormArray).controls;
   }

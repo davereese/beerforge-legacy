@@ -42,6 +42,8 @@ export class flipCardComponent implements OnChanges {
   @Output()
   remove: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor() { }
+
   ngOnChanges() {
     switch (this.detail) {
       case 'settings':

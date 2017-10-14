@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import gql from 'graphql-tag';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { flipInOut } from '../../../animations/flip-in-out';
 import { modalPop } from '../../../animations/modal-pop';

@@ -15,4 +15,6 @@ export class UserOverviewComponent {
 
   @Input()
   userBrews: any[];
+
+  constructor() { }
 }

@@ -5,6 +5,8 @@ import {CommonModule} from "@angular/common";
 import { parseMash, ParseCo2Method, FillPipe, round, gravityUnits } from './pipes/brewFilter.pipe';
 import { getTotalMalt, getTotalHop, getABV, getSRM, getIBUs, getOriginalGravity, getAttenuation, getCo2 } from './pipes/brewCal.pipe';
 
+// This module is so pipes can be globally accessible
+
 @NgModule({
   declarations: [
     parseMash,

@@ -9,6 +9,5 @@ export class FocusDirective implements OnInit {
   ngOnInit() {
     this.renderer.invokeElementMethod(
       this.elementRef.nativeElement, 'focus', []);
-    console.log(this.renderer);
   }
 }

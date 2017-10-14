@@ -12,6 +12,8 @@ export class newBrewFermentationFormComponent implements OnInit {
 
   secondary: boolean;
 
+  constructor() { }
+
   ngOnInit() {
     this.secondary = this.parent.value.brewFormFermentation.fermentSecCheck;
   }
