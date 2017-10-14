@@ -10,5 +10,5 @@
       {{ user.firstName }} {{ user.lastName }}
     </span>
   </h1>
-  <p class="user-overview__stats"><span *ngIf="userBrews">Beers Brewed: {{ userBrews[0].batchNum }}</span> <span>Badges Earned: {{ user.Badges.edges.length }}</span></p>
+  <p class="user-overview__stats"><span *ngIf="userBrews">Beers Brewed: {{ userBrews[0]?.batchNum }}</span> <span>Badges Earned: {{ user.Badges.edges.length }}</span></p>
 </div>

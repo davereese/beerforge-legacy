@@ -51,12 +51,13 @@ export class newBrewComponent implements OnInit, OnDestroy {
     this.newBrewForm = this.brewFormService.newBrewForm;
     this.brewFormService.loadForm();
 
-    this.userBrewsService.loadInitialData(this.first);
     this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
       this.userBrews = brews['brews'];
       this.userId = brews['userId'];
       if (this.userBrews) {
         this.brewFormService.addUserInfo(this.userId, this.userBrews);
+      } else {
+        this.userBrewsService.loadInitialData(this.first);
       }
       this.changeDetectorRef.detectChanges();
     });
@@ -156,6 +157,7 @@ export class newBrewComponent implements OnInit, OnDestroy {
           }
       }
       this.showModal = true;
+      this.userBrewsService.refetchData();
       this.changeDetectorRef.detectChanges();
     });
   }

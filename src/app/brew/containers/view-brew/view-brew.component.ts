@@ -136,6 +136,7 @@ export class viewBrewComponent implements OnInit, OnDestroy {
         }
       }
       this.showModal = true;
+      this.userBrewsService.refetchData();
       this.changeDetectorRef.detectChanges();
     });
   }

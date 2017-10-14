@@ -33,7 +33,6 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.userBrewsService.loadInitialData();
     this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
       this.userBrews = brews['brews'];
       this.pageInfo = brews['pageInfo'];
@@ -42,17 +41,17 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   }
 
   handlePrevPage(item) {
-    this.userBrewsService.loadInitialData(null, null, this.results, item);
+    this.userBrewsService.fetchMoreData(null, null, this.results, item);
     this.page -= 1;
   }
 
   handleFirstPage() {
-    this.userBrewsService.loadInitialData(this.results);
+    this.userBrewsService.fetchMoreData();
     this.page = 1;
   }
 
   handleNextPage(item) {
-    this.userBrewsService.loadInitialData(this.results, item, null, null);
+    this.userBrewsService.fetchMoreData(this.results, item, null, null);
     this.page += 1;
   }
 

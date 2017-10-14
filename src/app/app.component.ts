@@ -6,11 +6,13 @@ import { User } from './user-dashboard/models/user.interface';
 import { currentUserQuery } from './user-dashboard/models/getUser.model';
 
 import { UserService } from './services/user.service';
+import { UserBrewsService } from 'app/services/userBrews.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [UserBrewsService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -19,12 +21,13 @@ export class AppComponent implements OnInit, OnDestroy {
   bodyClass: string; // used to change site background colors
   today = new Date();
   year = this.today.getFullYear();
-  first: number = 0; // number of brews
   currentUser: User;
   userSubscription: Subscription;
+  
 
   constructor(
     private userService: UserService,
+    private userBrewsService: UserBrewsService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -55,6 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.currentUser = user;
       this.changeDetectorRef.detectChanges();
     });
+
+    this.userBrewsService.loadInitialData();
   }
 
   viewDashboard(event: any) {

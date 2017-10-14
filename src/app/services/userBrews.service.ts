@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { User } from '../user-dashboard/models/user.interface';
@@ -14,33 +14,71 @@ export class UserBrewsService {
   private _currentBrew: BehaviorSubject<Brew> = new BehaviorSubject(null);
   public readonly currentBrew$: Observable<Brew> = this._currentBrew.asObservable();
 
-  private first: number = 20;
+  private results: number = 20;
+  private userBrews: ApolloQueryObservable<any>;
+  private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private after: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private lastResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private before: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
   constructor(
     private apollo: Apollo
-  ) { }
-
-  loadInitialData(first = null, after = null, last = null, before = null) {
-    this.apollo.watchQuery({
+  ) {
+    this.userBrews = this.apollo.watchQuery({
       query: currentUserBrewsQuery,
       variables: {
         id: 'VXNlcjox',
-        first: null !== first ? first : this.first,
+        first: this.firstResult.asObservable(),
+        after: this.after.asObservable(),
+        last: this.lastResult.asObservable(),
+        before: this.before.asObservable()
+      }
+    });
+  }
+
+  loadInitialData(first = null, after = null, last = null, before = null) {
+    this.refreshVariables(null !== first ? first : this.results, after, last, before);
+
+    this.userBrews.subscribe(({data, loading}) => {
+      this.updateSubscriptions(data);
+    });
+  }
+
+  fetchMoreData(first = null, after = null, last = null, before = null) {
+    this.userBrews.fetchMore({
+      variables: {
+        first: null !== first ? first : this.results,
         after: after,
         last: last,
         before: before
-      }
-    }).subscribe(({data, loading}) => {
-      const userBrews = Object();
-      const brewArray = Array();
-      data['getUser'].Brews.edges.forEach(brew => {
-        brewArray.push(brew.node);
-      });
-      userBrews['pageInfo'] = data['getUser'].Brews.pageInfo;
-      userBrews['brews'] = brewArray;
-      userBrews['userId'] = data['getUser'].id;
-      this._brews.next(userBrews);
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        this.updateSubscriptions(fetchMoreResult);
+      },
     });
+  }
+
+  refetchData() {
+    this.userBrews.refetch();
+  }
+
+  updateSubscriptions(data) {
+    const userBrews = Object();
+    const brewArray = Array();
+    data['getUser'].Brews.edges.forEach(brew => {
+      brewArray.push(brew.node);
+    });
+    userBrews['pageInfo'] = data['getUser'].Brews.pageInfo;
+    userBrews['brews'] = brewArray;
+    userBrews['userId'] = data['getUser'].id;
+    this._brews.next(userBrews);
+  }
+
+  refreshVariables(first, after, last, before) {
+    this.firstResult.next(first);
+    this.after.next(after);
+    this.lastResult.next(last);
+    this.before.next(before);
   }
 
   getCurrentBrew(brewId: string) {

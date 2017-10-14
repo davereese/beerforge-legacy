@@ -17,13 +17,13 @@ import { UserBrewsService } from '../../../services/userBrews.service';
 })
 export class UserDashboardComponent implements OnInit, OnDestroy {
   currentUser: User;
-  userBrews: Array<Brew>;
+  userBrews: Array<Brew> = [];
   userSubscription: Subscription;
   brewsSubscription: Subscription;
 
   // Pagination arguments.
+  first: number = 18; // number of brews
   defaultPageSize: number = 6;
-  first: number = 18;
   pages: number;
   currentPage: number = 1;
   pageInfo: Object;
@@ -41,15 +41,29 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
-    this.userBrewsService.loadInitialData(this.first);
     this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
-      this.userBrews = brews['brews'];
+      this.userBrews = [];
       this.pageInfo = brews['pageInfo'];
-      if (this.userBrews) {
+      if (brews['brews']) {
+        let count = 1;
+        brews['brews'].forEach(brew => {
+          if (this.first >= count) {
+            this.userBrews.push(brew);
+          }
+          count++;
+        });
         this.pages = Math.ceil(this.userBrews.length / this.defaultPageSize);
       }
+      
       this.changeDetectorRef.detectChanges();
     });
+
+    // if you are coming from a route that has changed the results to be less than 18, reload the data
+    if (0 !== this.userBrews.length && this.first > this.userBrews.length) {
+      this.userBrews = [];
+      this.userBrewsService.loadInitialData();
+      return;
+    }
   }
 
   handleGetPage(event) {
