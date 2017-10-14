@@ -168,6 +168,10 @@ export class flipCardComponent implements OnChanges {
         });
         break;
     }
+
+    if ( this.checkForIngredients() ) {
+      this.parent.markAsDirty();
+    }
     this.cancelSave.emit();
   }
 
@@ -254,5 +258,17 @@ export class flipCardComponent implements OnChanges {
     let detail = this.detail,
         index = this.data.index;
     this.remove.emit({detail, index});
+  }
+
+  checkForIngredients(): boolean {
+    let dirty = false;
+    if ( null === this.currentBrew && 
+      0 < this.parent.value.fermentables.length ||
+      0 < this.parent.value.hops.length ||
+      0 < this.parent.value.yeasts.length ||
+      0 < this.parent.value.adjuncts.length ) {
+      dirty = true;
+    }
+    return dirty;
   }
 }
