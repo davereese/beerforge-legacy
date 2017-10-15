@@ -6,47 +6,8 @@
 .new-brew {
   @extend.view-brew;
 
-  @keyframes rotateGear {
-    from {
-      transform: rotate(0deg);
-    }
-
-    to {
-      transform: rotate(180deg);
-    }
-  }
-
   .container {
     width: 800px;
-  }
-
-  .brew-settings-btn {
-    position: relative;
-    margin-top: 13px;
-    padding-left: 23px;
-    text-transform: uppercase;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 18px;
-      height: 18px;
-      position: absolute;
-      left: 0;
-      top: 1.5px;
-      background: url('../../../../assets/images/gear.svg') no-repeat;
-      background-size: 18px;
-    }
-
-    &:hover,
-    &:focus {
-      &::before {
-        animation-duration: 2s;
-        animation-name: rotateGear;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      }
-    }
   }
 
   .brew {
@@ -71,10 +32,6 @@
     &__details,
     &__ingredients {
       .edit {
-        top: -5px;
-        right: 14px;
-        width: 21px;
-        height: 21px;
         @include pencil(darken($bf-orange, 15%));
         background-size: 21px;
         background-position: 5px 5px;
@@ -88,14 +45,10 @@
 
       .row {
         border-top: 1px solid rgba($bf-orange, 0.3);
-        
-        .edit {
-          right: 10px;
-        }
       }
 
       .plus {
-        top: 22px;
+        top: 2px;
 
         &:hover,
         &:focus {

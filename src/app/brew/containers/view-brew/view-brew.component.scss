@@ -1,10 +1,21 @@
 @import '../../../../styles/variables.scss';
+@import '../../../../styles/mixins.scss';
 @import '../../../../styles/type.scss';
 
 .view-brew {
   position: relative;
   min-height: calc(100vh - 55px);
   overflow: hidden;
+
+  @keyframes rotateGear {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(180deg);
+    }
+  }
 
   .container {
     max-width: 800px;
@@ -25,12 +36,46 @@
     }
   }
 
+  .brew-settings-btn {
+    position: relative;
+    margin-top: 13px;
+    padding-left: 23px;
+    text-transform: uppercase;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      left: 0;
+      top: 1.5px;
+      background: url('../../../../assets/images/gear.svg') no-repeat;
+      background-size: 18px;
+    }
+
+    &:hover,
+    &:focus {
+      &::before {
+        animation-duration: 2s;
+        animation-name: rotateGear;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+    }
+  }
+
   .brew {
     &__title {
       margin-bottom: 20px;
+
+      .edit {
+        top: 3px;
+      }
     }
 
     &__meta {
+      width: 25%;
       margin-top: 13px;
       @extend %subhead;
 
@@ -45,10 +90,40 @@
 
     &__details,
     &__ingredients {
+      .edit {
+        top: -5px;
+        right: 14px;
+        width: 21px;
+        height: 21px;
+        @include pencil($bf-yellow);
+        background-size: 21px;
+        background-position: 5px 5px;
+        background-color: transparent;
+        transition: opacity 0.3s, right 0.3s, background-color 0.3s;;
+
+        &.on-hover {
+          opacity: 0;
+          right: -10px;
+        }
+
+        &:hover,
+        &:focus {
+          background-color: rgba($bf-gray, 0.5);
+        }
+      }
+
       .row {
         padding: 15px 5px 15px;
         border-top: 1px solid rgba($bf-gray, 0.5);
         transition: background-color 0.3s;
+
+        .edit {
+          right: 10px;
+
+          &.on-hover {
+            right: -10px;
+          }
+        }
       }
 
       .plus.on-hover {
@@ -79,6 +154,15 @@
             padding-top: 20px;
           }
         }
+
+        &__info {
+          padding-right: 59px;
+
+          &.on-hover {
+            padding-right: 0;
+            transition: padding-right 0.3s;
+          }
+        }
       }
     }
 
@@ -89,10 +173,26 @@
 
       &.no-padding {
         padding: 0;
+
+        .header--title {
+          border-top: 0;
+        }
       }
 
       .row.title {
         padding: 20px 5px;
+
+        &:hover,
+        &:focus {
+          .header__info.on-hover {
+            padding-right: 60px;
+          }
+
+          .edit.on-hover {
+            opacity: 1;
+            right: 10px;
+          }
+        }
       }
 
       .header {
@@ -120,7 +220,7 @@
       &:hover,
       &:focus {
         .header {
-          padding-right: 59px;
+          padding-right: 78px;
         }
 
         .plus.on-hover {
@@ -138,6 +238,10 @@
         padding: 10px 20px 0;
         color: $bf-logo_yellow;
         transition: padding 0.3s;
+
+        &__info {
+          padding-right: 78px;
+        }
       }
 
       .row {

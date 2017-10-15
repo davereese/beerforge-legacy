@@ -4,7 +4,8 @@
     <div class="container" [ngClass]="{'make-room': flipCard}" *ngIf="currentBrew; else loaderIcon">
       <div class="row">
         <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
-        <span class="float-right brew__meta">
+        <span class="float-right right-align brew__meta">
+          <span><a class="brew-settings-btn" (click)="flipTheCard('settings')"></a></span>
           <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> <span class="sup">#</span>{{ currentBrew?.batchNum }}
         </span>
       </div>
@@ -85,13 +86,16 @@
           class="row">
         </yeast>
       </div>
-      <div class="row brew__details tile">
+      <div class="row brew__details tile no-padding">
         <ng-container *ngIf="'extract' !== newBrewForm.value?.value.brewFormSettings.batchType">
-          <div class="col-quarter header header--title">
-            MASH
-          </div>
-          <div class="col-three-quarters header header--title right-align">
-            <!-- Batch/Fly  -->
+          <div class="row title padding-top">
+            <div class="col-quarter header">
+              MASH
+            </div>
+            <div class="col-three-quarters header right-align">
+              <!-- Batch/Fly  -->
+              <a class="edit on-hover" (click)="flipTheCard('mash')"></a>
+            </div>
           </div>
           <div class="row" (click)="flipTheCard('mash')">
             <div class="col-quarter">
@@ -126,16 +130,19 @@
           <div class="col-quarter header">
             BOIL
           </div>
-          <div class="col-three-quarters header right-align">
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity">
-              Gravity: {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity }}
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity && newBrewForm.value?.value.brewFormAuto.originalGravity">
-              &nbsp;&rarr;&nbsp;
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
-              {{ newBrewForm.value?.value.brewFormAuto.originalGravity }}
-            </ng-container>
+          <div class="col-three-quarters right-align header">
+            <div class="header__info on-hover">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity">
+                Gravity: {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity }}
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity && newBrewForm.value?.value.brewFormAuto.originalGravity">
+                &nbsp;&rarr;&nbsp;
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
+                {{ newBrewForm.value?.value.brewFormAuto.originalGravity }}
+              </ng-container>
+            </div>
+            <a class="edit on-hover" (click)="flipTheCard('boil')"></a>
           </div>
         </div>
         <div class="row" (click)="flipTheCard('boil')">
@@ -155,15 +162,18 @@
             FERMENTATION
           </div>
           <div class="col-three-quarters header right-align">
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
-              Gravity: {{ newBrewForm.value?.value.brewFormAuto.originalGravity }}
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity && newBrewForm.value?.value.brewFormAuto.finalGravity">
-              &nbsp;&rarr;&nbsp;
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.finalGravity">
-              {{ newBrewForm.value?.value.brewFormAuto.finalGravity }}
-            </ng-container>
+            <div class="header__info on-hover">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
+                Gravity: {{ newBrewForm.value?.value.brewFormAuto.originalGravity }}
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity && newBrewForm.value?.value.brewFormAuto.finalGravity">
+                &nbsp;&rarr;&nbsp;
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.finalGravity">
+                {{ newBrewForm.value?.value.brewFormAuto.finalGravity }}
+              </ng-container>
+            </div>
+            <a class="edit on-hover" (click)="flipTheCard('boil')"></a>
           </div>
         </div>
         <div class="row" (click)="flipTheCard('fermentation')">
@@ -189,15 +199,18 @@
             PACKAGING
           </div>
           <div class="col-three-quarters header right-align capitalize">
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType">
-              {{ newBrewForm.value?.value.brewFormPackaging.packageType }}
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType && newBrewForm.value?.value.brewFormPackaging.carbonationMethod">
-              /
-            </ng-container>
-            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.carbonationMethod">
-              {{ newBrewForm.value?.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
-            </ng-container>
+            <div class="header__info on-hover">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType">
+                {{ newBrewForm.value?.value.brewFormPackaging.packageType }}
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType && newBrewForm.value?.value.brewFormPackaging.carbonationMethod">
+                /
+              </ng-container>
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.carbonationMethod">
+                {{ newBrewForm.value?.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
+              </ng-container>
+            </div>
+            <a class="edit on-hover" (click)="flipTheCard('boil')"></a>
           </div>
         </div>
         <div class="row" (click)="flipTheCard('packaging')">

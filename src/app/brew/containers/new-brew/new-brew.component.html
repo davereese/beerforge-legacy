@@ -1,185 +1,175 @@
 <loader [state]="loader"></loader>
 <div class="new-brew">
   <main>
-    <form [formGroup]="newBrewForm.value">
-      <div class="container" [ngClass]="{'make-room': flipCard}">
-        <div class="row">
-          <h1 class="brew__title float-left" *ngIf="!editingName">{{ brewName }} <a class="edit" (click)="nameFocus()"></a></h1>
-          <h1 class="brew__title float-left" formGroupName="brewFormName" *ngIf="editingName">
-            <input
-              type="text" formControlName="name"
-              (blur)="nameBlur($event)"
-              (keyup)="nameBlur($event, true)"
-              focus-input>
-          </h1>
-          <a class="brew-settings-btn float-right brew__meta" (click)="flipTheCard('settings')">
-            Brew Settings
-          </a>
-        </div>
-        <div class="row brew__details tile">
-          <div class="col-third header--title capitalize">{{ newBrewForm.value?.value.brewFormSettings.batchType | parseMash }}</div>
-          <div class="col-third header--title">
+    <div class="container" [ngClass]="{'make-room': flipCard}">
+      <div class="row">
+        <h1 class="brew__title float-left" *ngIf="!editingName">{{ brewName }} <a class="edit" (click)="nameFocus()"></a></h1>
+        <h1 class="brew__title float-left" formGroupName="brewFormName" *ngIf="editingName">
+          <input
+            type="text" formControlName="name"
+            (blur)="nameBlur($event)"
+            (keyup)="nameBlur($event, true)"
+            focus-input>
+        </h1>
+        <a class="brew-settings-btn float-right brew__meta" (click)="flipTheCard('settings')">
+          Brew Settings
+        </a>
+      </div>
+      <div class="row brew__details tile no-padding" (click)="flipTheCard('settings')">
+        <div class="row header--title padding-top" (click)="flipTheCard('settings')">
+          <div class="col-third">{{ newBrewForm.value?.value.brewFormSettings.batchType | parseMash }}</div>
+          <div class="col-third">
             <ng-container *ngIf="newBrewForm.value?.value.brewFormSettings.batchSize">
               Batch Size: {{ newBrewForm.value?.value.brewFormSettings.batchSize }} gal
             </ng-container>
           </div>
-          <div class="col-third header--title right-align">
+          <div class="col-third right-align">
             <ng-container *ngIf="newBrewForm.value?.value.brewFormSettings.sysEfficiency">
               System Efficiency: {{ newBrewForm.value?.value.brewFormSettings.sysEfficiency }}%
             </ng-container>
           </div>
-          <div class="row title">
-            <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value?.value | getABV }}              
-            </div>
-            <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value?.value | getIBUs:'total' }}              
-            </div>
-            <div class="col-quarter header header--no-color">
-              {{ newBrewForm.value?.value | getSRM }}              
-            </div>
-            <div class="col-quarter header header--no-color right-align">
-              {{ newBrewForm.value?.value | getAttenuation }}              
-            </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header header--no-color">
+            {{ newBrewForm.value?.value | getABV }}              
+          </div>
+          <div class="col-quarter header header--no-color">
+            {{ newBrewForm.value?.value | getIBUs:'total' }}              
+          </div>
+          <div class="col-quarter header header--no-color">
+            {{ newBrewForm.value?.value | getSRM }}              
+          </div>
+          <div class="col-quarter header header--no-color right-align">
+            {{ newBrewForm.value?.value | getAttenuation }}              
           </div>
         </div>
-        <div class="row brew__ingredients tile">
-          <div class="col-half">
-            <h2 class="ingredient-title float-left">Fermentables</h2>
-          </div>
-          <div class="col-eighth right-align"></div>
-          <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.fermentables.length">
-              {{ newBrewForm.value?.value | getTotalMalt }}
-            </span>
-          </div>
-          <span class="float-right align-right header">
-            <a class="plus" (click)="flipTheCard('fermentables')">+</a>
-          </span>
-          <fermentables
-            *ngIf="newBrewForm.value?.value.fermentables.length"
-            [parent]="newBrewForm.value"
-            (edit)="editingSelection($event)">
-          </fermentables>
+      </div>
+      <div class="row brew__ingredients tile">
+        <div class="col-half">
+          <h2 class="ingredient-title float-left">Fermentables</h2>
         </div>
-        <div class="row brew__ingredients tile">
-          <div class="col-half">
-            <h2 class="ingredient-title float-left">Hops</h2>
+        <div class="col-half right-align header">
+          <div class="header__info" *ngIf="0 < newBrewForm.value?.value.fermentables.length">
+            {{ newBrewForm.value?.value | getTotalMalt }}
           </div>
-          <div class="col-eighth right-align"></div>
-          <div class="col-quarter right-align">
-            <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.hops.length">
-              {{ newBrewForm.value?.value | getTotalHop }}
-            </span>
-          </div>
-          <span class="float-right align-right header">
+          <a class="plus" (click)="flipTheCard('fermentables')">+</a>
+        </div>
+        <fermentables
+          *ngIf="newBrewForm.value?.value.fermentables.length"
+          [parent]="newBrewForm.value"
+          (edit)="editingSelection($event)">
+        </fermentables>
+      </div>
+      <div class="row brew__ingredients tile">
+        <div class="col-half">
+          <h2 class="ingredient-title float-left">Hops</h2>
+        </div>
+        <div class="col-half right-align header">
+            <div class="header__info" *ngIf="0 < newBrewForm.value?.value.hops.length">
+            {{ newBrewForm.value?.value | getTotalHop }}
+            </div>
             <a class="plus" (click)="flipTheCard('hops')">+</a>
-          </span>
-          <hops
-            *ngIf="newBrewForm.value?.value.hops.length"
-            [parent]="newBrewForm.value"
-            (edit)="editingSelection($event)">
-          </hops>
         </div>
-        <!--<div class="row brew__ingredients tile">
-          <h2 class="ingredient-title float-left">Adjuncts</h2>
-          <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.adjuncts.length">
-            <a class="plus" (click)="flipTheCard('adjuncts')">+</a>
-          </span>
-          <adjuncts
-            *ngIf="newBrewForm.value"
-            [parent]="newBrewForm.value">
-          </adjuncts>
-        </div>-->
-        <div class="row brew__ingredients tile">
-          <div class="col-half">
-            <h2 class="ingredient-title float-left">Yeast</h2>
-          </div>
-          <div class="col-eighth right-align"></div>
-          <div class="col-quarter right-align">
-            <!-- total yeast -->
-          </div>
-          <span class="float-right align-right header">
-            <a class="plus" (click)="flipTheCard('yeasts')">+</a>
-          </span>
-          <yeasts
-            *ngIf="newBrewForm.value?.value.yeasts.length"
-            [parent]="newBrewForm.value"
-            (edit)="editingSelection($event)">
-          </yeasts>
+        <hops
+          *ngIf="newBrewForm.value?.value.hops.length"
+          [parent]="newBrewForm.value"
+          (edit)="editingSelection($event)">
+        </hops>
+      </div>
+      <!--<div class="row brew__ingredients tile">
+        <h2 class="ingredient-title float-left">Adjuncts</h2>
+        <span class="float-right align-right header" *ngIf="0 < newBrewForm.value?.value.adjuncts.length">
+          <a class="plus" (click)="flipTheCard('adjuncts')">+</a>
+        </span>
+        <adjuncts
+          *ngIf="newBrewForm.value"
+          [parent]="newBrewForm.value">
+        </adjuncts>
+      </div>-->
+      <div class="row brew__ingredients tile">
+        <div class="col-half">
+          <h2 class="ingredient-title float-left">Yeast</h2>
         </div>
-        <div class="row brew__details tile" [ngClass]="{'no-top-padding' : 'extract' === newBrewForm.value?.value.brewFormSettings.batchType}">
-          <ng-container *ngIf="'extract' !== newBrewForm.value?.value.brewFormSettings.batchType">
-            <div class="col-quarter header header--title">
-              MASH
+        <div class="col-half right-align header">
+          <a class="plus" (click)="flipTheCard('yeasts')">+</a>
+        </div>
+        <yeasts
+          *ngIf="newBrewForm.value?.value.yeasts.length"
+          [parent]="newBrewForm.value"
+          (edit)="editingSelection($event)">
+        </yeasts>
+      </div>
+      <div class="row brew__details tile" [ngClass]="{'no-top-padding' : 'extract' === newBrewForm.value?.value.brewFormSettings.batchType}">
+        <ng-container *ngIf="'extract' !== newBrewForm.value?.value.brewFormSettings.batchType">
+          <div class="col-quarter header header--title">
+            MASH
+          </div>
+          <div class="col-three-quarters header header--title right-align">
+            <a class="edit" (click)="flipTheCard('mash')"></a>
+          </div>
+          <div class="row" (click)="flipTheCard('mash')">
+            <div class="col-quarter">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.waterToGrain">
+                Strike with {{ newBrewForm.value?.value.brewFormAuto.mashWaterVol }} gal at {{ newBrewForm.value?.value.brewFormAuto.strikeTemp }}&deg;&nbsp;F
+              </ng-container>
             </div>
-            <div class="col-three-quarters header header--title right-align">
-              <a class="edit" (click)="flipTheCard('mash')"></a>
+            <div class="col-quarter">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.mashTime">
+                Mash for {{ newBrewForm.value?.value.brewFormMash.mashTime }} min
+              </ng-container>
             </div>
-            <div class="row" (click)="flipTheCard('mash')">
-              <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.waterToGrain">
-                  Strike with {{ newBrewForm.value?.value.brewFormAuto.mashWaterVol }} gal at {{ newBrewForm.value?.value.brewFormAuto.strikeTemp }}&deg;&nbsp;F
-                </ng-container>
-              </div>
-              <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.mashTime">
-                  Mash for {{ newBrewForm.value?.value.brewFormMash.mashTime }} min
-                </ng-container>
-              </div>
-              <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.targetMashTemp">
-                  Mash at {{ newBrewForm.value?.value.brewFormMash.targetMashTemp }}&deg;&nbsp;F
-                </ng-container>
-              </div>
-              <div class="col-quarter">
-                <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.spargeTemp">
-                  Sparge with {{ newBrewForm.value?.value.brewFormAuto.spargeWaterVol }} gal at {{ newBrewForm.value?.value.brewFormMash.spargeTemp }}&deg;&nbsp;F
-                </ng-container>
-              </div>
+            <div class="col-quarter">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.targetMashTemp">
+                Mash at {{ newBrewForm.value?.value.brewFormMash.targetMashTemp }}&deg;&nbsp;F
+              </ng-container>
             </div>
-          </ng-container>
-          <div class="row title">
-            <div class="col-quarter header">
-              BOIL
+            <div class="col-quarter">
+              <ng-container *ngIf="newBrewForm.value?.value.brewFormMash.spargeTemp">
+                Sparge with {{ newBrewForm.value?.value.brewFormAuto.spargeWaterVol }} gal at {{ newBrewForm.value?.value.brewFormMash.spargeTemp }}&deg;&nbsp;F
+              </ng-container>
             </div>
-            <div class="col-eighth"></div>
-            <div class="col-half right-align header">
+          </div>
+        </ng-container>
+        <div class="row title">
+          <div class="col-quarter header">
+            BOIL
+          </div>
+          <div class="col-three-quarters right-align header">
+            <div class="header__info">
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity || newBrewForm.value?.value.brewFormAuto.originalGravity">
                 Gravity: 
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity">
-                 {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity | gravityUnits }} 
+                  {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity | gravityUnits }} 
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity && newBrewForm.value?.value.brewFormAuto.originalGravity">
                 &rarr;
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
-                 {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }} 
+                  {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }} 
               </ng-container>
             </div>
-            <div class="col-eighth header right-align">
-              <a class="edit" (click)="flipTheCard('boil')"></a>
-            </div>
+            <a class="edit" (click)="flipTheCard('boil')"></a>
           </div>
-          <div class="row">
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormBoil.boilTime">
-                Boil Time: {{ newBrewForm.value?.value.brewFormBoil.boilTime }} min
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.boilWaterVol">
-                Boil Size: {{ newBrewForm.value?.value.brewFormAuto.boilWaterVol }} gal
-              </ng-container>
-            </div>
+        </div>
+        <div class="row" (click)="flipTheCard('boil')">
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormBoil.boilTime">
+              Boil Time: {{ newBrewForm.value?.value.brewFormBoil.boilTime }} min
+            </ng-container>
           </div>
-          <div class="row title">
-            <div class="col-quarter header">
-              FERMENTATION
-            </div>
-            <div class="col-eighth"></div>
-            <div class="col-half right-align header">
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.boilWaterVol">
+              Boil Size: {{ newBrewForm.value?.value.brewFormAuto.boilWaterVol }} gal
+            </ng-container>
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            FERMENTATION
+          </div>
+          <div class="col-three-quarters right-align header">
+            <div class="header__info">
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity || newBrewForm.value?.value.brewFormAuto.finalGravity">
                 Gravity: 
               </ng-container>
@@ -192,84 +182,81 @@
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.finalGravity">
                 {{ newBrewForm.value?.value.brewFormAuto.finalGravity | gravityUnits }}
               </ng-container>
-            </div>
-            <div class="col-eighth header right-align">
               <a class="edit" (click)="flipTheCard('fermentation')"></a>
             </div>
           </div>
-          <div class="row">
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTime">
-                Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentTime }} days
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTemp">
-                Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentTemp }}&deg;&nbsp;F
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTime">
-                2nd Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTime }} days
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTemp">
-                2nd Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTemp }}&deg;&nbsp;F
-              </ng-container>
-            </div>
+        </div>
+        <div class="row" (click)="flipTheCard('fermentation')">
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTime">
+              Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentTime }} days
+            </ng-container>
           </div>
-          <div class="row title">
-            <div class="col-quarter header">
-              PACKAGING
-            </div>
-            <div class="col-eighth"></div>
-            <div class="col-half right-align capitalize">
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentTemp">
+              Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentTemp }}&deg;&nbsp;F
+            </ng-container>
+          </div>
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTime">
+              2nd Length: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTime }} days
+            </ng-container>
+          </div>
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormFermentation.fermentSecTemp">
+              2nd Temp: {{ newBrewForm.value?.value.brewFormFermentation.fermentSecTemp }}&deg;&nbsp;F
+            </ng-container>
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            PACKAGING
+          </div>
+          <div class="col-three-quarters right-align capitalize">
+            <div class="header__info">
               {{ newBrewForm.value?.value.brewFormPackaging.packageType }}<ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.packageType && newBrewForm.value?.value.brewFormPackaging.carbonationMethod">/</ng-container>{{ newBrewForm.value?.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
             </div>
-            <div class="col-eighth header right-align">
-              <a class="edit" (click)="flipTheCard('packaging')"></a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget">
-                CO2 Vol: {{ newBrewForm.value?.value.brewFormPackaging.co2VolTarget }}
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.beerTemp">
-                Temperature: {{ newBrewForm.value?.value.brewFormPackaging.beerTemp }}&deg;&nbsp;F
-              </ng-container>
-            </div>
-            <div class="col-quarter">
-              <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget && newBrewForm.value?.value.brewFormPackaging.beerTemp">
-                {{ newBrewForm.value?.value | getCo2 }}
-              </ng-container>
-            </div>
+            <a class="edit" (click)="flipTheCard('packaging')"></a>
           </div>
         </div>
-        <div class="center-align">
-          <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Save &amp; Get Brewing!</button>
+        <div class="row" (click)="flipTheCard('packaging')">
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget">
+              CO2 Vol: {{ newBrewForm.value?.value.brewFormPackaging.co2VolTarget }}
+            </ng-container>
+          </div>
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.beerTemp">
+              Temperature: {{ newBrewForm.value?.value.brewFormPackaging.beerTemp }}&deg;&nbsp;F
+            </ng-container>
+          </div>
+          <div class="col-quarter">
+            <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.co2VolTarget && newBrewForm.value?.value.brewFormPackaging.beerTemp">
+              {{ newBrewForm.value?.value | getCo2 }}
+            </ng-container>
+          </div>
         </div>
       </div>
+      <div class="center-align">
+        <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Save &amp; Get Brewing!</button>
+      </div>
+    </div>
 
-      <div class="card-container">
-        <flip-card
-          *ngIf="flipCard"
-          [detail]="editingSection"
-          [data]="editingData"
-          [parent]="newBrewForm.value"
-          (addIngredient)="addIngredient($event)"
-          (editIngredient)="editIngredient($event)"
-          (cancelSave)="closeTheCard()"
-          (next)="nextCard()"
-          (remove)="removeIngredient($event)"
-          [@flipInOut]>
-        </flip-card>
-      </div>
-      <pre>{{ newBrewForm?.value.value | json }}</pre>
-    </form>
+    <div class="card-container">
+      <flip-card
+        *ngIf="flipCard"
+        [detail]="editingSection"
+        [data]="editingData"
+        [parent]="newBrewForm.value"
+        (addIngredient)="addIngredient($event)"
+        (editIngredient)="editIngredient($event)"
+        (cancelSave)="closeTheCard()"
+        (next)="nextCard()"
+        (remove)="removeIngredient($event)"
+        [@flipInOut]>
+      </flip-card>
+    </div>
+    <!-- <pre>{{ newBrewForm?.value.value | json }}</pre> -->
   </main>
 </div>
 
