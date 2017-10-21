@@ -29,6 +29,10 @@
       }
     }
 
+    &__meta {
+      width: auto;
+    }
+
     &__details,
     &__ingredients {
       .edit {

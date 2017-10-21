@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { scaphold } from '../../../scaphold/scaphold';
 
@@ -22,16 +21,6 @@ import { BrewLogPaginationComponent } from './components/brew-log-pagination/bre
 import { UserService } from '../services/user.service';
 import { BrewCalcService } from '../services/brewCalc.service';
 
-const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: scaphold,
-  }),
-});
-
-export function provideClient(): ApolloClient {
-  return client;
-}
-
 const routes: Routes = [
   { path: 'dashboard', component: UserDashboardComponent, pathMatch: 'full' },
   { path: 'brew-log', component: BrewLogComponent, pathMatch: 'full' },
@@ -48,7 +37,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ApolloModule.forRoot(provideClient),
+    ApolloModule,
     loaderModule,
     PipeModule
   ],

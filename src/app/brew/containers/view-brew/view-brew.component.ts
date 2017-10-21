@@ -18,6 +18,7 @@ import { BrewCalcService } from '../../../services/brewCalc.service';
   selector: 'view-brew',
   styleUrls: ['view-brew.component.scss'],
   templateUrl: './view-brew.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     flipInOut,
     modalPop
@@ -182,6 +183,8 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.brewSubscription.unsubscribe();
+    if (undefined !== this.brewSubscription) {
+      this.brewSubscription.unsubscribe();
+    }
   }
 }

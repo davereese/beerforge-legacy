@@ -3,10 +3,10 @@
     <img [attr.src]="user.profilePic.blobUrl ? user.profilePic.blobUrl : user.profilePic.defaultPicNumber ? '../assets/images/plaid_' + user.profilePic.defaultPicNumber + '.svg' : null" alt="{{ user.firstName }} {{ user.lastName }}">
   </div>
   <h1 class="user-overview__title">
-    <span *ngIf="user.userName">
-      {{ user.userName }}
+    <span *ngIf="!user.firstName && !user.lastName">
+      {{ user.username }}
     </span>
-    <span *ngIf="!user?.username">
+    <span *ngIf="user.firstName && user.lastName">
       {{ user.firstName }} {{ user.lastName }}
     </span>
   </h1>

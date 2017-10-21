@@ -1,12 +1,6 @@
 @import '../../../../styles/variables.scss';
 @import '../../../../styles/type.scss';
 
-header {
-  .profile-pic {
-    display: none;
-  }
-}
-
 .dashboard {
   min-height: calc(100vh - 55px);
 

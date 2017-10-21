@@ -64,6 +64,8 @@ export class BrewLogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.brewsSubscription.unsubscribe();
+    if (undefined !== this.brewsSubscription) {
+      this.brewsSubscription.unsubscribe();
+    }
   }
 }

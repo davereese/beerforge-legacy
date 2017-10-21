@@ -1,9 +1,9 @@
 export interface User {
-  id: string
-  firstName: string
-  lastName: string
-  userName?: string
-  profilePic: {
+  id?: string
+  firstName?: string
+  lastName?: string
+  username?: string
+  profilePic?: {
     defaultPicNumber: number
     blobUrl?: string
   }

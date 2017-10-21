@@ -16,6 +16,7 @@ export class UserBrewsService {
 
   private results: number = 20;
   private userBrews: ApolloQueryObservable<any>;
+  private userID: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private after: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private lastResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -27,7 +28,7 @@ export class UserBrewsService {
     this.userBrews = this.apollo.watchQuery({
       query: currentUserBrewsQuery,
       variables: {
-        id: 'VXNlcjox',
+        id: this.userID.asObservable(),
         first: this.firstResult.asObservable(),
         after: this.after.asObservable(),
         last: this.lastResult.asObservable(),
@@ -75,6 +76,7 @@ export class UserBrewsService {
   }
 
   refreshVariables(first, after, last, before) {
+    this.userID.next(localStorage.getItem('user_id'));
     this.firstResult.next(first);
     this.after.next(after);
     this.lastResult.next(last);
@@ -85,7 +87,7 @@ export class UserBrewsService {
     this.apollo.watchQuery({
       query: currentBrewQuery,
       variables: {
-        user_id: 'VXNlcjox',
+        user_id: this.userID.asObservable(),
         brew_id: brewId
       }
     }).subscribe(({data, loading}) => {

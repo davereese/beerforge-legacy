@@ -1,13 +1,13 @@
 <header>
   <div class="logo" (click)="viewDashboard()"></div>
 
-  <div class="profile-pic" *ngIf="!dashboard">
+  <div class="profile-pic" *ngIf="!dashboard && !login">
     <a (click)="viewDashboard()" title="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
       <img [attr.src]="currentUser?.profilePic.blobUrl ? currentUser?.profilePic.blobUrl : currentUser?.profilePic.defaultPicNumber ? '../assets/images/plaid_' + currentUser?.profilePic.defaultPicNumber + '.svg' : null" alt="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
     </a>
   </div>
   <div class="log-out" *ngIf="dashboard">
-    <a class="button button--ghost">Log Out</a>
+    <a class="button button--ghost" (click)="logOut()">Log Out</a>
   </div>
 </header>
 <div [class]="bodyClass">

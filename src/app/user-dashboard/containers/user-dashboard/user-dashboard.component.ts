@@ -83,7 +83,11 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.brewsSubscription.unsubscribe();
+    if (undefined !== this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+    if (undefined !== this.brewsSubscription) {
+      this.brewsSubscription.unsubscribe();
+    }
   }
 }

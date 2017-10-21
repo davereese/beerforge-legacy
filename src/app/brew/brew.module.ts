@@ -6,7 +6,6 @@ import { PipeModule } from '../pipes.module';
 
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
-import { scaphold } from '../../../scaphold/scaphold';
 
 // Modules
 import { loaderModule } from '../loader/loader.module';
@@ -46,16 +45,6 @@ import { UserBrewsService } from '../services/userBrews.service';
 import { BrewFormService } from '../services/brewForm.service';
 import { BrewCalcService } from '../services/brewCalc.service';
 
-const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: scaphold,
-  }),
-});
-
-export function provideClient(): ApolloClient {
-  return client;
-}
-
 const routes: Routes = [
   { path: '', component: newBrewComponent, pathMatch: 'full' },
   { path: ':id', component: viewBrewComponent, pathMatch: 'full' }
@@ -90,7 +79,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ApolloModule.forRoot(provideClient),
+    ApolloModule,
     loaderModule,
     modalModule,
     ReactiveFormsModule,
