@@ -5,16 +5,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../user-dashboard/models/user.interface';
 import { Brew } from '../brew/models/brew.interface';
 import { currentUserBrewsQuery } from '../user-dashboard/models/getUserBrews.model';
-import { currentBrewQuery } from '../brew/models/getBrew.model';
 
 @Injectable()
 export class UserBrewsService {
   private _brews: BehaviorSubject<Object> = new BehaviorSubject(Object());
   public readonly brews$: Observable<Object> = this._brews.asObservable();
-  private _currentBrew: BehaviorSubject<Brew> = new BehaviorSubject(null);
-  public readonly currentBrew$: Observable<Brew> = this._currentBrew.asObservable();
 
-  private results: number = 20;
+  private results: number = 20; // initial load
   private userBrews: ApolloQueryObservable<any>;
   private userID: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -25,7 +22,7 @@ export class UserBrewsService {
   constructor(
     private apollo: Apollo
   ) {
-    this.userBrews = this.apollo.watchQuery({
+    this.userBrews = this.apollo.use('auth').watchQuery({
       query: currentUserBrewsQuery,
       variables: {
         id: this.userID.asObservable(),
@@ -38,10 +35,10 @@ export class UserBrewsService {
   }
 
   loadInitialData(first = null, after = null, last = null, before = null) {
-    this.refreshVariables(null !== first ? first : this.results, after, last, before);
-
-    this.userBrews.subscribe(({data, loading}) => {
-      this.updateSubscriptions(data);
+    this.refreshVariables(null !== first ? first : this.results, after, last, before, () => {
+      this.userBrews.subscribe(({data, loading}) => {
+        this.updateSubscriptions(data);
+      });
     });
   }
 
@@ -75,23 +72,12 @@ export class UserBrewsService {
     this._brews.next(userBrews);
   }
 
-  refreshVariables(first, after, last, before) {
+  refreshVariables(first, after, last, before, callback?) {
     this.userID.next(localStorage.getItem('user_id'));
     this.firstResult.next(first);
     this.after.next(after);
     this.lastResult.next(last);
     this.before.next(before);
-  }
-
-  getCurrentBrew(brewId: string) {
-    this.apollo.watchQuery({
-      query: currentBrewQuery,
-      variables: {
-        user_id: this.userID.asObservable(),
-        brew_id: brewId
-      }
-    }).subscribe(({data, loading}) => {
-      this._currentBrew.next(data['viewer']['allBrews']['edges'][0].node);
-    });
+    callback();
   }
 }

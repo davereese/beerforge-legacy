@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 
 import { User } from './user-dashboard/models/user.interface';
 import { currentUserQuery } from './user-dashboard/models/getUser.model';
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
 
   constructor(
+    private apollo: Apollo,
     private userService: UserService,
     private loginService: LogInService,
     private userBrewsService: UserBrewsService,
@@ -39,31 +41,31 @@ export class AppComponent implements OnInit, OnDestroy {
       if(event instanceof NavigationEnd) {
         this.dashboard = false;
         this.login = false;
-        const brewString = event.urlAfterRedirects.split('/');
+        const url = event.urlAfterRedirects.split('/');
 
         // send all routes back to login page if we're not logged in
-        if (null === localStorage.getItem('beerforge_JWT') && 'login' !== brewString[1]) {
+        if (null === localStorage.getItem('beerforge_JWT') && 'login' !== url[1]) {
           this.router.navigate(['/login']);
         }
 
         // All of this stuff manipulates the background color animations
         // TODO: refactor this
-        if ( 'dashboard' === brewString[1] || 'brew-log' === brewString[1] ) {
+        if ( 'dashboard' === url[1] || 'brew-log' === url[1] ) {
           this.bodyClass = 'background dash';
-        } else if ( 'brew' === brewString[1] ) {
-          if ( brewString[2] ) {
+        } else if ( 'brew' === url[1] ) {
+          if ( url[2] ) {
             this.bodyClass = 'background view';
           } else {
             this.bodyClass = 'background brew';
           }
-        } else if ( 'login' === brewString[1] ) {
+        } else if ( 'login' === url[1] ) {
           this.bodyClass = 'background login';
         }
 
         // conditionals for showing and hiding top bar stuff
-        if ( 'dashboard' === brewString[1] ) {
+        if ( 'dashboard' === url[1] ) {
           this.dashboard = true;
-        } else if ( 'login' === brewString[1] ) {
+        } else if ( 'login' === url[1] ) {
           this.login = true;
         }
       }
@@ -95,6 +97,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+    if (undefined !== this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 }

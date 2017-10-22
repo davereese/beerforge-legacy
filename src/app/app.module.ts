@@ -21,14 +21,32 @@ import { UserService } from './services/user.service';
 import { UserBrewsService } from './services/userBrews.service';
 import { LogInService } from 'app/services/login.service';
 
+const networkInterface = createNetworkInterface({ uri: scaphold });
+const networkInterfaceAuth = createNetworkInterface({ uri: scaphold });
+
+networkInterfaceAuth.use([{
+  applyMiddleware(req, next) {
+    if (!req.options.headers) {
+      req.options.headers = {};  // Create the header object if needed.
+    }
+    // get the authentication token from local storage if it exists
+    req.options.headers.authorization = 'Bearer ' + localStorage.getItem('beerforge_JWT') || null;
+    next();
+  }
+}]);
+
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: scaphold,
-  }),
+  networkInterface: networkInterface
+});
+const authClient = new ApolloClient({
+  networkInterface: networkInterfaceAuth
 });
 
-export function provideClient(): ApolloClient {
-  return client;
+export function provideClients() {
+  return {
+    default: client,
+    auth: authClient
+  };
 }
 
 const routes: Routes = [
@@ -44,7 +62,7 @@ const routes: Routes = [
     BrowserModule,
     CommonModule,
     RouterModule.forRoot(routes),
-    ApolloModule.forRoot(provideClient),
+    ApolloModule.forRoot(provideClients),
     FormsModule,
     LoginModule,
     UserDashboardModule,

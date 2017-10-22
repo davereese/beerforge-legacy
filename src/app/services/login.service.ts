@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { ApolloClient, createNetworkInterface } from 'apollo-client';
 
 import { User } from '../user-dashboard/models/user.interface';
 import { LoginUserQuery } from 'app/user-dashboard/models/login.model';
-import { config } from 'process';
 
 @Injectable()
 export class LogInService {

@@ -36,6 +36,7 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.userService.loadInitialData();
     this.userSubscription = this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.changeDetectorRef.detectChanges();

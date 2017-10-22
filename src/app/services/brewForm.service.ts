@@ -382,7 +382,7 @@ export class BrewFormService {
       update = true;
     }
 
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       // save brew
       mutation: false === update ? saveBrewMutation : updateBrewMutation,
       variables: {
@@ -490,7 +490,7 @@ export class BrewFormService {
   }
 
   deleteBrew(currentBrew, callback?) {
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: deleteBrewMutation,
       variables: {
         brewId: { id: currentBrew.id }
@@ -516,7 +516,7 @@ export class BrewFormService {
     if (true === update) {
       maltData.id = malt.choiceID
     }
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: false === update ? saveMaltMutation : updateMaltMutation,
       variables: {
         malt: maltData
@@ -525,7 +525,7 @@ export class BrewFormService {
   }
 
   deleteMalt(choiceID) {
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: deleteMaltMutation,
       variables: {
         choiceID: { id: choiceID }
@@ -544,7 +544,7 @@ export class BrewFormService {
     if (true === update) {
       hopData.id = hop.choiceID
     }
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: false === update ? saveHopMutation : updateHopMutation,
       variables: {
         hop: hopData
@@ -553,7 +553,7 @@ export class BrewFormService {
   }
 
   deleteHop(choiceID) {
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: deleteHopMutation,
       variables: {
         choiceID: { id: choiceID }
@@ -571,7 +571,7 @@ export class BrewFormService {
     if (true === update) {
       yeastData.id = yeast.choiceID
     }
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: false === update ? saveYeastMutation : updateYeastMutation,
       variables: {
         yeast: yeastData
@@ -580,7 +580,7 @@ export class BrewFormService {
   }
 
   deleteYeast(choiceID) {
-    this.apollo.mutate({
+    this.apollo.use('auth').mutate({
       mutation: deleteYeastMutation,
       variables: {
         choiceID: { id: choiceID }

@@ -44,6 +44,7 @@ import { UserService } from '../services/user.service';
 import { UserBrewsService } from '../services/userBrews.service';
 import { BrewFormService } from '../services/brewForm.service';
 import { BrewCalcService } from '../services/brewCalc.service';
+import { ViewBrewService } from 'app/brew/containers/view-brew/view-brew.service';
 
 const routes: Routes = [
   { path: '', component: newBrewComponent, pathMatch: 'full' },
@@ -91,6 +92,7 @@ const routes: Routes = [
     UserBrewsService,
     BrewFormService,
     BrewCalcService,
+    ViewBrewService
   ]
 })
 export class brewModule { }

@@ -9,9 +9,10 @@ import { modalPop } from '../../../animations/modal-pop';
 import { modalData } from '../../../modal/models/modal.model';
 import { currentBrewQuery } from '../../models/getBrew.model';
 
-import { UserBrewsService } from '../../../services/userBrews.service';
+import { ViewBrewService } from './view-brew.service';
 import { BrewFormService } from '../../../services/brewForm.service';
 import { BrewCalcService } from '../../../services/brewCalc.service';
+import { UserBrewsService } from 'app/services/userBrews.service';
 
 
 @Component({
@@ -39,9 +40,10 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   editingSection: string;
 
   constructor(
-    private userBrewsService: UserBrewsService,
+    private viewBrewService: ViewBrewService,
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
+    private userBrewsService: UserBrewsService,
     private router: Router,
     private route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef
@@ -55,8 +57,8 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.newBrewForm = this.brewFormService.newBrewForm;
 
-    this.userBrewsService.getCurrentBrew(this.brewId);
-    this.brewSubscription = this.userBrewsService.currentBrew$.subscribe(brew => {
+    this.viewBrewService.getCurrentBrew(this.brewId);
+    this.brewSubscription = this.viewBrewService.currentBrew$.subscribe(brew => {
       this.currentBrew = brew;
 
       this.brewFormService.loadForm(this.currentBrew);
@@ -178,6 +180,7 @@ export class viewBrewComponent implements OnInit, OnDestroy {
     if ('delete' === event) {
       this.deleteBrew();
     } else {
+      this.viewBrewService.refetchCurrentBrew();
       this.loader = false;
     }
   }

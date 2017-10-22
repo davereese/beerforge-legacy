@@ -17,7 +17,7 @@ export class UserService {
 
   loadInitialData() {
     const userID = localStorage.getItem('user_id');
-    this.apollo.watchQuery({
+    this.apollo.use('auth').watchQuery({
       query: currentUserQuery,
       variables: {
         id: userID
