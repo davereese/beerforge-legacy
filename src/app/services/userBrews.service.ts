@@ -12,27 +12,27 @@ export class UserBrewsService {
   public readonly brews$: Observable<Object> = this._brews.asObservable();
 
   private results: number = 20; // initial load
-  private userBrews: ApolloQueryObservable<any>;
+  // private userBrews: ApolloQueryObservable<any>;
   private userID: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private after: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private lastResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private before: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
+  userBrews: ApolloQueryObservable<any> = this.apollo.use('auth').watchQuery({
+    query: currentUserBrewsQuery,
+    variables: {
+      id: this.userID.asObservable(),
+      first: this.firstResult.asObservable(),
+      after: this.after.asObservable(),
+      last: this.lastResult.asObservable(),
+      before: this.before.asObservable()
+    }
+  });
+
   constructor(
     private apollo: Apollo
-  ) {
-    this.userBrews = this.apollo.use('auth').watchQuery({
-      query: currentUserBrewsQuery,
-      variables: {
-        id: this.userID.asObservable(),
-        first: this.firstResult.asObservable(),
-        after: this.after.asObservable(),
-        last: this.lastResult.asObservable(),
-        before: this.before.asObservable()
-      }
-    });
-  }
+  ) {}
 
   loadInitialData(first = null, after = null, last = null, before = null) {
     this.refreshVariables(null !== first ? first : this.results, after, last, before, () => {
@@ -63,12 +63,12 @@ export class UserBrewsService {
   updateSubscriptions(data) {
     const userBrews = Object();
     const brewArray = Array();
-    data['getUser'].Brews.edges.forEach(brew => {
+    data['viewer'].allBrews.edges.forEach(brew => {
       brewArray.push(brew.node);
     });
-    userBrews['pageInfo'] = data['getUser'].Brews.pageInfo;
+    userBrews['pageInfo'] = data['viewer'].allBrews.pageInfo;
     userBrews['brews'] = brewArray;
-    userBrews['userId'] = data['getUser'].id;
+    userBrews['userId'] = this.userID.asObservable();
     this._brews.next(userBrews);
   }
 

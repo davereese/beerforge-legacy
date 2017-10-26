@@ -71,7 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    
     if (null !== localStorage.getItem('beerforge_JWT')) {
       // Subscribe to User
       this.userService.loadInitialData();

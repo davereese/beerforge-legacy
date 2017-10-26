@@ -30,7 +30,7 @@ export class ViewBrewService {
     this.brewId.next(brewId);
     this.userID.next(localStorage.getItem('user_id'));
     this.currentUserBrew.subscribe(({data, loading}) => {
-      this._currentBrew.next(data['viewer']['allBrews']['edges'][0].node);
+      this._currentBrew.next(data['getBrew']);
     });
   }
 

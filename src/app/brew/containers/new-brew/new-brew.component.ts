@@ -53,8 +53,8 @@ export class newBrewComponent implements OnInit, OnDestroy {
 
     this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
       this.userBrews = brews['brews'];
-      this.userId = brews['userId'];
       if (this.userBrews) {
+        this.userId = localStorage.getItem('user_id');
         this.brewFormService.addUserInfo(this.userId, this.userBrews);
       } else {
         this.userBrewsService.loadInitialData(this.first);

@@ -1,10 +1,9 @@
 import gql from 'graphql-tag';
 
 export const currentUserBrewsQuery = gql`
-  query currentUser($id: ID!, $first: Int, $after: String, $last: Int, $before: String) {
-    getUser(id: $id) {
-      id
-      Brews(first: $first, after: $after, last: $last, before: $before) {
+  query currentUserBrews($id: ID!, $first: Int, $after: String, $last: Int, $before: String) {
+    viewer {
+      allBrews(where: {userId: {eq: $id}}, first: $first, after: $after, last: $last, before: $before) {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -19,6 +18,7 @@ export const currentUserBrewsQuery = gql`
             maltChoice(orderBy: {field: amount, direction: DESC}) {
               edges {
                 node {
+                  id
                   malt {
                     id
                     name
@@ -31,6 +31,7 @@ export const currentUserBrewsQuery = gql`
             hopChoice(orderBy: {field: time, direction: DESC}) {
               edges {
                 node {
+                  id
                   hop {
                     id
                     name
