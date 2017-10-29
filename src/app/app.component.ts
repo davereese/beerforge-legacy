@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
+import { routeFades } from './animations/route-fades';
 
 import { User } from './user-dashboard/models/user.interface';
-import { currentUserQuery } from './user-dashboard/models/getUser.model';
 
 import { UserService } from './services/user.service';
 import { UserBrewsService } from 'app/services/userBrews.service';
@@ -15,6 +15,7 @@ import { LogInService } from 'app/services/login.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   providers: [UserBrewsService, UserService],
+  animations: [routeFades],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -26,6 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   year = this.today.getFullYear();
   currentUser: User;
   userSubscription: Subscription;
+  newBodyClass: string = '';
+  oldBodyClass: string = '';
 
   constructor(
     private apollo: Apollo,
@@ -38,6 +41,30 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
+      if(event instanceof RoutesRecognized) {
+        const url = event.urlAfterRedirects.split('/');
+        this.oldBodyClass = this.newBodyClass;
+
+        // All of this stuff manipulates the background color animations
+        if ( 'dashboard' === url[1] || 'brew-log' === url[1] ) {
+          // this.bodyClass = 'background dash';
+          this.newBodyClass = 'dash';
+        } else if ( 'brew' === url[1] ) {
+          if ( url[2] ) {
+            // this.bodyClass = 'background view';
+            this.newBodyClass = 'view';
+          } else {
+            // this.bodyClass = 'background brew';
+            this.newBodyClass = 'brew';
+          }
+        } else if ( 'login' === url[1] ) {
+          // this.bodyClass = 'background login';
+          this.newBodyClass = 'login';
+        }
+
+        this.animateFade();
+      }
+
       if(event instanceof NavigationEnd) {
         this.dashboard = false;
         this.login = false;
@@ -46,20 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
         // send all routes back to login page if we're not logged in
         if (null === localStorage.getItem('beerforge_JWT') && 'login' !== url[1]) {
           this.router.navigate(['/login']);
-        }
-
-        // All of this stuff manipulates the background color animations
-        // TODO: refactor this
-        if ( 'dashboard' === url[1] || 'brew-log' === url[1] ) {
-          this.bodyClass = 'background dash';
-        } else if ( 'brew' === url[1] ) {
-          if ( url[2] ) {
-            this.bodyClass = 'background view';
-          } else {
-            this.bodyClass = 'background brew';
-          }
-        } else if ( 'login' === url[1] ) {
-          this.bodyClass = 'background login';
         }
 
         // conditionals for showing and hiding top bar stuff
@@ -87,6 +100,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
   viewDashboard() {
     this.router.navigate(['/dashboard']);
+  }
+
+  animateFade() {
+    this.oldBodyClass += ' fade';
+    setTimeout(() => {
+      this.oldBodyClass = '';
+      this.changeDetectorRef.detectChanges();
+    }, 500 );
+  }
+
+  getPage(outlet) {
+    return outlet.activatedRouteData['page'];
   }
 
   logOut() {

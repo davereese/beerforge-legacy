@@ -2,6 +2,10 @@
 @import '../../../../styles/mixins.scss';
 @import '../../../../styles/type.scss';
 
+:host {
+  display: block;
+}
+
 .view-brew {
   position: relative;
   min-height: calc(100vh - 55px);

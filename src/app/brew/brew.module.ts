@@ -47,8 +47,8 @@ import { BrewCalcService } from '../services/brewCalc.service';
 import { ViewBrewService } from 'app/brew/containers/view-brew/view-brew.service';
 
 const routes: Routes = [
-  { path: '', component: newBrewComponent, pathMatch: 'full' },
-  { path: ':id', component: viewBrewComponent, pathMatch: 'full' }
+  { path: '', component: newBrewComponent, pathMatch: 'full', data: { page: 'brew' } },
+  { path: ':id', component: viewBrewComponent, pathMatch: 'full', data: { page: 'view' } }
 ];
 
 @NgModule({

@@ -22,8 +22,8 @@ import { UserService } from '../services/user.service';
 import { BrewCalcService } from '../services/brewCalc.service';
 
 const routes: Routes = [
-  { path: 'dashboard', component: UserDashboardComponent, pathMatch: 'full' },
-  { path: 'brew-log', component: BrewLogComponent, pathMatch: 'full' },
+  { path: 'dashboard', component: UserDashboardComponent, pathMatch: 'full', data: { page: 'dash' } },
+  { path: 'brew-log', component: BrewLogComponent, pathMatch: 'full', data: { page: 'log' } },
 ];
 
 @NgModule({

@@ -10,8 +10,12 @@
     <a class="button button--ghost" (click)="logOut()">Log Out</a>
   </div>
 </header>
-<div [class]="bodyClass">
-  <router-outlet></router-outlet>
+<div [ngClass]="newBodyClass" class="newBackground">
+  <div class="router"
+      [@routeFades]="getPage(o)">
+    <router-outlet #o="outlet"></router-outlet>
+  </div>
+  <div [ngClass]="oldBodyClass" class="oldBackground"></div>
 </div>
 <footer>
   &copy; Copyright {{ year }} - BeerForge

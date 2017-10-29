@@ -3,6 +3,10 @@
 @import '../../../../styles/type.scss';
 @import '../view-brew/view-brew.component.scss';
 
+:host {
+  display: block;
+}
+
 .new-brew {
   @extend.view-brew;
 

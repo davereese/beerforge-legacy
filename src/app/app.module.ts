@@ -50,8 +50,9 @@ export function provideClients() {
 }
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'brew', loadChildren: 'app/brew/brew.module#brewModule' },
+  { path: '', redirectTo: '/login', pathMatch: 'full', data: { page: 'login' } },
+  { path: 'brew', loadChildren: 'app/brew/brew.module#brewModule', data: { page: 'brew' } },
+  // { path: '**', component: NotFound }
 ];
 
 @NgModule({

@@ -1,6 +1,10 @@
 @import '../../../../styles/variables.scss';
 @import '../../../../styles/type.scss';
 
+:host {
+  display: block;
+}
+
 .dashboard {
   min-height: calc(100vh - 55px);
 

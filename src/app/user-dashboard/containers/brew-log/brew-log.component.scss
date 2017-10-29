@@ -2,6 +2,10 @@
 @import '../../../../styles/type.scss';
 @import '../user-dashboard/user-dashboard.component.scss';
 
+:host {
+  display: block;
+}
+
 .container {
   max-width: 800px;
   left: 50%;
