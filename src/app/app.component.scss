@@ -45,7 +45,7 @@ header {
   background-repeat: no-repeat;
 
   &.login {
-    background: linear-gradient(140deg, darken(desaturate($bf-orange, 5%), 5%) 0%, darken(desaturate($bf-orange, 5%), 47%) 60%);
+    background: linear-gradient(140deg, darken(desaturate($bf-orange, 5%), 5%) 0%, darken(desaturate($bf-orange, 80%), 44%) 60%);
   }
 
   &.dash {
