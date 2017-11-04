@@ -7,17 +7,20 @@ import { ApolloModule } from 'apollo-angular';
 
 // components
 import { LoginComponent } from './components/login.component';
+import { SignUpComponent } from 'app/signup/signup.component';
 
 // services
 import { LogInService } from '../services/login.service';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent, pathMatch: 'full', data: { page: 'login' } },
+  { path: 'signup', component: SignUpComponent, pathMatch: 'full', data: { page: 'signup' } }
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     CommonModule,

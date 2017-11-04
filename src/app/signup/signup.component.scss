@@ -1,0 +1,21 @@
+@import '../../styles/variables.scss';
+@import '../../styles/type.scss';
+@import '../login/components/login.component.scss';
+
+.signup {
+  @extend .login;
+
+  &__form {
+    @extend .login__form;
+    box-shadow: 0 10px 100px 10px rgba($bf-yellow, 0.4);
+
+    .row.no-padding {
+      padding: 0;
+    }
+
+    input.error {
+      margin-bottom: 15px;
+      box-shadow: 0 2px 15px rgba($bf-yellow, 0.5), inset 0 0 1px 1px rgba($bf-orange, 0.5);
+    }
+  }
+}

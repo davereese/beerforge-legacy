@@ -1,19 +1,19 @@
 <div class="login">
   <div class="login__form" *ngIf="showLogin" [@modalPop]>
     <div class="row">
-      <h2>Log In</h2>
+      <h2>Log In <span class="button button--ghost-green" (click)="handleSignUp()">Sign Up</span></h2>
     </div>
     <div class="row">
       <p class="error" *ngIf="error">{{error}}</p>
       <p><label>Username<br>
         <input type="text"
               [(ngModel)]="username"
-              placeholder="email"
+              placeholder="username"
               (keyup.enter)="handleLogin()"></label></p>
       <p><label>Password<br>
         <input type="password"
               [(ngModel)]="password"
-              placeholder="********"
+              placeholder="password"
               (keyup.enter)="handleLogin()"></label></p>
     </div>
     <div class="row">

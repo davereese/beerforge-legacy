@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 
 import { User } from '../user-dashboard/models/user.interface';
-import { LoginUserQuery } from 'app/user-dashboard/models/login.model';
+import { LoginUserQuery } from '../user-dashboard/models/login.model';
 
 @Injectable()
 export class LogInService {

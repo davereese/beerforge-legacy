@@ -20,6 +20,7 @@ import { UserDashboardModule } from './user-dashboard/user-dashboard.module';
 import { UserService } from './services/user.service';
 import { UserBrewsService } from './services/userBrews.service';
 import { LogInService } from 'app/services/login.service';
+import { SignUpService } from 'app/services/signup.service';
 
 const networkInterface = createNetworkInterface({ uri: scaphold });
 const networkInterfaceAuth = createNetworkInterface({ uri: scaphold });
@@ -72,7 +73,8 @@ const routes: Routes = [
   providers: [
     LogInService,
     UserService,
-    UserBrewsService
+    UserBrewsService,
+    SignUpService
   ],
   bootstrap: [AppComponent]
 })

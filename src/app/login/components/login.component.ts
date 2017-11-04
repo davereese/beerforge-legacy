@@ -38,6 +38,10 @@ export class LoginComponent {
     }
   }
 
+  handleSignUp() {
+    this.router.navigate(['/signup']);
+  }
+
   handleLogin() {
     this.loginService.logInUser(this.username, this.password, (data) => {
       if ('success' === data) {

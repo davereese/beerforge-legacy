@@ -1,0 +1,62 @@
+<div class="signup">
+  <div class="signup__form"
+       *ngIf="showSignUp"
+       (keyup.enter)="handleSignUp()">
+    <div class="row">
+      <h2>Sign Up</h2>
+    </div>
+    <div class="row">
+      <p class="error" *ngIf="error">{{error}}</p>
+      <p><label>Username<br>
+        <input type="text"
+              [(ngModel)]="username"
+              [ngClass]="{'error': usernameError}"
+              #input
+              placeholder="username"></label></p>
+      <div class="row no-padding">
+        <div class="col-half float-left grid-padding no-left-p">
+          <p><label>Email Address<br>
+            <input type="text"
+                   [(ngModel)]="email1"
+                   [ngClass]="{'error': email1Error}"
+                   #input
+                   placeholder="example@example.com"></label></p>
+        </div>
+        <div class="col-half float-left grid-padding no-right-p">
+          <p><label>Confirm Email Address<br>
+            <input type="text"
+                   [(ngModel)]="email2"
+                   [ngClass]="{'error': email2Error}"
+                   #input
+                   placeholder="example@example.com"></label></p>
+        </div>
+        <div class="col-half float-left grid-padding no-left-p">
+          <p><label>Password<br>
+            <input type="password"
+                   [(ngModel)]="password1"
+                   [ngClass]="{'error': passwordError}"
+                   #input
+                   placeholder="password"></label></p>
+        </div>
+        <div class="col-half float-left grid-padding no-right-p">
+          <p><label>Confirm Password<br>
+            <input type="password"
+                   [(ngModel)]="password2"
+                   [ngClass]="{'error': passwordError}"
+                   #input
+                   placeholder="password"></label></p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p class="center-align">
+        <button
+          class="button button--green button--wide"
+          (click)="handleSignUp()"
+          [disabled]="'' === username || '' === email1 || '' === email2 || '' === password1 || '' === password2">
+          Sign Up
+        </button>
+      </p>
+    </div>
+  </div>
+</div>

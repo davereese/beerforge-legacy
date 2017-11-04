@@ -100,20 +100,6 @@ main {
     background-color: $bf-orange;
   }
 
-  &--ghost {
-    border-radius: 4px;
-    border: 1px solid $bf-orange;
-    background-color: transparent;
-    text-transform: uppercase;
-    color: $white;
-    transition: background-color 0.3s;
-
-    &:hover,
-    &:focus {
-      background-color: $bf-orange;
-    }
-  }
-
   &--green {
     background-color: $bf-green;
 
@@ -144,6 +130,32 @@ main {
     padding: 16px 20px;
     margin-right: 5px;
     text-transform: uppercase;
+  }
+
+  &--ghost,
+  &--ghost-green {
+    border-radius: 4px;
+    border: 1px solid $bf-orange;
+    background-color: transparent;
+    text-transform: uppercase;
+    color: $white;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+      background-color: $bf-orange;
+    }
+  }
+
+  &--ghost-green {
+    border: 1px solid $bf-green;
+    color: $bf-green;
+
+    &:hover,
+    &:focus {
+      background-color: $bf-green;
+      color: $white;
+    }
   }
 
   &--get-brewing {

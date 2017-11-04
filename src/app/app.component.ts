@@ -47,19 +47,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // All of this stuff manipulates the background color animations
         if ( 'dashboard' === url[1] || 'brew-log' === url[1] ) {
-          // this.bodyClass = 'background dash';
           this.newBodyClass = 'dash';
         } else if ( 'brew' === url[1] ) {
           if ( url[2] ) {
-            // this.bodyClass = 'background view';
             this.newBodyClass = 'view';
           } else {
-            // this.bodyClass = 'background brew';
             this.newBodyClass = 'brew';
           }
         } else if ( 'login' === url[1] ) {
-          // this.bodyClass = 'background login';
           this.newBodyClass = 'login';
+        } else if ( 'signup' === url[1] ) {
+          this.newBodyClass = 'signup';
         }
 
         this.animateFade();
@@ -71,14 +69,14 @@ export class AppComponent implements OnInit, OnDestroy {
         const url = event.urlAfterRedirects.split('/');
 
         // send all routes back to login page if we're not logged in
-        if (null === localStorage.getItem('beerforge_JWT') && 'login' !== url[1]) {
+        if (null === localStorage.getItem('beerforge_JWT') && ('login' !== url[1] && 'signup' !== url[1])) {
           this.router.navigate(['/login']);
         }
 
         // conditionals for showing and hiding top bar stuff
         if ( 'dashboard' === url[1] ) {
           this.dashboard = true;
-        } else if ( 'login' === url[1] ) {
+        } else if ( 'login' === url[1] || 'signup' === url[1] ) {
           this.login = true;
         }
       }
