@@ -175,9 +175,16 @@ export class BrewFormService {
   }
 
   addUserInfo(userId: string, brews) {
+    let batchNum: number;
+    if (0 === brews.length) {
+      batchNum = 1;
+    } else {
+      batchNum = brews[0].batchNum;
+    }
+
     this.newBrewForm.value.get('brewFormAuto').patchValue({
       userId: (null !== userId ? userId : null),
-      batchNum: (null !== brews ? (brews[0].batchNum)+1 : null)
+      batchNum: (null !== brews ? (batchNum)+1 : null)
     });
   }
 

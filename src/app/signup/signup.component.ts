@@ -12,7 +12,10 @@ import { UserBrewsService } from '../services/userBrews.service';
   selector: 'app-sign-up',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    modalPop
+  ]
 })
 export class SignUpComponent {
   showSignUp: boolean;
@@ -71,7 +74,7 @@ export class SignUpComponent {
     callback(true);
   }
 
-  validateForm() {
+  validateForm(callback?) {
     // reset errors
     this.usernameError = false;
     this.email1Error = false;
@@ -103,37 +106,46 @@ export class SignUpComponent {
         this.error += 'Passwords do not match.';
       }
     });
+
+    if (callback) {
+      if ('' === this.error) {
+        callback('pass');
+      } else {
+        callback('fail');
+      }
+    }
     this.changeDetectorRef.detectChanges();
   }
 
   handleSignUp() {
     if ('' !== this.username && '' !== this.email1 && '' !== this.email2 && '' !== this.password1 && '' !== this.password2) {
-      this.validateForm();
-      if ('' === this.error) {
-        this.signUpService.signUpUser(this.username, this.email1, this.password1, (data) => {
-          if ('success' === data) {
-            // Subscribe to User
-            this.userService.loadInitialData();
-        
-            // Subscribe to User's Brews List
-            this.userBrewsService.loadInitialData();
-    
-            this.showSignUp = false;
-            setTimeout(() => {
-              this.router.navigate(['/dashboard']);
-            }, 300);
-          } else {
-            this.error = data.error;
-            if ('email' === data.type) {
-              this.email1Error = true;
-              this.email2Error = true;
-            } else if ('username' === data.type) {
-              this.usernameError = true;
+      this.validateForm(result => {
+        if ('pass' === result) {
+          this.signUpService.signUpUser(this.username, this.email1, this.password1, (data) => {
+            if ('success' === data) {
+              // Subscribe to User
+              this.userService.loadInitialData();
+          
+              // Subscribe to User's Brews List
+              this.userBrewsService.loadInitialData();
+      
+              this.showSignUp = false;
+              setTimeout(() => {
+                this.router.navigate(['/dashboard']);
+              }, 300);
+            } else {
+              this.error = data.error;
+              if ('email' === data.type) {
+                this.email1Error = true;
+                this.email2Error = true;
+              } else if ('username' === data.type) {
+                this.usernameError = true;
+              }
             }
-          }
-          this.changeDetectorRef.detectChanges();
-        });
-      }
+            this.changeDetectorRef.detectChanges();
+          });
+        }
+      });
     } else {
       this.error = 'Please fill out all fields.';
       this.changeDetectorRef.detectChanges();

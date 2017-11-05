@@ -1,6 +1,7 @@
 <div class="signup">
   <div class="signup__form"
        *ngIf="showSignUp"
+       [@modalPop]
        (keyup.enter)="handleSignUp()">
     <div class="row">
       <h2>Sign Up</h2>

@@ -10,7 +10,7 @@
         </div>
         <div class="col-half">
           <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span class="plus">+</span></a>
-          <div class="brew-log-overview tile">
+          <div class="brew-log-overview tile" *ngIf="0 < userBrews.length">
             <h3>Brew Log</h3>
             <brew-log-overview
               [brews]="userBrews"
