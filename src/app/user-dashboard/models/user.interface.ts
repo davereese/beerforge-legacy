@@ -3,7 +3,11 @@ export interface User {
   firstName?: string
   lastName?: string
   username?: string
+  email?: string
+  city?: string
+  state?: string
   profilePic?: {
+    id: string
     defaultPicNumber: number
     blobUrl?: string
   }

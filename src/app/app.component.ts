@@ -29,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
   newBodyClass: string = '';
   oldBodyClass: string = '';
+  profilePicUrl: string = '';
 
   constructor(
     private apollo: Apollo,
@@ -46,9 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oldBodyClass = this.newBodyClass;
 
         // All of this stuff manipulates the background color animations
-        if ( 'dashboard' === url[1] || 'brew-log' === url[1] ) {
-          this.newBodyClass = 'dash';
-        } else if ( 'brew' === url[1] ) {
+        if ( 'brew' === url[1] ) {
           if ( url[2] ) {
             this.newBodyClass = 'view';
           } else {
@@ -58,6 +57,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.newBodyClass = 'login';
         } else if ( 'signup' === url[1] ) {
           this.newBodyClass = 'signup';
+        } else if ( 'profile' === url[1] ) {
+          this.newBodyClass = 'profile';
+        } else {
+          this.newBodyClass = 'dash';
         }
 
         this.animateFade();
@@ -74,7 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
 
         // conditionals for showing and hiding top bar stuff
-        if ( 'dashboard' === url[1] ) {
+        if ( 'dashboard' === url[1] || 'profile' === url[1] ) {
           this.dashboard = true;
         } else if ( 'login' === url[1] || 'signup' === url[1] ) {
           this.login = true;
@@ -91,8 +94,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.userSubscription = this.userService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-      this.changeDetectorRef.detectChanges();
+      if (user) {
+        this.currentUser = user;
+        this.profilePicUrl = this.currentUser.profilePic.blobUrl ? this.currentUser.profilePic.blobUrl : this.currentUser.profilePic.defaultPicNumber ? '../assets/images/plaid_' + this.currentUser.profilePic.defaultPicNumber + '.svg' : null
+        this.changeDetectorRef.detectChanges();
+      }
     });
   }
 

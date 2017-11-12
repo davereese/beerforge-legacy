@@ -5,7 +5,8 @@
         <div class="col-half">
           <user-overview
             [user]="currentUser"
-            [userBrews]="userBrews">
+            [userBrews]="userBrews"
+            (editProfile)="handleEditProfile($event)">
           </user-overview>
         </div>
         <div class="col-half">

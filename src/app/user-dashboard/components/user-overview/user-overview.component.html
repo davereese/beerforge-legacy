@@ -1,14 +1,13 @@
 <div class="user-overview">
-  <div class="profile-pic">
-    <img [attr.src]="user.profilePic.blobUrl ? user.profilePic.blobUrl : user.profilePic.defaultPicNumber ? '../assets/images/plaid_' + user.profilePic.defaultPicNumber + '.svg' : null" alt="{{ user.firstName }} {{ user.lastName }}">
+  <div class="profile-pic"
+       (click)="handleClick($event)">
+    <div class="profile-pic__image"
+         [ngStyle]="{'background-image': 'url(' + profilePicUrl + ')'}"></div>
   </div>
-  <h1 class="user-overview__title">
-    <span *ngIf="!user.firstName && !user.lastName">
-      {{ user.username }}
-    </span>
-    <span *ngIf="user.firstName && user.lastName">
-      {{ user.firstName }} {{ user.lastName }}
-    </span>
+  <h1 class="user-overview__title"
+      (click)="handleClick($event)">
+    {{ user.username }}
+    <a class="edit on-hover"></a>
   </h1>
   <p class="user-overview__stats"><span *ngIf="userBrews">Beers Brewed: {{ (null !== userBrews[0]?.batchNum ? userBrews[0]?.batchNum : 0) }}</span> <span>Badges Earned: {{ user.Badges.edges.length }}</span></p>
 </div>

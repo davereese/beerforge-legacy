@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ApolloModule } from 'apollo-angular';
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
@@ -64,6 +65,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     CommonModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
     ApolloModule.forRoot(provideClients),
     FormsModule,

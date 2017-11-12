@@ -2,8 +2,10 @@
   <div class="logo" (click)="viewDashboard()"></div>
 
   <div class="profile-pic" *ngIf="!dashboard && !login">
-    <a (click)="viewDashboard()" title="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
-      <img [attr.src]="currentUser?.profilePic.blobUrl ? currentUser?.profilePic.blobUrl : currentUser?.profilePic.defaultPicNumber ? '../assets/images/plaid_' + currentUser?.profilePic.defaultPicNumber + '.svg' : null" alt="{{ currentUser?.firstName }} {{ currentUser?.lastName }}">
+    <a (click)="viewDashboard()" title="{{ currentUser?.username }}">
+      <div class="profile-pic__image"
+           [ngStyle]="{'background-image': 'url(' + profilePicUrl + ')'}"
+           [title]="currentUser?.firstName + ' ' + currentUser?.lastName"></div>
     </a>
   </div>
   <div class="log-out" *ngIf="dashboard">

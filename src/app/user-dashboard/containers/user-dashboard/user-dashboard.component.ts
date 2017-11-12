@@ -83,6 +83,10 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['/brew-log']);
   }
 
+  handleEditProfile(event: any) {
+    this.router.navigate(['/profile/', this.currentUser.id]);
+  }
+
   ngOnDestroy() {
     if (undefined !== this.userSubscription) {
       this.userSubscription.unsubscribe();

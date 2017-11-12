@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ApplicationRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { modalPop } from '../animations/modal-pop';
 import { Observable } from 'rxjs/Observable';
@@ -38,7 +38,6 @@ export class SignUpComponent {
     private userService: UserService,
     private userBrewsService: UserBrewsService,
     private router: Router,
-    private appref: ApplicationRef,
     private changeDetectorRef: ChangeDetectorRef
   ) {
     if (localStorage.getItem('beerforge_JWT')) {

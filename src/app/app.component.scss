@@ -56,6 +56,10 @@ header {
     background: linear-gradient(140deg, $dark-orange 0%, $bf-gray 85%);
   }
 
+  &.profile {
+    background: linear-gradient(140deg, darken($dark-orange, 5%) 0%, darken($bf-gray, 7%) 85%);
+  }
+
   &.view {
     background: linear-gradient(140deg, $yellow 0%, $bluegreen 85%);
   }

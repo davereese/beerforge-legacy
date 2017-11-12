@@ -10,9 +10,7 @@ import { ApolloModule } from 'apollo-angular';
 // Modules
 import { loaderModule } from '../loader/loader.module';
 import { modalModule } from '../modal/modal.module';
-
-// Directives
-import { FocusDirective } from './directives/focus.directive';
+import { sharedDirectivesModule } from '../directives/shared-directives.module';
 
 // containers
 import { viewBrewComponent } from './containers/view-brew/view-brew.component';
@@ -74,8 +72,7 @@ const routes: Routes = [
     newBrewMashFormComponent,
     newBrewBoilFormComponent,
     newBrewFermentationFormComponent,
-    newBrewPackagingFormComponent,
-    FocusDirective,
+    newBrewPackagingFormComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +82,8 @@ const routes: Routes = [
     modalModule,
     ReactiveFormsModule,
     FormsModule,
-    PipeModule
+    PipeModule,
+    sharedDirectivesModule
   ],
   providers: [
     UserService,
