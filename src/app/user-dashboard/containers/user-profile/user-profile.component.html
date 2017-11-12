@@ -121,8 +121,10 @@
           </button>
           <button
             class="button button--yellow button--large"
+            [ngClass]="{'saved': saved}"
+            [disabled]="saved"
             (click)="handleSave($event)">
-            Save Profile
+            {{ saved ? 'Saved' : 'Save Profile' }}
           </button>
         </p>
       </div>

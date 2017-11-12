@@ -4,6 +4,7 @@ import { Apollo } from 'apollo-angular';
 import { User } from '../user-dashboard/models/user.interface';
 import { SignUpUserQuery } from '../user-dashboard/models/signup.model';
 import { ProfilePicService } from '../services/profilePic.service';
+import { UserErrorHandler } from 'app/signup/userErrorHandler';
 
 @Injectable()
 export class SignUpService {
@@ -43,21 +44,7 @@ export class SignUpService {
       localStorage.setItem('user_id', data['createUser'].changedUser.id);
       callback('success');
     },(error) => {
-      const errorMessage: string = error.toString();
-      let errorObj: any = {};
-      // The errors are a little bit different for this one, so we need to do some parsing ourselves
-      if ( -1 !== errorMessage.search('Error: GraphQL error: Operation failed uniqueness constraint: ')) {
-        if (-1 !== errorMessage.search('email')) {
-          errorObj.error = 'Email already in use.';
-          errorObj.type = 'email';
-        } else if (-1 !== errorMessage.search('username')) {
-          errorObj.error = 'Username already in use';
-          errorObj.type = 'username';
-        }
-      } else {
-        errorObj.message = errorMessage;
-      }
-      callback(errorObj);
+      callback(UserErrorHandler.parseErrors(error));
     });
   }
 }

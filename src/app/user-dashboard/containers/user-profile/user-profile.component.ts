@@ -32,6 +32,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   modalData: modalData;
   showModal: boolean = false;
+  saved: boolean = false;
   @ViewChild('profilePicInput') profilePicInput:ElementRef;
 
   constructor(
@@ -113,10 +114,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       if ('success' !== data.user || false === data.profilePic) {
         this.modalData = {
           title: 'Well, Shoot',
-          body: 'There was an error updating your profile. Please try again later.',
+          body: data.user.error ? data.user.error : 'There was an error updating your profile. Please try again later.',
           buttons: { close: true, dashboard: true }
         }
         this.showModal = true;
+        this.changeDetectorRef.detectChanges();
+      } else {
+        this.saved = true;
       }
     });
   }

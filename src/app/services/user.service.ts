@@ -8,6 +8,7 @@ import { Brew } from '../brew/models/brew.interface';
 import { currentUserQuery } from '../user-dashboard/models/getUser.model';
 import { updateProfileMutation, deleteProfilePicMutation } from '../user-dashboard/models/updateUser.model';
 import { scaphold } from '../../../scaphold/scaphold';
+import { UserErrorHandler } from 'app/signup/userErrorHandler';
 
 @Injectable()
 export class UserService {
@@ -78,7 +79,7 @@ export class UserService {
       this._currentUser.next(data['updateUser'].changedUser);
       callback('success');
     },(error) => {
-      callback(error);
+      callback(UserErrorHandler.parseErrors(error));
     });
   }
 
