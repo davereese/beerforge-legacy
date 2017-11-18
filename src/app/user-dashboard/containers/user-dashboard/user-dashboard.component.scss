@@ -20,7 +20,9 @@
     transition: color 0.5s;
 
     span.plus {
-      top: 16px;
+      top: 34px;
+      right: 0;
+      transform: translate(-50%, -50%);
     }
 
     &::before,
@@ -51,8 +53,8 @@
       color: $white;
 
       span.plus {
-        transform: rotate(180deg) translateY(-2px);
-        top: 15px;
+        transform: translate(-42%, -62%) rotate(180deg) translateY(-2px);
+        top: 34px;
       }
 
       &::before {

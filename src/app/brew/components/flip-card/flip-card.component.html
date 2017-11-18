@@ -19,12 +19,20 @@
         class="button button--large button--cancel"
         (click)="handleCancel()">
         Cancel
-      </button> 
+      </button>
+      <ng-container *ngIf="'fermentables' === detail || 'hops' === detail || 'adjuncts' === detail || 'yeasts' === detail">
+        <button
+          class="button button--large"
+          (click)="handleAdd()"
+          [disabled]="!addEnabled">
+          + Add
+        </button>
+      </ng-container>
       <button 
-        *ngIf="'fermentables' !== detail && 'hops' !== detail && 'adjuncts' !== detail && 'yeasts' !== detail && 'editFermentable' !== detail && 'editHop' !== detail && 'editAdjunct' !== detail && 'editYeast' !== detail"
+        *ngIf=" 'editFermentable' !== detail && 'editHop' !== detail && 'editAdjunct' !== detail && 'editYeast' !== detail"
         class="button button--large"
         (click)="handleSave()">
-        Save
+        Done
       </button>
       <ng-container *ngIf="'editFermentable' === detail || 'editHop' === detail || 'editAdjunct' === detail || 'editYeast' === detail">
         <button
@@ -36,19 +44,6 @@
           class="button button--large"
           (click)="handleRemove()">
           Remove
-        </button>
-      </ng-container>
-      <ng-container *ngIf="'fermentables' === detail || 'hops' === detail || 'adjuncts' === detail || 'yeasts' === detail">
-        <button
-          class="button button--large"
-          (click)="handleAdd()"
-          [disabled]="!addEnabled">
-          + Add
-        </button>
-        <button
-          class="button button--large"
-          (click)="handleSave()">
-          Done
         </button>
       </ng-container>
       <button
