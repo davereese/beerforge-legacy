@@ -11,6 +11,7 @@ import { ApolloModule } from 'apollo-angular';
 import { loaderModule } from '../loader/loader.module';
 import { modalModule } from '../modal/modal.module';
 import { sharedDirectivesModule } from '../directives/shared-directives.module';
+import { FluidHeightDirective } from '../directives/fluid-height.directive'
 
 // containers
 import { viewBrewComponent } from './containers/view-brew/view-brew.component';
@@ -72,7 +73,8 @@ const routes: Routes = [
     newBrewMashFormComponent,
     newBrewBoilFormComponent,
     newBrewFermentationFormComponent,
-    newBrewPackagingFormComponent
+    newBrewPackagingFormComponent,
+    FluidHeightDirective
   ],
   imports: [
     CommonModule,

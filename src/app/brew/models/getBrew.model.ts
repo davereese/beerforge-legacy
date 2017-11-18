@@ -78,6 +78,7 @@ export const currentBrewQuery = gql`
       User {
         id
       }
+      notes
     }
   }
 `;

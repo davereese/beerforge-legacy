@@ -38,6 +38,7 @@ export interface Brew {
   carbonateCo2Vol?: number
   carbonateTemp?: number
   carbonateType?: string
+  notes?: string
 }
 
 export interface gqlMalt {

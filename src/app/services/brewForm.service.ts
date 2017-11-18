@@ -83,6 +83,9 @@ export class BrewFormService {
         co2VolTarget: (null !== brewData ? brewData.carbonateCo2Vol : null),
         beerTemp: (null !== brewData ? brewData.carbonateTemp : null),
       }),
+      brewFormNotes: this.fb.group({
+        notes: (null !== brewData ? brewData.notes : '' ),
+      }),
       // auto generated and calculated values
       brewFormAuto: this.fb.group({
         userId: (null !== brewData ? brewData.User.id : ''),
@@ -382,7 +385,8 @@ export class BrewFormService {
       packaging: '' !== control.get('brewFormPackaging.packageType').value ? control.get('brewFormPackaging.packageType').value : null,
       carbonateCo2Vol: control.get('brewFormPackaging.co2VolTarget').value,
       carbonateTemp: control.get('brewFormPackaging.beerTemp').value,
-      carbonateType: '' !== control.get('brewFormPackaging.carbonationMethod').value ? control.get('brewFormPackaging.carbonationMethod').value : null
+      carbonateType: '' !== control.get('brewFormPackaging.carbonationMethod').value ? control.get('brewFormPackaging.carbonationMethod').value : null,
+      notes: '' !== control.get('brewFormNotes.notes').value ? control.get('brewFormNotes.notes').value : null
     };
     if (null !== currentBrew) {
       brew.id = currentBrew.id;

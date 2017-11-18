@@ -38,6 +38,7 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   editingData: any = {};
   flipCard: boolean = false;
   editingSection: string;
+  editingNotes: boolean = false;
 
   constructor(
     private viewBrewService: ViewBrewService,
@@ -93,6 +94,21 @@ export class viewBrewComponent implements OnInit, OnDestroy {
     let currentIndex = cards.indexOf(this.editingSection);
 
     this.editingSection = cards[currentIndex+1];
+  }
+
+  editNotes() {
+    this.editingNotes = true;
+  }
+
+  fitNotesHeight(element) {
+    if (element.target) {
+      element.target.style.height = "auto";
+      element.target.style.height = (element.target.scrollHeight + 25)+"px";
+    }
+  }
+
+  closeNotes() {
+    this.editingNotes = false;
   }
 
   editingSelection(editingIndex) {

@@ -80,6 +80,10 @@
           cursor: pointer;
         }
       }
+
+      textarea {
+        color: $dark-green;
+      }
     }
 
     &__ingredients {

@@ -236,6 +236,28 @@
             </ng-container>
           </div>
         </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            NOTES
+          </div>
+          <div class="col-three-quarters header right-align capitalize">
+            <a class="edit on-hover" (click)="editNotes()"></a>
+          </div>
+        </div>
+        <div class="row" [formGroup]="newBrewForm.value">
+          <div class="col-full">
+            <div *ngIf="!editingNotes" (click)="editNotes()" class="pre-wrap">{{ newBrewForm.value?.value.brewFormNotes.notes }}</div>
+            <div *ngIf="editingNotes" formGroupName="brewFormNotes">
+              <textarea formControlName="notes"
+                        rows="1"
+                        (keyup)="fitNotesHeight($event)"
+                        focus-input
+                        fluid-height>
+              </textarea>
+              <div class="button button--green float-right" (click)="closeNotes()">Done</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="center-align">
         <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Save &amp; Get Brewing!</button>

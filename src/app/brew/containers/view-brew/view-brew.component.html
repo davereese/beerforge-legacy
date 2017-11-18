@@ -173,7 +173,7 @@
                 {{ newBrewForm.value?.value.brewFormAuto.finalGravity }}
               </ng-container>
             </div>
-            <a class="edit on-hover" (click)="flipTheCard('boil')"></a>
+            <a class="edit on-hover" (click)="flipTheCard('fermentation')"></a>
           </div>
         </div>
         <div class="row" (click)="flipTheCard('fermentation')">
@@ -210,7 +210,7 @@
                 {{ newBrewForm.value?.value.brewFormPackaging.carbonationMethod | ParseCo2Method }}
               </ng-container>
             </div>
-            <a class="edit on-hover" (click)="flipTheCard('boil')"></a>
+            <a class="edit on-hover" (click)="flipTheCard('packaging')"></a>
           </div>
         </div>
         <div class="row" (click)="flipTheCard('packaging')">
@@ -228,6 +228,28 @@
             <ng-container *ngIf="newBrewForm.value?.value.brewFormPackaging.beerTemp">
               {{ newBrewForm.value?.value | getCo2 }}
             </ng-container>
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col-quarter header">
+            NOTES
+          </div>
+          <div class="col-three-quarters header right-align capitalize">
+            <a class="edit on-hover" (click)="editNotes()"></a>
+          </div>
+        </div>
+        <div class="row" [formGroup]="newBrewForm.value">
+          <div class="col-full">
+            <div *ngIf="!editingNotes" (click)="editNotes()" class="pre-wrap">{{ newBrewForm.value?.value.brewFormNotes.notes }}</div>
+            <div *ngIf="editingNotes" formGroupName="brewFormNotes">
+              <textarea formControlName="notes"
+                        rows="1"
+                        (keyup)="fitNotesHeight($event)"
+                        focus-input
+                        fluid-height>
+              </textarea>
+              <div class="button button--yellow float-right" (click)="closeNotes()">Done</div>
+            </div>
           </div>
         </div>
       </div>

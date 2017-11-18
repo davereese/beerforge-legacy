@@ -37,6 +37,7 @@ export class newBrewComponent implements OnInit, OnDestroy {
   flipCard: boolean = false;
   editingSection: string;
   newBrewForm: BehaviorSubject<FormGroup>; // form inputs
+  editingNotes: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -93,6 +94,21 @@ export class newBrewComponent implements OnInit, OnDestroy {
     if ( '' === e.target.value ) {
       this.brewName = 'New Brew';
     }
+  }
+
+  editNotes() {
+    this.editingNotes = true;
+  }
+
+  fitNotesHeight(element) {
+    if (element.target) {
+      element.target.style.height = "auto";
+      element.target.style.height = (element.target.scrollHeight + 25)+"px";
+    }
+  }
+
+  closeNotes() {
+    this.editingNotes = false;
   }
 
   flipTheCard(editing, editingData = null) {

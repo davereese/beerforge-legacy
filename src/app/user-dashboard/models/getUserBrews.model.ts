@@ -46,6 +46,7 @@ export const currentUserBrewsQuery = gql`
             preBoilGravity
             originalGravity
             finalGravity
+            notes
           }
         }
       }
