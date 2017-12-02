@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         const url = event.urlAfterRedirects.split('/');
 
         // send all routes back to login page if we're not logged in
-        if (null === localStorage.getItem('beerforge_JWT') && ('login' !== url[1] && 'signup' !== url[1])) {
+        if (!localStorage.getItem('beerforge_JWT') && ('login' !== url[1] && 'signup' !== url[1])) {
           this.router.navigate(['/login']);
         }
 
@@ -85,7 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    if (null !== localStorage.getItem('beerforge_JWT')) {
+    if (localStorage.getItem('beerforge_JWT') && localStorage.getItem('user_id')) {
       // Subscribe to User
       this.userService.loadInitialData();
 
@@ -121,7 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
   logOut() {
     localStorage.removeItem('user_id');
     localStorage.removeItem('beerforge_JWT');
-    this.router.navigate(['/login']);
+    window.location.replace('/login');
   }
 
   ngOnDestroy() {

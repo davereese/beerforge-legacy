@@ -12,7 +12,7 @@ import { UserErrorHandler } from 'app/signup/userErrorHandler';
 
 @Injectable()
 export class UserService {
-  private userID = localStorage.getItem('user_id');
+  private userID;
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject(null);
   public readonly currentUser$: Observable<User> = this._currentUser.asObservable();
 
@@ -22,6 +22,7 @@ export class UserService {
   ) { }
 
   loadInitialData() {
+    this.userID = localStorage.getItem('user_id');
     this.apollo.use('auth').watchQuery({
       query: currentUserQuery,
       variables: {
@@ -84,6 +85,7 @@ export class UserService {
   }
 
   updateUser(username, firstName, lastName, email, city, state, profilePic, callback?) {
+    this.userID = localStorage.getItem('user_id');
     const updateProfileInut: any = {
       id: this.userID,
       username: username,
