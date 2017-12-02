@@ -4,15 +4,54 @@
       <h3>{{ cardTitle }}</h3>
     </div>
     <div class="row header">
-      <new-settings-form *ngIf="'settings' === detail" [parent]="parent" [view]="currentBrew" (deleteEvent)="handleDelete()"></new-settings-form>
-      <new-fermentables-form *ngIf="'fermentables' === detail || 'editFermentable' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-fermentables-form>
-      <new-hops-form *ngIf="'hops' === detail || 'editHop' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-hops-form>
-      <new-adjuncts-form *ngIf="'adjuncts' === detail || 'editAdjunct' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-adjuncts-form>
-      <new-yeasts-form *ngIf="'yeasts' === detail || 'editYeast' === detail" [parent]="parent" [data]="data" (enable)="enableAdd()" (disable)="disableAdd()"></new-yeasts-form>
-      <new-mash-form *ngIf="'mash' === detail" [parent]="parent"></new-mash-form>
-      <new-boil-form *ngIf="'boil' === detail" [parent]="parent"></new-boil-form>
-      <new-fermentation-form *ngIf="'fermentation' === detail" [parent]="parent"></new-fermentation-form>
-      <new-packaging-form *ngIf="'packaging' === detail" [parent]="parent"></new-packaging-form>
+      <new-settings-form *ngIf="'settings' === detail"
+                         [parent]="parent"
+                         [view]="currentBrew"
+                         (deleteEvent)="handleDelete()">
+      </new-settings-form>
+      <new-tags-form *ngIf="'tags' === detail"
+                     [parent]="parent"
+                     (enable)="enableAdd()"
+                     (disable)="disableAdd()"
+                     (add)="handleAdd()"
+                     (remove)="removeTag($event)">
+      </new-tags-form>
+      <new-fermentables-form *ngIf="'fermentables' === detail || 'editFermentable' === detail"
+                             [parent]="parent"
+                             [data]="data"
+                             (enable)="enableAdd()"
+                             (disable)="disableAdd()">
+      </new-fermentables-form>
+      <new-hops-form *ngIf="'hops' === detail || 'editHop' === detail"
+                     [parent]="parent"
+                     [data]="data"
+                     (enable)="enableAdd()"
+                     (disable)="disableAdd()">
+      </new-hops-form>
+      <new-adjuncts-form *ngIf="'adjuncts' === detail || 'editAdjunct' === detail"
+                         [parent]="parent"
+                         [data]="data"
+                         (enable)="enableAdd()"
+                         (disable)="disableAdd()">
+      </new-adjuncts-form>
+      <new-yeasts-form *ngIf="'yeasts' === detail || 'editYeast' === detail"
+                       [parent]="parent"
+                       [data]="data"
+                       (enable)="enableAdd()"
+                       (disable)="disableAdd()">
+      </new-yeasts-form>
+      <new-mash-form *ngIf="'mash' === detail"
+                     [parent]="parent">
+      </new-mash-form>
+      <new-boil-form *ngIf="'boil' === detail"
+                     [parent]="parent">
+      </new-boil-form>
+      <new-fermentation-form *ngIf="'fermentation' === detail"
+                             [parent]="parent">
+      </new-fermentation-form>
+      <new-packaging-form *ngIf="'packaging' === detail"
+                          [parent]="parent">
+      </new-packaging-form>
     </div>
     <div class="row">
       <button
@@ -20,7 +59,7 @@
         (click)="handleCancel()">
         Cancel
       </button>
-      <ng-container *ngIf="'fermentables' === detail || 'hops' === detail || 'adjuncts' === detail || 'yeasts' === detail">
+      <ng-container *ngIf="'tags' === detail || 'fermentables' === detail || 'hops' === detail || 'adjuncts' === detail || 'yeasts' === detail">
         <button
           class="button button--large"
           (click)="handleAdd()"

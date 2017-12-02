@@ -12,7 +12,6 @@ export class UserBrewsService {
   public readonly brews$: Observable<Object> = this._brews.asObservable();
 
   private results: number = 20; // initial load
-  // private userBrews: ApolloQueryObservable<any>;
   private userID: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   private after: BehaviorSubject<any> = new BehaviorSubject<any>([]);

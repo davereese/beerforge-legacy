@@ -1,0 +1,34 @@
+<div class="row"
+     *ngIf="0 < parent.value?.tags.length">
+  <div class="col-full">
+    <tag *ngFor="let tag of parent.value?.tags"
+         [tag]="tag.tag"
+         [editable]="true"
+         (remove)="handleRemove(tag)"></tag>
+  </div>
+</div>
+<div [formGroup]="parent">
+  <div formGroupName="brewFormTags"
+       class="row">
+    <p><label>Custom tag<br>
+      <input type="text"
+             #customTag
+             placeholder="tag name"
+             (focus)="displayTags = true; assignCopy()"
+             (blur)="checkKey($event, customTag.value)"
+             (input)="filterTagList(customTag.value)"
+             (keyup)="checkKey($event, customTag.value)"
+             formControlName="tag"></label></p>
+    <div class="tagsList"
+         *ngIf="displayTags">
+      <div *ngFor="let tag of filteredTags; let i = index"
+           class="tagsList__item"
+           #tagsList
+           [tabindex]="i"
+           (click)="addTag(tag, $event)"
+           (blur)="displayTags = false"
+           (keydown)=preventScroll($event)
+           (keyup)="checkKey($event, tag, i)">{{ tag.node.tagName }}</div>
+    </div>
+  </div>
+</div>

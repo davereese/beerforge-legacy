@@ -40,7 +40,8 @@
     }
   }
 
-  .brew-settings-btn {
+  .brew-settings-btn,
+  .brew-tag-btn {
     position: relative;
     margin-top: 13px;
     padding-left: 23px;
@@ -57,7 +58,9 @@
       background: url('../../../../assets/images/gear.svg') no-repeat;
       background-size: 18px;
     }
+  }
 
+  .brew-settings-btn {
     &:hover,
     &:focus {
       &::before {
@@ -69,17 +72,30 @@
     }
   }
 
+  .brew-tag-btn {
+    // right: 30px;
+    // padding-left: 24px;
+
+    &::before {
+      width: 20px;
+      height: 20px;
+      top: 0;
+      background: url('../../../../assets/images/tags.svg') no-repeat;
+    }
+  }
+
   .brew {
     &__title {
+      max-width: 55%;
       margin-bottom: 20px;
 
       .edit {
-        top: 3px;
+        top: 5px;
       }
     }
 
     &__meta {
-      width: 25%;
+      width: 33%;
       margin-top: 13px;
       @extend %subhead;
 

@@ -13,6 +13,11 @@
   .container {
     width: 800px;
   }
+  
+  .brew-tag-btn {
+    right: 30px;
+    padding-left: 24px;
+  }
 
   .brew {
     &__title {
@@ -53,6 +58,12 @@
 
       .row {
         border-top: 1px solid rgba($bf-orange, 0.3);
+      }
+
+      tag /deep/ div {
+        @include tag($dark-green);
+        background-color: $light-yellow;
+        color: $bf-green;
       }
 
       .plus {
@@ -109,6 +120,21 @@
   .card-container {
     /deep/ .flip-card {
       .card {
+        tag /deep/ {
+          div {
+            @include tag($dark-green);
+            background-color: $light-yellow;
+            color: $bf-green;
+
+            &.editable {
+              &:hover,
+              &:focus {
+                background-image: none;
+              }
+            }
+          }
+        }
+
         input,
         textarea,
         select {

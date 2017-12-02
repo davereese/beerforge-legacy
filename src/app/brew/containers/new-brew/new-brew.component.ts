@@ -143,6 +143,10 @@ export class newBrewComponent implements OnInit, OnDestroy {
     this.flipTheCard(editing, editingIndex)
   }
 
+  addTag(tag) {
+    this.brewFormService.addTag(tag);
+  }
+
   addIngredient(ingredient) {
     this.brewFormService.addIngredient(ingredient);
   }
@@ -151,9 +155,13 @@ export class newBrewComponent implements OnInit, OnDestroy {
     this.brewFormService.editIngredient(ingredient);
   }
 
-  removeIngredient(ingredient) {
-    this.brewFormService.removeIngredient(ingredient);
-    this.closeTheCard();
+  removeItem(item) {
+    if (item.detail) { // its an ingredient
+      this.brewFormService.removeIngredient(item);
+      this.closeTheCard();
+    } else { // its a tag
+      this.brewFormService.removeTag(item);
+    }
   }
 
   saveBrew() {

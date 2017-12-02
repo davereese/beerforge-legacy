@@ -18,7 +18,8 @@ import { viewBrewComponent } from './containers/view-brew/view-brew.component';
 import { newBrewComponent } from './containers/new-brew/new-brew.component';
 
 // components
-import { loaderComponent } from './components/loader/loader.component'; 
+import { loaderComponent } from './components/loader/loader.component';
+import { tagComponent } from './components/tag/tag.component';
 import { fermentableComponent } from './components/fermentable/fermentable.component';
 import { hopComponent } from './components/hop/hop.component';
 import { adjunctComponent } from './components/adjunct/adjunct.component';
@@ -37,6 +38,7 @@ import { newBrewMashFormComponent } from './components/new-brew-form-mash/new-br
 import { newBrewBoilFormComponent } from './components/new-brew-form-boil/new-brew-form-boil.component';
 import { newBrewFermentationFormComponent } from './components/new-brew-form-fermentation/new-brew-form-fermentation.component';
 import { newBrewPackagingFormComponent } from './components/new-brew-form-packaging/new-brew-form-packaging.component';
+import { newBrewTagsFormComponent } from './components/new-brew-form-tags/new-brew-form-tags.component';
 
 // services
 import { UserService } from '../services/user.service';
@@ -56,6 +58,7 @@ const routes: Routes = [
     newBrewComponent,
     loaderComponent,
     flipCardComponent,
+    tagComponent,
     fermentableComponent,
     hopComponent,
     adjunctComponent,
@@ -65,6 +68,7 @@ const routes: Routes = [
     adjunctsComponent,
     yeastsComponent,
     newBrewSettingsFormComponent,
+    newBrewTagsFormComponent,
     newBrewFermentablesFormComponent,
     newBrewHopsFormComponent,
     newBrewAdjunctsFormComponent,

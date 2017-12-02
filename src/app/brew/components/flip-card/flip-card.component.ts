@@ -12,35 +12,17 @@ export class flipCardComponent implements OnChanges {
   cardTitle: string;
   addEnabled: boolean = false;
 
-  @Input()
-  detail: string;
-
-  @Input()
-  data: any;
-
-  @Input()
-  parent: FormGroup;
-
-  @Input()
-  currentBrew: Brew = null;
-
-  @Output()
-  cancelSave: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  delete: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  next: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  addIngredient: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  editIngredient: EventEmitter<any> = new EventEmitter<any>();
-
-  @Output()
-  remove: EventEmitter<any> = new EventEmitter<any>();
+  @Input() detail: string;
+  @Input() data: any;
+  @Input() parent: FormGroup;
+  @Input() currentBrew: Brew = null;
+  @Output() cancelSave: EventEmitter<any> = new EventEmitter<any>();
+  @Output() delete: EventEmitter<any> = new EventEmitter<any>();
+  @Output() next: EventEmitter<any> = new EventEmitter<any>();
+  @Output() addTag: EventEmitter<any> = new EventEmitter<any>();
+  @Output() addIngredient: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editIngredient: EventEmitter<any> = new EventEmitter<any>();
+  @Output() remove: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
@@ -48,6 +30,10 @@ export class flipCardComponent implements OnChanges {
     switch (this.detail) {
       case 'settings':
         this.cardTitle = 'Brew Settings';
+        this.editingType = 'details';
+        break;
+      case 'tags':
+        this.cardTitle = 'Manage Tags';
         this.editingType = 'details';
         break;
       case 'mash':
@@ -108,6 +94,13 @@ export class flipCardComponent implements OnChanges {
           batchType: null !== this.currentBrew ? this.currentBrew.batchType : '',
           batchSize: null !== this.currentBrew ? this.currentBrew.batchSize : '',
           sysEfficiency: null !== this.currentBrew ? this.currentBrew.batchEfficiency : '',
+        });
+        break;
+      case 'tags':
+        this.parent.get('brewFormTags').reset({
+          tag: '',
+          tagId: '',
+          new: false
         });
         break;
       case 'fermentables':
@@ -197,8 +190,18 @@ export class flipCardComponent implements OnChanges {
     this.addEnabled = false;
   }
 
+  removeTag(event) {
+    this.remove.emit(event);
+  }
+
   handleAdd() {
     switch (this.detail) {
+      case 'tags':
+        this.addTag.emit(this.parent.get('brewFormTags').value);
+        this.parent.get('brewFormTags').reset({
+          tag: ''
+        });
+        break;
       case 'fermentables':
         this.addIngredient.emit(this.parent.get('brewFormFermentables').value);
         this.parent.get('brewFormFermentables').reset({

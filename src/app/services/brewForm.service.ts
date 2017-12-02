@@ -14,7 +14,10 @@ import {
   updateYeastMutation,
   deleteMaltMutation,
   deleteHopMutation,
-  deleteYeastMutation
+  deleteYeastMutation,
+  saveTagMutation,
+  removeBrewTagMutation,
+  addBrewTagMutation
 } from '../brew/models/saveBrew.model';
 import { modalData } from '../modal/models/modal.model';
 import gql from 'graphql-tag';
@@ -51,6 +54,8 @@ export class BrewFormService {
         batchSize: (null !== brewData ? brewData.batchSize : null),
         sysEfficiency: (null !== brewData ? brewData.batchEfficiency : null),
       }),
+      brewFormTags: this.createTag({}),
+      tags: this.fb.array([]),
       brewFormFermentables: this.createFermentable({}),
       fermentables: this.fb.array([]),
       brewFormHops: this.createHop({}),
@@ -101,6 +106,11 @@ export class BrewFormService {
     })
 
     if (null !== brewData) {
+      brewData.tags.edges.forEach(tag => {
+        const control = brewForm.get('tags') as FormArray;
+        control.push(this.createTag(tag.node));
+      });
+
       brewData.maltChoice.edges.forEach(maltChoice => {
         const fermentable = {
           fermentable: maltChoice.node.malt,
@@ -136,6 +146,14 @@ export class BrewFormService {
     }
 
     this.newBrewForm.next(brewForm);
+  }
+
+  createTag(tag, newFlag: boolean = false) {
+    return this.fb.group({
+      tag: (tag.tagName || tag.tag || ''),
+      tagId: (tag.id || tag.tagId || ''),
+      new: newFlag
+    });
   }
 
   createFermentable(fermentable, choiceID = null) {
@@ -191,6 +209,12 @@ export class BrewFormService {
     });
   }
 
+  addTag(tag) {
+    let control;
+    control = this.newBrewForm.value.get('tags') as FormArray;
+    control.push(this.createTag(tag, true));
+  }
+
   addIngredient(ingredient) {
     let control;
     switch (Object.keys(ingredient)[0]) {
@@ -235,6 +259,13 @@ export class BrewFormService {
         control.setControl(ingredient.index, this.createYeast(ingredient, choiceID));
         break;
     }
+  }
+
+  removeTag(tag) {
+    let control;
+    control = this.newBrewForm.value.get('tags') as FormArray;
+    const index = control.getRawValue().findIndex(x => x.tag === tag.tag);
+    control.removeAt(index);
   }
 
   removeIngredient(ingredient) {
@@ -402,6 +433,39 @@ export class BrewFormService {
     }).subscribe(({ data }) => {
       const brewId = data['createBrew'] ? data['createBrew'].changedBrew.id : data['updateBrew'] ? data['updateBrew'].changedBrew.id : null;
 
+      // save tags
+
+      // if tag does not have an id, save it and add the connection to the brew
+      // if tag does have an id, just add the connection to the brew
+      const tags = control.get('tags') as FormArray;
+      const tagsArray = tags.getRawValue();
+
+      if (null !== currentBrew) {
+        // loop through old data to compare against what has been edited
+        currentBrew.tags.edges.forEach(oldTag => {
+          const oldTagId = oldTag.node.id;
+          let doNotDelete: boolean = false;
+          tagsArray.forEach(newTag => {
+            if (oldTagId === newTag.tagId) {
+              doNotDelete = true;
+            }
+          });
+          // if not found in new tag arry, brew tag connection will be removed
+          if (false === doNotDelete) {
+            this.removeBrewTagConnection(brewId, oldTagId);
+          }
+        });
+      }
+      // loop over tags and add any new ones
+      tagsArray.forEach(tag => {
+        // if there is no id, that means it hasn't been saved yet
+        if (tag.new && '' === tag.tagId) {
+          this.saveTag(brewId, tag, brew.userId);
+        } else if (tag.new && '' !== tag.tagId) {
+          this.addBrewTagConnection(brewId, tag.tagId);
+        }
+      });
+
       // save malt choices
       const fermentables = control.get('fermentables') as FormArray;
       const fermentablesArray = fermentables.getRawValue();
@@ -514,6 +578,46 @@ export class BrewFormService {
       console.log('there was an error sending the query', error);
       if (callback) {
         callback(error);
+      }
+    });
+  }
+
+  saveTag(brewId, tag, userId) {
+    // save tag
+    this.apollo.use('auth').mutate({
+      mutation: saveTagMutation,
+      variables: {
+        tag: {
+          tagName: tag.tag,
+          userId: userId
+        }
+      }
+    }).subscribe(({ data }) => {
+      // add connection
+      this.addBrewTagConnection(brewId, data['createTags'].changedTags.id);
+    });
+  }
+
+  addBrewTagConnection(brewId, tagId) {
+    this.apollo.use('auth').mutate({
+      mutation: addBrewTagMutation,
+      variables: {
+        tag: {
+          tagsId: tagId,
+          brewId: brewId
+        }
+      }
+    });
+  }
+
+  removeBrewTagConnection(brewId, tagId) {
+    this.apollo.use('auth').mutate({
+      mutation: removeBrewTagMutation,
+      variables: {
+        input: {
+          tagsId: tagId,
+          brewId: brewId
+        }
       }
     });
   }

@@ -11,11 +11,14 @@
             (keyup)="nameBlur($event, true)"
             focus-input>
         </h1>
-        <a class="brew-settings-btn float-right brew__meta" (click)="flipTheCard('settings')">
-          Brew Settings
+        <a class="brew-settings-btn float-right brew__meta"
+           (click)="flipTheCard('settings')">Brew Settings
+        </a>
+        <a class="brew-tag-btn float-right brew__meta"
+           (click)="flipTheCard('tags')">Tags
         </a>
       </div>
-      <div class="row brew__details tile no-padding" (click)="flipTheCard('settings')">
+      <div class="row brew__details tile no-padding">
         <div class="row header--title padding-top" (click)="flipTheCard('settings')">
           <div class="col-third">{{ newBrewForm.value?.value.brewFormSettings.batchType | parseMash }}</div>
           <div class="col-third">
@@ -31,16 +34,16 @@
         </div>
         <div class="row title">
           <div class="col-quarter header header--no-color">
-            {{ newBrewForm.value?.value | getABV }}              
+            {{ newBrewForm.value?.value | getABV }}
           </div>
           <div class="col-quarter header header--no-color">
-            {{ newBrewForm.value?.value | getIBUs:'total' }}              
+            {{ newBrewForm.value?.value | getIBUs:'total' }}
           </div>
           <div class="col-quarter header header--no-color">
-            {{ newBrewForm.value?.value | getSRM }}              
+            {{ newBrewForm.value?.value | getSRM }}
           </div>
           <div class="col-quarter header header--no-color right-align">
-            {{ newBrewForm.value?.value | getAttenuation }}              
+            {{ newBrewForm.value?.value | getAttenuation }}
           </div>
         </div>
       </div>
@@ -258,6 +261,13 @@
             </div>
           </div>
         </div>
+        <div class="row"
+             (click)="flipTheCard('tags')"
+             *ngIf="0 < newBrewForm.value?.value.tags.length">
+          <div class="col-full">
+            <tag *ngFor="let tag of newBrewForm.value?.value.tags" [tag]="tag.tag"></tag>
+          </div>
+        </div>
       </div>
       <div class="center-align">
         <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Save &amp; Get Brewing!</button>
@@ -270,15 +280,16 @@
         [detail]="editingSection"
         [data]="editingData"
         [parent]="newBrewForm.value"
+        (addTag)="addTag($event)"
         (addIngredient)="addIngredient($event)"
         (editIngredient)="editIngredient($event)"
         (cancelSave)="closeTheCard()"
         (next)="nextCard()"
-        (remove)="removeIngredient($event)"
+        (remove)="removeItem($event)"
         [@flipInOut]>
       </flip-card>
     </div>
-    <!-- <pre>{{ newBrewForm?.value.value | json }}</pre> -->
+    <pre>{{ newBrewForm?.value.value | json }}</pre>
   </main>
 </div>
 

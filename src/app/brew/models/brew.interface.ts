@@ -4,6 +4,9 @@ export interface Brew {
   name: string
   createdAt?: Date
   batchNum?: number
+  tags?: {
+    edges: [gqlTag]
+  }
   batchType?: string
   batchSize?: number
   batchEfficiency?: number
@@ -39,6 +42,18 @@ export interface Brew {
   carbonateTemp?: number
   carbonateType?: string
   notes?: string
+}
+
+export interface gqlTag {
+  node: {
+    id: string
+    tagName: string
+  }
+}
+
+export interface Tag {
+  id: string
+  tagName: string
 }
 
 export interface gqlMalt {

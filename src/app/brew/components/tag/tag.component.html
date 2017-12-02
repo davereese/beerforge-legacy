@@ -1,0 +1,7 @@
+<div *ngIf="editable; else basic"
+     class="editable"
+     (click)="removeTag(tag)">{{ tag }}
+</div>
+<ng-template #basic>
+  <div>{{ tag }}</div>
+</ng-template>

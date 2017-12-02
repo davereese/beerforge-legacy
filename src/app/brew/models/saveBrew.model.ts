@@ -32,6 +32,32 @@ mutation DeleteBrew($brewId: DeleteBrewInput!) {
 }
 `;
 
+export const saveTagMutation = gql`
+mutation CreateTags($tag: CreateTagsInput!) {
+  createTags(input: $tag) {
+    changedTags {
+      id
+    }
+  }
+}
+`;
+
+export const addBrewTagMutation = gql`
+mutation AddToBrewTagConnection($tag: AddToBrewTagConnectionInput!) {
+  addToBrewTagConnection(input: $tag) {
+    clientMutationId
+  }
+}
+`;
+
+export const removeBrewTagMutation = gql`
+mutation RemoveFromBrewTagConnection($input: RemoveFromBrewTagConnectionInput!) {
+  removeFromBrewTagConnection(input: $input) {
+    clientMutationId
+  }
+}
+`;
+
 export const saveMaltMutation = gql`
   mutation CreateMaltChoice($malt: CreateMaltChoiceInput!) {
     createMaltChoice(input: $malt) {

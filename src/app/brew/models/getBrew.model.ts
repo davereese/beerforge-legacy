@@ -7,6 +7,14 @@ export const currentBrewQuery = gql`
       name
       createdAt
       batchNum
+      tags {
+        edges {
+          node {
+            id
+            tagName
+          }
+        }
+      }
       batchType
       batchSize
       batchEfficiency

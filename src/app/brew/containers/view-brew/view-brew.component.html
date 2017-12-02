@@ -5,6 +5,7 @@
       <div class="row">
         <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
         <span class="float-right right-align brew__meta">
+          <span><a class="brew-tag-btn" (click)="flipTheCard('tags')"></a></span>
           <span><a class="brew-settings-btn" (click)="flipTheCard('settings')"></a></span>
           <span>{{ currentBrew?.createdAt | date:'MM.dd.yy' }}</span> <span class="sup">#</span>{{ currentBrew?.batchNum }}
         </span>
@@ -252,6 +253,13 @@
             </div>
           </div>
         </div>
+        <div class="row"
+             (click)="flipTheCard('tags')"
+             *ngIf="0 < newBrewForm.value?.value.tags.length">
+          <div class="col-full">
+            <tag *ngFor="let tag of newBrewForm.value?.value.tags" [tag]="tag.tag"></tag>
+          </div>
+        </div>
       </div>
       <div class="center-align">
         <button class="button button--get-brewing" (click)="saveBrew()" [disabled]="newBrewForm.value?.pristine">Update Brew</button>
@@ -265,16 +273,17 @@
         [data]="editingData"
         [parent]="newBrewForm.value"
         [currentBrew]="currentBrew"
+        (addTag)="addTag($event)"
         (addIngredient)="addIngredient($event)"
         (editIngredient)="editIngredient($event)"
         (cancelSave)="closeTheCard()"
         (next)="nextCard()"
-        (remove)="removeIngredient($event)"
+        (remove)="removeItem($event)"
         (delete)="deleteBrewCheck()"
         [@flipInOut]>
       </flip-card>
     </div>
-    <!-- <pre>{{ newBrewForm.value?.value | json }}</pre> -->
+    <pre>{{ newBrewForm.value?.value | json }}</pre>
 
     <ng-template #loaderIcon>
       <loader-icon></loader-icon>
