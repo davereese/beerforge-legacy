@@ -1,12 +1,20 @@
 @import '../styles/variables.scss';
 
+:host {
+  display: block;
+  padding-top: 55px;
+}
+
 header {
+  position: fixed;
   width: 100%;
   height: 55px;
+  margin-top: -55px;
   padding: 0 30px;
   background: $bf-gray;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: 10;
 
   .logo {
     display: block;
@@ -63,7 +71,7 @@ header {
   &.view {
     background: linear-gradient(140deg, $yellow 0%, $bluegreen 85%);
   }
-  
+
   &.brew {
     background: linear-gradient(140deg, $yellow 0%, $bf-yellow 75%, $bluegreen 100%);
   }
