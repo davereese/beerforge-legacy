@@ -24,6 +24,7 @@ import { LogInService } from './services/login.service';
 import { SignUpService } from './services/signup.service';
 import { ProfilePicService } from './services/profilePic.service';
 import { UserTagsService } from './services/userTags.service';
+import { StyleTagsService } from './services/styleTags.service';
 
 const networkInterface = createNetworkInterface({ uri: scaphold });
 const networkInterfaceAuth = createNetworkInterface({ uri: scaphold });
@@ -79,6 +80,7 @@ const routes: Routes = [
     UserService,
     UserBrewsService,
     UserTagsService,
+    StyleTagsService,
     SignUpService,
     ProfilePicService
   ],

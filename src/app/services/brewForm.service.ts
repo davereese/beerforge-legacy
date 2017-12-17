@@ -305,7 +305,7 @@ export class BrewFormService {
   getMaxOfArray(numArray) {
     return Math.max.apply(null, numArray);
   }
-  
+
   updateCalculations(currentBrew = null) {
     const defaults = this.getDefaults();
     const og = this.brewCalcService.calculateOG(this.newBrewForm.value.get('fermentables').value, defaults.batchEffieiency, defaults.batchSize);
@@ -589,7 +589,8 @@ export class BrewFormService {
       variables: {
         tag: {
           tagName: tag.tag,
-          userId: userId
+          userId: userId,
+          style: false
         }
       }
     }).subscribe(({ data }) => {

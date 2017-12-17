@@ -15,6 +15,7 @@ import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { UserTagsService } from 'app/services/userTags.service';
+import { StyleTagsService } from 'app/services/styleTags.service';
 import { gqlTag } from 'app/brew/models/brew.interface';
 
 @Component({
@@ -26,6 +27,8 @@ import { gqlTag } from 'app/brew/models/brew.interface';
 export class newBrewTagsFormComponent implements OnInit, OnDestroy {
   userTagsSubscription: Subscription;
   userTags: Array<gqlTag>;
+  styleTagsSubscription: Subscription;
+  styleTags: Array<gqlTag>;
   filteredTags: Object;
   displayTags: boolean = false;
   tagValue: string = '';
@@ -41,6 +44,7 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private userTagsService: UserTagsService,
+    private styleTagsService: StyleTagsService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
@@ -62,6 +66,14 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
           this.disable.emit();
         }
       });
+
+    this.styleTagsService.reloadTags();
+    this.styleTagsSubscription = this.styleTagsService.styleTags$.subscribe(styleTags => {
+      if (styleTags) {
+        this.styleTags = styleTags;
+      }
+    });
+
   }
 
   handleRemove(tag) {
@@ -156,6 +168,10 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.userTagsSubscription) {
       this.userTagsSubscription.unsubscribe();
+    }
+
+    if (this.styleTagsSubscription) {
+      this.styleTagsSubscription.unsubscribe();
     }
   }
 }
