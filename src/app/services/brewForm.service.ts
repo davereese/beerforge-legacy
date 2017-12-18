@@ -152,7 +152,7 @@ export class BrewFormService {
     return this.fb.group({
       tag: (tag.tagName || tag.tag || ''),
       tagId: (tag.id || tag.tagId || ''),
-      new: newFlag
+      new: (tag.new || newFlag)
     });
   }
 
@@ -212,7 +212,7 @@ export class BrewFormService {
   addTag(tag) {
     let control;
     control = this.newBrewForm.value.get('tags') as FormArray;
-    control.push(this.createTag(tag, true));
+    control.push(this.createTag(tag));
   }
 
   addIngredient(ingredient) {
@@ -462,6 +462,7 @@ export class BrewFormService {
         if (tag.new && '' === tag.tagId) {
           this.saveTag(brewId, tag, brew.userId);
         } else if (tag.new && '' !== tag.tagId) {
+          console.log(brewId, tag);
           this.addBrewTagConnection(brewId, tag.tagId);
         }
       });

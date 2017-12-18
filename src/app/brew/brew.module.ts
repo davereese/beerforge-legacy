@@ -39,6 +39,7 @@ import { newBrewBoilFormComponent } from './components/new-brew-form-boil/new-br
 import { newBrewFermentationFormComponent } from './components/new-brew-form-fermentation/new-brew-form-fermentation.component';
 import { newBrewPackagingFormComponent } from './components/new-brew-form-packaging/new-brew-form-packaging.component';
 import { newBrewTagsFormComponent } from './components/new-brew-form-tags/new-brew-form-tags.component';
+import { searchListComponent } from '../shared/search-list/search-list.component';
 
 // services
 import { UserService } from '../services/user.service';
@@ -78,7 +79,8 @@ const routes: Routes = [
     newBrewBoilFormComponent,
     newBrewFermentationFormComponent,
     newBrewPackagingFormComponent,
-    FluidHeightDirective
+    FluidHeightDirective,
+    searchListComponent
   ],
   imports: [
     CommonModule,

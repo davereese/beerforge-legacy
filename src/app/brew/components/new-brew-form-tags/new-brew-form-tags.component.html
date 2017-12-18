@@ -7,28 +7,19 @@
          (remove)="handleRemove(tag)"></tag>
   </div>
 </div>
-<div [formGroup]="parent">
-  <div formGroupName="brewFormTags"
-       class="row">
-    <p><label>Custom tag<br>
-      <input type="text"
-             #customTag
-             placeholder="tag name"
-             (focus)="displayTags = true; assignCopy()"
-             (blur)="checkKey($event, customTag.value)"
-             (input)="filterTagList(customTag.value)"
-             (keyup)="checkKey($event, customTag.value)"
-             formControlName="tag"></label></p>
-    <div class="tagsList"
-         *ngIf="displayTags">
-      <div *ngFor="let tag of filteredTags; let i = index"
-           class="tagsList__item"
-           #tagsList
-           [tabindex]="i"
-           (click)="addTag(tag, $event)"
-           (blur)="displayTags = false"
-           (keydown)=preventScroll($event)
-           (keyup)="checkKey($event, tag, i)">{{ tag.node.tagName }}</div>
-    </div>
-  </div>
-</div>
+<search-list *ngIf="userTags"
+             [label]="'Custom Tag'"
+             [placeholder]="'tag'"
+             [parent]="parent"
+             [items]="userTags"
+             (patch)="patchTags()"
+             (add)="handleAdd($event)"
+             (hasText)="enableAdd($event)"></search-list>
+<search-list *ngIf="styleTags"
+             [label]="'Beer Styles'"
+             [placeholder]="'style'"
+             [parent]="parent"
+             [items]="styleTags"
+             [allowCustom]="false"
+             (patch)="patchTags()"
+             (add)="handleAdd($event)"></search-list>

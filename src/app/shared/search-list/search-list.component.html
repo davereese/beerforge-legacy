@@ -1,0 +1,22 @@
+<p><label>{{ label }}<br>
+  <input type="text"
+        #itemInput
+        [placeholder]="placeholder"
+        [(ngModel)]="inputValue"
+        (focus)="displayItems = true; assignCopy()"
+        (blur)="checkKey($event, itemInput.value)"
+        (keyup)="checkKey($event, itemInput.value)"
+        (input)="filterTagList(itemInput.value); notifyParent(itemInput.value)">
+</label></p>
+<div class="itemList"
+     [style.width.px]="componentWidth"
+     *ngIf="displayItems">
+  <div *ngFor="let item of filteredItems; let i = index"
+      class="itemList__item"
+      #itemList
+      [tabindex]="i"
+      (click)="addItem(item, $event)"
+      (blur)="displayItems = false"
+      (keydown)="preventScroll($event)"
+      (keyup)="checkKey($event, item, i)">{{ item.name }}</div>
+</div>

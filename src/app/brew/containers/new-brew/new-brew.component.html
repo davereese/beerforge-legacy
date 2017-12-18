@@ -140,16 +140,16 @@
           <div class="col-three-quarters right-align header">
             <div class="header__info">
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity || newBrewForm.value?.value.brewFormAuto.originalGravity">
-                Gravity: 
+                Gravity:
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity">
-                  {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity | gravityUnits }} 
+                  {{ newBrewForm.value?.value.brewFormAuto.preBoilGravity | gravityUnits }}
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.preBoilGravity && newBrewForm.value?.value.brewFormAuto.originalGravity">
                 &rarr;
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
-                  {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }} 
+                  {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }}
               </ng-container>
             </div>
             <a class="edit" (click)="flipTheCard('boil')"></a>
@@ -174,7 +174,7 @@
           <div class="col-three-quarters right-align header">
             <div class="header__info">
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity || newBrewForm.value?.value.brewFormAuto.finalGravity">
-                Gravity: 
+                Gravity:
               </ng-container>
               <ng-container *ngIf="newBrewForm.value?.value.brewFormAuto.originalGravity">
                 {{ newBrewForm.value?.value.brewFormAuto.originalGravity | gravityUnits }}
@@ -289,7 +289,7 @@
         [@flipInOut]>
       </flip-card>
     </div>
-    <pre>{{ newBrewForm?.value.value | json }}</pre>
+    <!-- <pre>{{ newBrewForm?.value.value | json }}</pre> -->
   </main>
 </div>
 

@@ -1,22 +1,11 @@
-import { Component,
-         Input,
-         Output,
-         EventEmitter,
-         ChangeDetectorRef,
-         OnInit,
-         OnDestroy,
-         ChangeDetectionStrategy,
-         ViewChildren,
-         QueryList,
-         ElementRef,
-         ViewChild
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { UserTagsService } from 'app/services/userTags.service';
 import { StyleTagsService } from 'app/services/styleTags.service';
 import { gqlTag } from 'app/brew/models/brew.interface';
+import { searchListItem } from 'app/shared/search-list/search-list.model';
 
 @Component({
   selector: 'new-tags-form',
@@ -39,9 +28,6 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
   @Output() remove: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChildren('tagsList') tagsListItems: QueryList<any>;
-  @ViewChild('customTag') tagInput: ElementRef;
-
   constructor(
     private userTagsService: UserTagsService,
     private styleTagsService: StyleTagsService,
@@ -53,8 +39,28 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
     this.userTagsService.reloadTags();
     this.userTagsSubscription = this.userTagsService.userTags$.subscribe(userTags => {
       if (userTags) {
-        this.userTags = userTags;
-        this.assignCopy();
+        this.userTags = userTags.map(item => {
+          const newItem: searchListItem = {
+            name: item.node.tagName,
+            value: item.node.id
+          }
+          return newItem;
+        });
+        this.changeDetectorRef.detectChanges();
+      }
+    });
+
+    this.styleTagsService.reloadTags();
+    this.styleTagsSubscription = this.styleTagsService.styleTags$.subscribe(styleTags => {
+      if (styleTags) {
+        this.styleTags = styleTags.map(item => {
+          const newItem: searchListItem = {
+            name: item.node.tagName,
+            value: item.node.id
+          }
+          return newItem;
+        });
+        this.changeDetectorRef.detectChanges();
       }
     });
 
@@ -67,102 +73,30 @@ export class newBrewTagsFormComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.styleTagsService.reloadTags();
-    this.styleTagsSubscription = this.styleTagsService.styleTags$.subscribe(styleTags => {
-      if (styleTags) {
-        this.styleTags = styleTags;
-      }
-    });
-
   }
 
   handleRemove(tag) {
     this.remove.emit(tag);
   }
 
-  assignCopy() {
-    this.filteredTags = Object.assign([], this.userTags);
-  }
-
-  filterTagList(value) {
-    this.displayTags = true;
-    if (!value) {
-      this.assignCopy(); //when nothing has been typed
-    }
-    this.parent.get('brewFormTags').patchValue({
+  enableAdd(value) {
+    this.parent.get('brewFormTags').setValue({
+      tag: value,
       tagId: '',
       new: true
     });
-    this.filteredTags = Object.assign([], this.userTags).filter(
-       item => JSON.stringify(item.node.tagName).toLowerCase().indexOf(value.toLowerCase()) > -1
-    )
   }
 
-  addTag(value, event) {
-    if ( 'click' === event.type ) {
-      this.parent.get('brewFormTags').setValue({
-        tag: value.node.tagName,
-        tagId: value.node.id,
-        new: false
-      });
-      this.tagInput.nativeElement.focus();
-      this.displayTags = false;
-      this.changeDetectorRef.detectChanges();
-    } else {
-      this.displayTags = false;
-      this.add.emit(value);
-    }
-
-    if ( true === event.add ) {
-      this.add.emit(value);
-    }
-    this.changeDetectorRef.detectChanges();
+  handleAdd(tag) {
+    this.add.emit(tag);
   }
 
-  moveSelection(index, direction) {
-    const list = this.tagsListItems.toArray();
-    if ( 40 === direction ) {
-      const i = null !== index ? index+1 : 0;
-      if (i < list.length) {
-        list[i].nativeElement.focus();
-      }
-    } else if ( 38 === direction ) {
-      const i = null !== index ? index-1 : 0;
-      if (i >= 0) {
-        list[i].nativeElement.focus();
-      }
-    }
-    this.displayTags = true;
-  }
-
-  checkKey(event, value = null, index = null) {
-    if ( 'keyup' === event.type ) {
-      if ( 13 === event.keyCode ) { // enter
-        if ( null === index ) {
-          // coming from input
-          this.addTag(value, event);
-        } else {
-          // coming from list, so simulate a click to add value to input
-          this.addTag(value, {type: 'click', add: true});
-        }
-      } else if ( 40 === event.keyCode || 38 === event.keyCode ) { // up/down arrow
-        this.moveSelection(index, event.keyCode);
-      }
-    } else {
-      if (event.relatedTarget) {
-        if ('tagsList__item' !== event.relatedTarget.attributes.class.nodeValue) {
-          this.displayTags = false;
-        }
-      } else {
-        this.displayTags = false;
-      }
-    }
-  }
-
-  preventScroll(event) {
-    if ( 40 === event.keyCode || 38 === event.keyCode ) {
-      event.preventDefault();
-    }
+  patchTags() {
+    this.parent.get('brewFormTags').patchValue({
+      tag: '',
+      tagId: '',
+      new: true
+    });
   }
 
   ngOnDestroy() {
