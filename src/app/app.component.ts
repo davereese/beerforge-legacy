@@ -22,7 +22,6 @@ export class AppComponent implements OnInit, OnDestroy {
   loading: any;
   dashboard: boolean = false; // used in header bar display
   login: boolean = false; // used in header bar display
-  bodyClass: string; // used to change site background colors
   today = new Date();
   year = this.today.getFullYear();
   currentUser: User;
