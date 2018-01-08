@@ -50,5 +50,26 @@
         padding-right: 15px;
       }
     }
+
+    .brew-log__brew-name {
+      .brews__item__brew-stats {
+        display: inline-block;
+        float: left;
+      }
+    }
+
+    &__title {
+      position: relative;
+      display: inline-block;
+      float: left;
+      max-width: 75%;
+    }
+
+    .badges {
+      position: absolute;
+      display: flex;
+      left: calc(100% + 10px);
+      top: -1px;
+    }
   }
 }

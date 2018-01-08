@@ -9,5 +9,5 @@
     {{ user.username }}
     <a class="edit on-hover"></a>
   </h1>
-  <p class="user-overview__stats"><span *ngIf="userBrews">Beers Brewed: {{ (null !== userBrews[0]?.batchNum ? userBrews[0]?.batchNum : 0) }}</span> <span>Badges Earned: {{ user.Badges.edges.length }}</span></p>
+  <p class="user-overview__stats"><span *ngIf="userBrews">Beers Brewed: {{ (null !== userBrews[0]?.batchNum ? userBrews[0]?.batchNum : 0) }}</span> <span>Badges Earned: {{ userBadges?.length }}</span></p>
 </div>

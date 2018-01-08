@@ -7,6 +7,16 @@ export const currentBrewQuery = gql`
       name
       createdAt
       batchNum
+      Badges {
+        edges {
+          node {
+            id
+            blobUrl
+            title
+            description
+          }
+        }
+      }
       tags {
         edges {
           node {

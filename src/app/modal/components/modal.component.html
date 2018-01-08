@@ -1,4 +1,11 @@
-<div class="modal">
+<div class="modal"
+     [ngClass]="{'badge-space': data?.badges}">
+  <div class="modal__badges"
+       *ngIf="data?.badges">
+    <badge *ngFor="let badge of data?.badges"
+           [badgeData]="badge"
+           [showBadgeDescription]="false"></badge>
+  </div>
   <div class="modal__header">
     <h2>{{ data?.title }}</h2>
   </div>

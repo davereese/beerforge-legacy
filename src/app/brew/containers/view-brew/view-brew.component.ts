@@ -48,7 +48,7 @@ export class viewBrewComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     this.route.params
       .subscribe(params => {
         this.brewId = params['id'];
@@ -211,8 +211,11 @@ export class viewBrewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // clear things
     if (undefined !== this.brewSubscription) {
       this.brewSubscription.unsubscribe();
+      this.newBrewForm.next(null);
+      this.currentBrew = null;
     }
   }
 }

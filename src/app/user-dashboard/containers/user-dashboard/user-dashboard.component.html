@@ -6,8 +6,11 @@
           <user-overview
             [user]="currentUser"
             [userBrews]="userBrews"
+            [userBadges]="userBadges"
             (editProfile)="handleEditProfile($event)">
           </user-overview>
+          <recent-badges [userBadges]="userBadges"
+                         (viewBadges)="handleViewBadges($event)"></recent-badges>
         </div>
         <div class="col-half">
           <a class="new-brew-button tile" (click)="handleBrew($event)"><h2>New Brew</h2> <span class="plus">+</span></a>

@@ -13,7 +13,16 @@
                 <span class="brews__item__brew-stats">
                     <span class="sup">#</span>{{ brew.batchNum }}&nbsp;
                 </span>
-                {{ brew.name }}
+                <span class="brews__item__title">
+                  {{ brew.name }}
+                  <div class="badges"
+                       *ngIf="0 < brew.Badges.edges.length">
+                  <badge *ngFor="let badge of brew.Badges.edges"
+                         [badgeData]="badge.node"
+                         [showBadgeDescription]="false"
+                         [miniBadge]="true"></badge>
+                  </div>
+                </span>
               </div>
               <div class="brews__item__brew-stats">
                 <div class="col-eighth float-right ">

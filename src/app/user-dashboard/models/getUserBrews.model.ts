@@ -14,6 +14,15 @@ export const currentUserBrewsQuery = gql`
             batchNum
             name
             createdAt
+            Badges {
+              edges {
+                node {
+                  id
+                  blobUrl
+                  title
+                }
+              }
+            }
             batchSize
             maltChoice(orderBy: {field: amount, direction: DESC}) {
               edges {

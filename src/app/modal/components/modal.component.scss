@@ -1,5 +1,4 @@
 @import "../../../styles/variables.scss";
-@import "../../../styles/type.scss";
 
 :host {
   position: fixed;
@@ -16,11 +15,29 @@
   background-color: $light-yellow;
   box-shadow: 0 10px 50px darken($bf-orange, 10%);
   z-index: 2;
+  margin-top: 0;
+  padding-top: 0;
+  transition: margin-top 0.4s ease-in-out, padding-top 0.4s ease-in-out;
+
+  &.badge-space {
+    margin-top: 100px;
+    padding-top: 20px;
+  }
+
+  &__badges {
+    display: flex;
+    position: absolute;
+    top: -1px;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+  }
 
   &__header {
     padding: 15px;
     border-bottom: 1px solid rgba($bf-orange, 0.3);
-    
+
     h2 {
       text-align: center;
       text-transform: none;

@@ -1,3 +1,4 @@
+import { Badge } from './badge.interface';
 export interface User {
   id?: string
   firstName?: string
@@ -7,14 +8,14 @@ export interface User {
   city?: string
   state?: string
   profilePic?: {
-    id: string
-    defaultPicNumber: number
+    id?: string
+    defaultPicNumber?: number
     blobUrl?: string
   }
   Badges?: {
-    edges: [{
-      node: {
-        id: string
+    edges?: [{
+      node?: {
+        Badge
       }
     }]
   }

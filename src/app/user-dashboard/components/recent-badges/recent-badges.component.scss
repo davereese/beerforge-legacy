@@ -1,0 +1,25 @@
+@import '../../../../styles/variables.scss';
+
+.recent-badges {
+  display: flex;
+  margin-top: 15px;
+  padding: 15px 0;
+  border-top: 1px solid $dark-orange;
+
+  badge {
+    margin: 0 10px;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
+
+  &.justify {
+    justify-content: space-evenly;
+
+    badge {
+      margin: 0;
+    }
+  }
+}

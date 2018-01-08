@@ -13,7 +13,7 @@
   .container {
     width: 800px;
   }
-  
+
   .brew-tag-btn {
     right: 30px;
     padding-left: 24px;
@@ -31,6 +31,7 @@
       input[type="text"] {
         width: 100%;
         padding: 0;
+        margin-left: -1px;
         outline: 0;
         background: transparent;
         border: 0;
@@ -154,7 +155,7 @@
             color: rgba($bf-orange, 0.5);
           }
         }
-      
+
         .checkbox label::after {
           border-color: rgba($bf-orange, 0.3);
         }
@@ -167,19 +168,19 @@
           select {
             box-shadow: 0 2px 15px rgba($bf-yellow, 0.4);
             background-color: lighten($light-yellow, 2%);
-      
+
             &:focus {
               background-color: lighten($light-yellow, 15%);
               border-color: $bf-orange;
             }
           }
-      
+
           .checkbox label::after {
             box-shadow: 0 2px 15px rgba($bf-yellow, 0.5);
             background-color: lighten($light-yellow, 2%);
           }
         }
-    
+
         &.ingredients {
           background-color: $light-yellow;
 
@@ -188,24 +189,24 @@
           select {
             box-shadow: 0 2px 15px rgba($bf-yellow, 0.5);
             background-color: lighten($light-yellow, 10%);
-      
+
             &:focus {
               background-color: lighten($light-yellow, 20%);
               border-color: $bf-orange;
             }
           }
-      
+
           .checkbox label::after {
             box-shadow: 0 2px 15px rgba($bf-yellow, 0.6);
             background-color: rgba(lighten($light-yellow, 10%), 1);
           }
         }
-  
+
         .button {
           color: $yellow;
           background-color: $bf-green;
           box-shadow: 0 2px 15px rgba($bf-yellow, 0.4);
-  
+
           &:hover,
           &:focus {
             background-color: $dark-green;
@@ -213,7 +214,7 @@
 
           &--cancel {
             background-color: $dark-orange;
-    
+
             &:hover,
             &:focus {
               background-color: $bf-gray;
@@ -222,7 +223,7 @@
 
           &[disabled] {
             opacity: 0.75;
-    
+
             &:hover,
             &:focus {
               cursor: auto;

@@ -1,0 +1,64 @@
+@import '../../../../styles/variables.scss';
+@import '../user-dashboard/user-dashboard.component.scss';
+
+:host {
+  display: block;
+}
+
+.container {
+  max-width: 800px;
+  left: 50%;
+  margin-left: -400px;
+  color: $white;
+}
+
+.badges {
+  margin-top: 10px;
+  padding-top: 50px;
+  border-top: 1px solid $dark-orange;
+
+  /deep/ badge {
+    width: 256px;
+    float: left;
+    margin-bottom: 50px;
+
+    .badge {
+      margin: 0 auto;
+      height: 220px;
+
+      &::before {
+        box-shadow: 0 0 60px 15px rgba($bf-orange, 0.8);
+      }
+
+      &__image {
+        &::before,
+        &::after {
+          background: rgba($bf-orange, 0.8);
+        }
+      }
+
+      &__title {
+        box-shadow: 0 3px 3px rgba($bf-orange, 0.8);
+      }
+    }
+
+    &.unearned {
+      .badge {
+        margin: 0 auto;
+
+        &::before {
+          background: transparent;
+          box-shadow: none;
+        }
+
+        &__image {
+          opacity: 0.8;
+        }
+
+        &__description::after {
+          background-color: rgba($bf-orange, 0.2);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<div class="recent-badges tile"
+     *ngIf="badges"
+     [ngClass]="{'justify': 4 < badges?.length}">
+  <badge *ngFor="let badge of badges"
+         [badgeData]="badge"
+         [showBadgeDescription]="false"
+         [smallBadge]="true"
+         (click)="handleClick($event)"></badge>
+</div>

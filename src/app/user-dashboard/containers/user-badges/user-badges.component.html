@@ -1,0 +1,25 @@
+<div class="dashboard">
+  <main>
+    <div class="container" *ngIf="userBadges; else loaderIcon">
+      <div class="row">
+        <div class="col-full">
+          <h1 class="float-left">Badges</h1>
+          <a class="button button--yellow float-right" (click)=newBrew()>New Brew</a>
+          <div class="clearfix"></div>
+          <div class="badges">
+            <badge *ngFor="let badge of userBadges"
+                   [badgeData]="badge"
+                   [noFlip]="true"></badge>
+            <badge *ngFor="let badge of totalBadges"
+                   class="unearned"
+                   [noFlip]="true"></badge>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loaderIcon>
+      <loader-icon></loader-icon>
+    </ng-template>
+  </main>
+</div>

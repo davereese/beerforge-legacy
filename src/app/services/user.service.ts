@@ -12,7 +12,7 @@ import { UserErrorHandler } from 'app/signup/userErrorHandler';
 
 @Injectable()
 export class UserService {
-  private userID;
+  private userID: string;
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject(null);
   public readonly currentUser$: Observable<User> = this._currentUser.asObservable();
 

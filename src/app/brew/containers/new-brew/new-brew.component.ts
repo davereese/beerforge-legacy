@@ -12,6 +12,7 @@ import { User } from '../../../user-dashboard/models/user.interface';
 import { UserBrewsService } from '../../../services/userBrews.service';
 import { BrewFormService } from '../../../services/brewForm.service';
 import { BrewCalcService } from '../../../services/brewCalc.service';
+import { UserBadgesService } from '../../../services/userBadges.service';
 
 @Component({
   selector: 'new-brew',
@@ -41,6 +42,7 @@ export class newBrewComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    private userBadgesService: UserBadgesService,
     private userBrewsService: UserBrewsService,
     private brewFormService: BrewFormService,
     private brewCalcService: BrewCalcService,
@@ -166,7 +168,7 @@ export class newBrewComponent implements OnInit, OnDestroy {
 
   saveBrew() {
     this.loader = true;
-    this.brewFormService.saveBrew(null, (data) => {
+    this.brewFormService.saveBrew(null, (data, badges) => {
       if ( undefined === data.createBrew ) {
         this.modalData = {
             title: 'Boil Over',
@@ -179,9 +181,15 @@ export class newBrewComponent implements OnInit, OnDestroy {
             body: '',
             buttons: { view: true, viewData: data.createBrew.changedBrew.id, dashboard: true }
           }
+
+        if (undefined !== badges) {
+          // display the badge(s)!
+          this.modalData.badges = badges;
+        }
       }
       this.showModal = true;
       this.userBrewsService.refetchData();
+      this.userBadgesService.refetchData();
       this.changeDetectorRef.detectChanges();
     });
   }

@@ -1,0 +1,18 @@
+<div class="badge"
+     [ngClass]="{'mini': miniBadge, 'small': smallBadge, 'flip': !noFlip}">
+  <div class="badge__image"
+       [ngClass]="{'title': badgeData?.title}"></div>
+  <h3 class="badge__title"
+      *ngIf="!miniBadge && !smallBadge && badgeData?.title">{{ badgeData?.title }}</h3>
+  <div class="badge__description"
+       [ngClass]="{'hidden': !showBadgeDescription,
+         'two-lines': 12 < this.badgeData?.title.length && 24 >= this.badgeData?.title.length,
+         'three-lines': 24 < this.badgeData?.title.length}">
+    <ng-container *ngIf="!miniBadge && !smallBadge; else title">
+      {{ badgeData?.description }}
+    </ng-container>
+    <ng-template #title>
+      {{ badgeData?.title }}
+    </ng-template>
+  </div>
+</div>

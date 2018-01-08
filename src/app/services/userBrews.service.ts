@@ -2,21 +2,20 @@ import { Injectable } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { User } from '../user-dashboard/models/user.interface';
 import { Brew } from '../brew/models/brew.interface';
 import { currentUserBrewsQuery } from '../user-dashboard/models/getUserBrews.model';
 
 @Injectable()
 export class UserBrewsService {
-  private _brews: BehaviorSubject<Object> = new BehaviorSubject(Object());
-  public readonly brews$: Observable<Object> = this._brews.asObservable();
+  private _brews: BehaviorSubject<Brew[]> = new BehaviorSubject([]);
+  public readonly brews$: Observable<Brew[]> = this._brews.asObservable();
 
   private results: number = 20; // initial load
-  private userID: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  private firstResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  private after: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  private lastResult: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  private before: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private userID: BehaviorSubject<any> = new BehaviorSubject([]);
+  private firstResult: BehaviorSubject<any> = new BehaviorSubject([]);
+  private after: BehaviorSubject<any> = new BehaviorSubject([]);
+  private lastResult: BehaviorSubject<any> = new BehaviorSubject([]);
+  private before: BehaviorSubject<any> = new BehaviorSubject([]);
 
   userBrews: ApolloQueryObservable<any> = this.apollo.use('auth').watchQuery({
     query: currentUserBrewsQuery,

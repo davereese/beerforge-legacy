@@ -1,0 +1,240 @@
+@import "../../../styles/variables.scss";
+
+@keyframes flipAround {
+  from{ transform: rotateY(270deg); }
+  to { transform: rotateY(0deg); }
+}
+
+@keyframes addShadow {
+  0% { box-shadow: 0 0 0 0 $light-yellow; }
+  10% { box-shadow: 0 0 0 0 $light-yellow; }
+  100% { box-shadow: 0 0 60px 12px $light-yellow; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  35% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.badge {
+  position: relative;
+  width: 130px;
+  margin: 0 10px;
+  text-align: center;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 15px;
+    background: lighten($light-yellow, 5%);
+    border-radius: 50%;
+    z-index: -1;
+    box-shadow: 0 0 60px 15px lighten($light-yellow, 5%);
+  }
+
+  &__image {
+    border-radius: 50%;
+    background-image: url('../../../assets/images/beerforge_anvil.svg');
+    background-repeat: no-repeat;
+    background-size: 60px;
+    background-position: 16px 21px;
+    background-color: $bf-gray;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+
+    &.title {
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 28px;
+        height: 10px;
+        background: $light-yellow;
+        z-index: -1;
+      }
+
+      &::before {
+        top: 83px;
+        left: 9px;
+        transform: rotate(-28deg);
+      }
+
+      &::after {
+        top: 76px;
+        right: 3px;
+        transform: rotate(14deg);
+      }
+    }
+  }
+
+  &__title {
+    max-width: 130px;
+    margin: -15px auto 0 9px;
+    padding: 5px 3px;
+    transform: rotate(-5deg);
+    background-color: $white;
+    box-shadow: 0 3px 3px $bf-logo_yellow;
+    color: $bf-gray;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  &__description {
+    position: absolute;
+    width: 220px;
+    min-height: 108px;
+    left: -45px;
+    padding: 12px 10px 8px;
+    z-index: -1;
+    background-color: $bf-gray;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 5px;
+    bottom: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      bottom: 0;
+      background-color: rgba($bf-orange, 0.3);
+    }
+
+    &.two-lines {
+      padding-top: 24px;
+    }
+
+    &.three-lines {
+      padding-top: 38px;
+    }
+
+    &.hidden {
+      opacity: 0;
+      width: 260px;
+      min-height: 1px;
+      left: -65px;
+      padding: 8px 10px;
+      bottom: calc(100% + 10px);
+      background: white;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.5s;
+      transition-delay: 0.3s;
+
+      &::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 20px;
+        height: 20px;
+        transform: rotate(45deg);
+        transform-origin: center;
+        background-color: white;
+        left: 50%;
+        margin-left: -10px;
+        bottom: -3px;
+        font-size: 11px;
+      }
+    }
+  }
+
+  // Animation
+  &.flip {
+    animation-duration: 0.5s;
+    animation-name: flipAround;
+
+    &::before {
+      animation-duration: 2.5s;
+      animation-name: addShadow;
+    }
+
+    .badge__image {
+      &::before,
+      &::after {
+        animation-duration: 1.5s;
+        animation-name: fadeIn;
+      }
+    }
+
+    .badge__title {
+      animation-duration: 1.5s;
+      animation-name: fadeIn;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    .badge__description.hidden {
+      opacity: 1;
+    }
+  }
+
+  &.small,
+  &.mini {
+    margin: 0 3px;
+
+    &::before {
+      content: none;
+    }
+
+    .badge__image {
+      &::before,
+      &::after {
+        content: none;
+      }
+    }
+
+    .badge__description {
+      background: white;
+      color: $bf-gray;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  &.small {
+    width: 40px;
+
+    .badge__image {
+      width: 40px;
+      height: 40px;
+      background-size: 24px;
+      background-position: 6px 8px;
+    }
+
+    .badge__description {
+      width: 150px;
+      left: -56px;
+    }
+  }
+
+  &.mini {
+    width: 20px;
+    margin: 0 3px;
+
+    .badge__image {
+      width: 20px;
+      height: 20px;
+      background-size: 15px;
+      background-position: 2px 3px;
+    }
+
+    .badge__description {
+      width: 150px;
+      left: -62px;
+    }
+  }
+}

@@ -1,9 +1,20 @@
 <loader [state]="loader"></loader>
 <div class="view-brew">
   <main>
-    <div class="container" [ngClass]="{'make-room': flipCard}" *ngIf="currentBrew; else loaderIcon">
+    <div class="container"
+         [ngClass]="{'make-room': flipCard}"
+         *ngIf="currentBrew; else loaderIcon">
       <div class="row">
-        <h1 class="brew__title float-left">{{ currentBrew?.name }}</h1>
+        <h1 class="brew__title float-left">
+          {{ currentBrew?.name }}
+          <div class="badges"
+               *ngIf="0 < currentBrew?.Badges.edges.length">
+            <badge *ngFor="let badge of currentBrew?.Badges.edges"
+                   [badgeData]="badge.node"
+                   [showBadgeDescription]="false"
+                   [miniBadge]="true"></badge>
+          </div>
+        </h1>
         <span class="float-right right-align brew__meta">
           <span><a class="brew-tag-btn" (click)="flipTheCard('tags')"></a></span>
           <span><a class="brew-settings-btn" (click)="flipTheCard('settings')"></a></span>

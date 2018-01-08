@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { User } from '../../models/user.interface';
 import { Brew } from 'app/brew/models/brew.interface';
+import { Badge } from 'app/user-dashboard/models/badge.interface';
 
 @Component({
   selector: 'user-overview',
@@ -15,7 +16,10 @@ export class UserOverviewComponent implements OnInit {
   user: User;
 
   @Input()
-  userBrews: any[];
+  userBrews: Brew[];
+
+  @Input()
+  userBadges: Badge[];
 
   @Output()
   editProfile: EventEmitter<any> = new EventEmitter<any>();

@@ -9,6 +9,7 @@ import { User } from './user-dashboard/models/user.interface';
 import { UserService } from './services/user.service';
 import { UserBrewsService } from 'app/services/userBrews.service';
 import { LogInService } from 'app/services/login.service';
+import { UserBadgesService } from 'app/services/userBadges.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private loginService: LogInService,
     private userBrewsService: UserBrewsService,
+    private userBadgesService: UserBadgesService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -90,6 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Subscribe to User's Brews List
       this.userBrewsService.loadInitialData();
+
+      // Subscribe to User's Badge List
+      this.userBadgesService.loadInitialData();
     }
 
     this.userSubscription = this.userService.currentUser$.subscribe(user => {

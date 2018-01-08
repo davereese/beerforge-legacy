@@ -86,11 +86,19 @@
 
   .brew {
     &__title {
+      position: relative;
       max-width: 55%;
       margin-bottom: 20px;
 
       .edit {
         top: 5px;
+      }
+
+      .badges {
+        position: absolute;
+        display: flex;
+        left: calc(100% + 10px);
+        top: 11px;
       }
     }
 
@@ -325,7 +333,7 @@
             color: rgba($bf-gray, 0.8);
           }
         }
-      
+
         .checkbox label::after {
           border-color: rgba($dark-green, 0.3);
         }
@@ -338,19 +346,19 @@
           select {
             box-shadow: 0 2px 15px rgba($bf-gray, 0.4);
             background-color: lighten($bf-green, 2%);
-      
+
             &:focus {
               background-color: lighten($bf-green, 10%);
               border-color: $bf-orange;
             }
           }
-      
+
           .checkbox label::after {
             box-shadow: 0 2px 15px rgba($bf-gray, 0.5);
             background-color: $bf-green;
           }
         }
-    
+
         &.ingredients {
           background-color: $bf-green;
 
@@ -365,7 +373,7 @@
               border-color: $bf-orange;
             }
           }
-  
+
           .checkbox label::after {
             box-shadow: 0 2px 15px rgba($bf-gray, 0.3);
             background-color: lighten($bf-green, 10%);
@@ -384,7 +392,7 @@
 
           &--cancel {
             background-color: darken($bf-yellow, 8%);
-    
+
             &:hover,
             &:focus {
               background-color: darken($bf-yellow, 15%);
@@ -400,10 +408,10 @@
               background-color: $dark-orange;
             }
           }
-  
+
           &[disabled] {
             opacity: 0.75;
-    
+
             &:hover,
             &:focus {
               cursor: auto;

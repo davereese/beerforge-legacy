@@ -25,6 +25,8 @@ import { SignUpService } from './services/signup.service';
 import { ProfilePicService } from './services/profilePic.service';
 import { UserTagsService } from './services/userTags.service';
 import { StyleTagsService } from './services/styleTags.service';
+import { BadgeService } from 'app/services/badge.service';
+import { UserBadgesService } from 'app/services/userBadges.service';
 
 const networkInterface = createNetworkInterface({ uri: scaphold });
 const networkInterfaceAuth = createNetworkInterface({ uri: scaphold });
@@ -78,7 +80,9 @@ const routes: Routes = [
   providers: [
     LogInService,
     UserService,
+    UserBadgesService,
     UserBrewsService,
+    BadgeService,
     UserTagsService,
     StyleTagsService,
     SignUpService,

@@ -4,10 +4,10 @@ import { Subscription } from 'rxjs';
 
 import { User } from '../../models/user.interface';
 import { Brew } from '../../../brew/models/brew.interface';
-import { currentUserQuery } from '../../models/getUser.model';
-
+import { Badge } from '../../models/badge.interface';
 import { UserService } from '../../../services/user.service';
 import { UserBrewsService } from '../../../services/userBrews.service';
+import { UserBadgesService } from 'app/services/userBadges.service';
 
 @Component({
   selector: 'user-dashboard',
@@ -17,9 +17,11 @@ import { UserBrewsService } from '../../../services/userBrews.service';
 })
 export class UserDashboardComponent implements OnInit, OnDestroy {
   currentUser: User;
-  userBrews: Array<Brew> = [];
+  userBrews: Brew[] = [];
+  userBadges: Badge[] = [];
   userSubscription: Subscription;
   brewsSubscription: Subscription;
+  badgesSubscription: Subscription;
 
   // Pagination arguments.
   first: number = 18; // number of brews
@@ -31,11 +33,13 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private userBrewsService: UserBrewsService,
+    private userBadgesService: UserBadgesService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
+    /** USER **/
     this.userSubscription = this.userService.currentUser$.subscribe(user => {
       if (user) {
         this.currentUser = user;
@@ -45,6 +49,7 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
 
+    /** BREWS **/
     this.brewsSubscription = this.userBrewsService.brews$.subscribe(brews => {
       this.userBrews = [];
       this.pageInfo = brews['pageInfo'];
@@ -58,7 +63,6 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
         });
         this.pages = Math.ceil(this.userBrews.length / this.defaultPageSize);
       }
-      
       this.changeDetectorRef.detectChanges();
     });
 
@@ -66,8 +70,17 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
     if (0 !== this.userBrews.length && this.first > this.userBrews.length) {
       this.userBrews = [];
       this.userBrewsService.loadInitialData();
-      return;
+      this.changeDetectorRef.detectChanges();
     }
+
+    /** BADGES **/
+    this.badgesSubscription = this.userBadgesService.badges$.subscribe(badges => {
+      this.userBadges = [];
+      if (badges) {
+        this.userBadges = badges;
+      }
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   handleGetPage(event) {
@@ -87,7 +100,11 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   }
 
   handleEditProfile(event: any) {
-    this.router.navigate(['/profile/', this.currentUser.id]);
+    this.router.navigate(['/profile']);
+  }
+
+  handleViewBadges(event: any) {
+    this.router.navigate(['/badges']);
   }
 
   ngOnDestroy() {
@@ -96,6 +113,9 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
     }
     if (undefined !== this.brewsSubscription) {
       this.brewsSubscription.unsubscribe();
+    }
+    if (undefined !== this.badgesSubscription) {
+      this.badgesSubscription.unsubscribe();
     }
   }
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PipeModule } from '../pipes.module';
+import { SharedModule } from '../shared.module';
 
 import { ApolloClient, createNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
@@ -46,6 +46,7 @@ import { UserService } from '../services/user.service';
 import { UserBrewsService } from '../services/userBrews.service';
 import { BrewFormService } from '../services/brewForm.service';
 import { BrewCalcService } from '../services/brewCalc.service';
+import { BadgeService } from '../services/badge.service';
 import { ViewBrewService } from 'app/brew/containers/view-brew/view-brew.service';
 
 const routes: Routes = [
@@ -90,7 +91,7 @@ const routes: Routes = [
     modalModule,
     ReactiveFormsModule,
     FormsModule,
-    PipeModule,
+    SharedModule,
     sharedDirectivesModule
   ],
   providers: [
@@ -98,6 +99,7 @@ const routes: Routes = [
     UserBrewsService,
     BrewFormService,
     BrewCalcService,
+    BadgeService,
     ViewBrewService
   ]
 })
