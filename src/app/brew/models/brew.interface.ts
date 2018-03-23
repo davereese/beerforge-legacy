@@ -4,6 +4,15 @@ export interface Brew {
   name: string
   createdAt?: Date
   batchNum?: number
+  Badges?: {
+    edges: [{
+      node: {
+        id: string
+        blobUrl: string
+        title: string
+      }
+    }]
+  }
   tags?: {
     edges: [gqlTag]
   }
