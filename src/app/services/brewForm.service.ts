@@ -25,7 +25,7 @@ import gql from 'graphql-tag';
 import { Brew } from '../brew/models/brew.interface';
 import { Badge } from 'app/user-dashboard/models/badge.interface';
 import { BrewCalcService } from './brewCalc.service';
-import { BadgeService} from './badge.service'
+// import { BadgeService} from './badge.service'
 
 @Injectable()
 export class BrewFormService {
@@ -37,13 +37,13 @@ export class BrewFormService {
   co2: string;
   gravities: any = {};
   newBrewForm: BehaviorSubject<FormGroup>;
-  badgesSubscription: Subscription;
+  // badgesSubscription: Subscription;
   badges: Badge[];
 
   constructor(
     private fb: FormBuilder,
     private brewCalcService: BrewCalcService,
-    private badgeService: BadgeService,
+    // private badgeService: BadgeService,
     private apollo: Apollo,
   ) {
     this.newBrewForm = <BehaviorSubject<FormGroup>> new BehaviorSubject(null);
@@ -565,25 +565,25 @@ export class BrewFormService {
       /* CHECK BADGES */
 
       // Currently, we are only earning badges on new brews
-      if (null === currentBrew) {
-        this.badgesSubscription = this.badgeService.badges$.subscribe(value => {
-          if (true === this.badgeService.calculationComplete && 0 < value.length) {
-            // clear badges array each time so we end up with the latest
-            this.badges = [];
+      // if (null === currentBrew) {
+      //   this.badgesSubscription = this.badgeService.badges$.subscribe(value => {
+      //     if (true === this.badgeService.calculationComplete && 0 < value.length) {
+      //       // clear badges array each time so we end up with the latest
+      //       this.badges = [];
 
-            // push to badges array
-            value.forEach(badge => {
-              this.badges.push(badge['addToAchievementConnection'].changedAchievement.badge);
-            });
+      //       // push to badges array
+      //       value.forEach(badge => {
+      //         this.badges.push(badge['addToAchievementConnection'].changedAchievement.badge);
+      //       });
 
-            // callback to modal
-            if (callback) {
-              callback(data, this.badges);
-            }
-          }
-        });
-        this.badgeService.calculateBadges(this.newBrewForm.value, brewId);
-      }
+      //       // callback to modal
+      //       if (callback) {
+      //         callback(data, this.badges);
+      //       }
+      //     }
+      //   });
+      //   this.badgeService.calculateBadges(this.newBrewForm.value, brewId);
+      // }
 
       // callback to modal
       if (callback) {
